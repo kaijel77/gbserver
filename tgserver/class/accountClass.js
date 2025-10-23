@@ -1,43 +1,19 @@
+const baseClass = require("./baseClass");
+
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
 
 const useful = require('../utils/useful');
 const config = require('../config/default');
-
 const CONSTANT = require('../config/constant');
+const ERROR_CODE = require('../config/errorCode');
 
 
 ///////////////////////////////////////////////////////////////
 //
 // 게임 계정 클래스
 //
-class AccountClass {
-   constructor() {
-      if (this.instance) {
-         return this.instance;
-      }
-      // 사용 class
-      this.mysqlHandler = null;
-
-      this.instance = this;
-      return this.instance;
-   }
-
-   includeClass(classes = []) {
-      for (let name of classes) {
-         if (!this?.[`${name}Class`]) {
-            this[`${name}Class`] = require(`./${name}`);
-         }
-      }
-   }
-   includeHandler(classes = []) {
-      for (let name of classes) {
-         if (!this?.[`${name}`]) {
-            this[`${name}`] = require(`../Handler/${name}`);
-         }
-      }
-   }
-
+class AccountClass extends baseClass {
 
    ///////////////////////////////////////////////////////////////
    //
@@ -53,7 +29,7 @@ class AccountClass {
          let select = `account_no, id, password`;
          const query = `SELECT ${select} FROM tbl_account WHERE id='${gameUser_id}'`;
 
-         await this.mysqlHandler
+         await this.mysqlHandlerClass
          .query(CONSTANT.DB.GAME, query)
          .then((result) => {
             if (result.length > 0) {
@@ -103,7 +79,7 @@ class AccountClass {
          let values = `'${gameuser_id}', '${gameuser_id}'`;
 
          let query = `INSERT INTO tbl_account (${columns}) VALUES (${values})`;
-         await this.mysqlHandler
+         await this.mysqlHandlerClass
          .query(CONSTANT.DB.GAME, query)
          .then(async (result) => { })
          .catch((err) => {
@@ -147,9 +123,9 @@ class AccountClass {
          this.includeHandler(['redisHandler']);
 
          // 토큰 발행 전 이전 토큰 삭제
-         let old_token = await this.redisHandler.get(CONSTANT.REDIS_KEY.AUTH_TOKEN + account_info.user_id);
+         let old_token = await this.redisHandlerClass.get(CONSTANT.REDIS_KEY.AUTH_TOKEN + account_info.user_id);
          if (old_token) {
-            await this.redisHandler.del(CONSTANT.REDIS_KEY.TOWN_TOKEN + old_token);
+            await this.redisHandlerClass.del(CONSTANT.REDIS_KEY.TOWN_TOKEN + old_token);
          }
 
          // 신규 토큰 발행
@@ -159,8 +135,8 @@ class AccountClass {
          let timestamp = Date.now();
 
          // Db 처리가 모두 성공 했다면 마지막에 Redis 기록.
-         await this.redisHandler.set(CONSTANT.REDIS_KEY.AUTH_TOKEN + account_info.user_id, token, 'EX', 86400 * 7); // 토큰을 Redis 저장. 세션 겸용 이므로 유효 시간 필수.
-         await this.redisHandler.set(CONSTANT.REDIS_KEY.TOWN_TOKEN + token,
+         await this.redisHandlerClass.set(CONSTANT.REDIS_KEY.AUTH_TOKEN + account_info.user_id, token, 'EX', 86400 * 7); // 토큰을 Redis 저장. 세션 겸용 이므로 유효 시간 필수.
+         await this.redisHandlerClass.set(CONSTANT.REDIS_KEY.TOWN_TOKEN + token,
             JSON.stringify({ // 소켓 서버 연결을 위한 세션 등록
                user_id: account_info.user_id,
                alliance_pk: timestamp,
@@ -170,22 +146,13 @@ class AccountClass {
       } catch (err) {
          throw new Error(err); // 계정생성에 실패했습니다.
       }
-
-
-      /*
-      this.includeHandler(['redisClient', 'useful']);
-      
-      // 게임베이스 ID는 제외시켜야함.
-      account_info = useful.exceptKey(account_info, ['gamebase_id']);
-      
-      */
    }
 
 
 
    /**
     * 최종 접속일자 업데이트
-    // @param user_id
+    // @param user_i
     // @returns {Promise<*>}
     */
    async lastAccessUpdate(user_id, authtype) {

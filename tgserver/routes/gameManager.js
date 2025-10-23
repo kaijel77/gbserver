@@ -24,22 +24,24 @@ router.post('/gameNickCreate', async(req, res, next) => {
       errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
    }
 
-   gamechar_name = await gameCharClass.checkGameUserName(gamechar_name); // 닉네임 체크
-   if(gamechar_name !== null && gamechar_name !== undefined)
+   let char_name = await gameCharClass.checkGameUserName(gamechar_name); // 닉네임 체크
+   if(char_name !== null && char_name !== undefined)
    {
       // 닉네임이 있어서 실패 
       errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
    }
 
-   gamechar_info = await gamechar.createGameData(account_info, gamechar_name);
-
-   gamechar_info['gamechar_name'] = gamechar_name;
-
+   let bCreate = await gameCharClass.createGameChar(account_info.account_no, gamechar_name);
+   if(bCreate == false){
+      // 닉네임이 있어서 실패 
+      errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+   }
+/*   
    if(authtype === CONSTANT.AUTHNEWTYPE.GOOGLE){ // 구글 계정 연동 업적 추가
        await missionMng.missionCheckValue(user_id, CONSTANT.ACHIEVEMENT.CONNECT_ACCOUNT, CONSTANT.ACHIEVEMENT.CONNECT_ACCOUNT, 1); // 계정 첫 연동
    }
-
-   let result = day1.success({
+*/
+   let result = tgRouteHandler.successJson({
        result: 'ok'
    });
 
@@ -64,9 +66,9 @@ router.post('/startGame', async (req, res, next) => {
    }
 
    // 캐싱 초기화.
-   await cache.truncate(user_id);
+//   await cache.truncate(user_id);
 
-   let result = tgRouteHandle.successJson({
+   let result = tgRouteHandler.successJson({
       resourceInfo: resource_info,
       buildingList: building_list,
       itemList: item_list,

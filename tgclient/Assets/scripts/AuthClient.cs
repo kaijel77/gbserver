@@ -16,6 +16,7 @@ public class AuthClient : MonoBehaviour
     private string baseUrl = "http://localhost:4700";
     private string jwtToken;
     private Data resultData;
+    private string result = "";
 
     void Start()
     {
@@ -41,10 +42,20 @@ public class AuthClient : MonoBehaviour
     IEnumerator gameNickName()
     {
         var data = JsonUtility.ToJson(new gamecharname("zkkkwkwk"));
+        Debug.Log($"🔑 gameNickName base: {data}");
         string encyData = AESUtil.Encrypt(data);
         WWWForm form = new WWWForm();
+        Debug.Log($"🔑 gameNickName encr: {encyData}");
+
         form.AddField("crypt", encyData);
         yield return SendRequest("/game/gameNickCreate", "", "POST", jwtToken, form);
+
+
+        if (result == "ok")
+        {
+            Debug.Log($"StartCoroutine(gameStart())");
+            StartCoroutine(gameStart());
+        }
     }
 
     IEnumerator gameStart()
@@ -119,12 +130,18 @@ public class AuthClient : MonoBehaviour
             Debug.Log($"✅ {endpoint} 응답: {www.downloadHandler.text}");
             if (endpoint == "/connect")
             {
-                var result = JsonUtility.FromJson<Login2Response>(www.downloadHandler.text);
+                Login2Response result = JsonUtility.FromJson<Login2Response>(www.downloadHandler.text);
                 Debug.Log($"🔑 Data 토큰: {result.data}");
                 resultData = result.data;
                 Debug.Log($"🔑 data2 토큰: {result.data.authToken}");
                 jwtToken = result.data.authToken;
                 Debug.Log($"🔑 JWT 토큰: {jwtToken}");
+            }
+            else if (endpoint == "/game/gameNickCreate")
+            {
+                gameNickCreate resultCreate = JsonUtility.FromJson<gameNickCreate>(www.downloadHandler.text);
+                Debug.Log($"🔑 Data 토큰: {resultCreate.data}");
+                result = resultCreate.data.result;
             }
         }
         else
@@ -202,4 +219,19 @@ public class AuthClient : MonoBehaviour
     }
 
 
+
+
+    [System.Serializable]
+    public class NickCreate
+    {
+        public string result;
+    }
+
+    [System.Serializable]
+    public class gameNickCreate
+    {
+        public int errorCode;
+        public bool isSuccess;
+        public NickCreate data;
+    }
 }

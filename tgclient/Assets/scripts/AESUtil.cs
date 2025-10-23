@@ -36,10 +36,16 @@ public static class AESUtil
             aes.Key = keyBytes;
             aes.IV = ivBytes;
 
-            using (var encryptor = aes.CreateEncryptor())
+            using (ICryptoTransform encryptor = aes.CreateEncryptor())
             {
-                byte[] encrypted = encryptor.TransformFinalBlock(plainBytes, 0, plainBytes.Length);
-                return Convert.ToBase64String(encrypted); // Base64 인코딩
+                byte[] cipherBytes = encryptor.TransformFinalBlock(plainBytes, 0, plainBytes.Length);
+
+                // [IV + CipherText]
+                byte[] combined = new byte[ivBytes.Length + cipherBytes.Length];
+                Buffer.BlockCopy(ivBytes, 0, combined, 0, ivBytes.Length);
+                Buffer.BlockCopy(cipherBytes, 0, combined, ivBytes.Length, cipherBytes.Length);
+
+                return Convert.ToBase64String(combined);
             }
         }
     }
@@ -77,3 +83,70 @@ public static class AESUtil
         }
     }
 }
+
+
+
+/*
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using UnityEngine;
+
+public static class AES256Util
+{
+    private static readonly string key = "여기에_NODEJS와_동일한_KEY_32바이트"; // 32바이트
+
+    // Node.js에서 암호화된 base64 문자열 복호화
+    public static string DecryptFromNode(string base64Combined)
+    {
+        byte[] combinedData = Convert.FromBase64String(base64Combined);
+        byte[] iv = new byte[16];
+        byte[] cipherText = new byte[combinedData.Length - 16];
+
+        Array.Copy(combinedData, 0, iv, 0, 16);
+        Array.Copy(combinedData, 16, cipherText, 0, cipherText.Length);
+
+        using (Aes aes = Aes.Create())
+        {
+            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.IV = iv;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+
+            using (ICryptoTransform decryptor = aes.CreateDecryptor())
+            {
+                byte[] plainBytes = decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
+                return Encoding.UTF8.GetString(plainBytes);
+            }
+        }
+    }
+
+    // Node.js에서 복호화 가능한 암호문 생성 (Unity → Node)
+    public static string EncryptForNode(string plainText)
+    {
+        byte[] iv = new byte[16];
+        new System.Random().NextBytes(iv); // 랜덤 IV 생성
+
+        using (Aes aes = Aes.Create())
+        {
+            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.IV = iv;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+
+            using (ICryptoTransform encryptor = aes.CreateEncryptor())
+            {
+                byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
+                byte[] cipherBytes = encryptor.TransformFinalBlock(plainBytes, 0, plainBytes.Length);
+
+                // [IV + CipherText]
+                byte[] combined = new byte[iv.Length + cipherBytes.Length];
+                Buffer.BlockCopy(iv, 0, combined, 0, iv.Length);
+                Buffer.BlockCopy(cipherBytes, 0, combined, iv.Length, cipherBytes.Length);
+
+                return Convert.ToBase64String(combined);
+            }
+        }
+    }
+} */

@@ -113,6 +113,19 @@ function decrypt(encrypted) {
    */
 
 
+   // 암호화                                      
+   encrypt(plainText) {
+      let strText = JSON.stringify(plainText);
+      const keyString = CONSTANT.CRYPT_KEY;
+      const iv = crypto.randomBytes(CONSTANT.CRYPT_IV_SIZE);
+      const cipher = crypto.createCipheriv("aes-256-cbc", keyString, iv);
+      let cipherText = cipher.update(Buffer.from(strText, "utf8"));
+      cipherText = Buffer.concat([cipherText, cipher.final()]);
+      const combinedData = Buffer.concat([iv, cipherText]);
+      const combinedString = combinedData.toString("base64");
+      return combinedString;
+   }
+
    /**
     * 복호화 작업
     */
@@ -126,7 +139,7 @@ function decrypt(encrypted) {
       const decipher = crypto.createDecipheriv("aes-256-cbc", keyString, iv);
       let plainText = decipher.update(cipherText, "utf8");
       plainText += decipher.final("utf8");
-      return '{' + plainText + '}';
+      return plainText;
    }
 
 
@@ -218,6 +231,7 @@ function decrypt(encrypted) {
       let crypt = body['crypt'];
 
       let data = this.decrypt(crypt);
+      /*
       data = data.replace('{', '{"');
       data = data.replace('}', '"}');
       data = data.replace(/=/g, '":"');
@@ -225,7 +239,7 @@ function decrypt(encrypted) {
       data = data.replace(/%3a/gi, ':');
       data = data.replace(/%2c/gi, ',');
       data = data.replace(/%7c/gi, '|');
-
+*/
       let body2 = JSON.parse(data);
 
       if (typeof params === 'object' && Array.isArray(params)) {

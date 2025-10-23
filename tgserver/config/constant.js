@@ -42,4 +42,23 @@ CONSTANT.REDIS_KEY = { // REDIS 고유키
     GUILDBOSSRAID_GUILDMEMBER : 'bossRaid_GuildMember',
 };
 
+
+CONSTANT.DEFAULT = {
+    VALUE: -1,
+    ZERO: 0,
+    ONE: 1,
+    SUCCESS: 100,
+    FAIL: 101
+};
+
+CONSTANT.USER_ACCOUNT = {
+    MAX_LEVEL: 100
+};
+
+CONSTANT.MAIL = {
+    STATE_NEW: 1, // 상태: 신규
+    STATE_HOLDING: 2, // 상태: 보유중
+    STATE_PAYMENT_COMPLETED: 3// 상태: 지급완료
+};
+
 module.exports = CONSTANT;

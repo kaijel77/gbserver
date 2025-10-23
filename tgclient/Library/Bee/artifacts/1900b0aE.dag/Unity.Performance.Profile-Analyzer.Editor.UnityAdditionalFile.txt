@@ -1,1 +1,1 @@
-C:\Project\tgclient
+C:\Project\GBServer\tgclient
