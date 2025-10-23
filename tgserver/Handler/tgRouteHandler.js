@@ -231,15 +231,7 @@ function decrypt(encrypted) {
       let crypt = body['crypt'];
 
       let data = this.decrypt(crypt);
-      /*
-      data = data.replace('{', '{"');
-      data = data.replace('}', '"}');
-      data = data.replace(/=/g, '":"');
-      data = data.replace(/&/g, '","');
-      data = data.replace(/%3a/gi, ':');
-      data = data.replace(/%2c/gi, ',');
-      data = data.replace(/%7c/gi, '|');
-*/
+
       let body2 = JSON.parse(data);
 
       if (typeof params === 'object' && Array.isArray(params)) {

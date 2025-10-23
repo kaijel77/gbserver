@@ -1,6 +1,7 @@
 const mysql = require('mysql2/promise');
 const config = require('../config/default');
 const CONSTANT = require('../config/constant');
+const useful = require('../utils/useful');
 
 class MysqlHandler {
     constructor() {
@@ -27,7 +28,7 @@ class MysqlHandler {
     async query(db, sql, values) {
         const connection = await this.pool[db].getConnection();
         try {
-            console.log(require('../config/time').utcDateTime(new Date()), `|| query msg: ${sql}${values ? ` | values: ${values}` : ''}`);
+            console.log(useful.getUTCDateTime(new Date()), `|| query msg: ${sql}${values ? ` | values: ${values}` : ''}`);
             const [result] = await connection.query(sql, values);
             return result;
         } catch (error) {

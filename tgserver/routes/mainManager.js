@@ -8,7 +8,7 @@ const redisHandler = require('../Handler/redisHandler');
 const errorHandler = require('../Handler/errorHandler');
 
 const CONSTANT = require('../config/constant');
-const ERROR = require('../config/errorCode');
+const ERRORCODE = require('../config/errorCode');
 
 const accountClass = require('../class/accountClass');
 const gameCharClass = require('../class/gameCharClass');

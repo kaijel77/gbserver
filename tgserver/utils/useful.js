@@ -25,6 +25,17 @@ class usefulClass {
 
     ///////////////////////////////////////////////////////////////
     //
+    // 날짜/시간을 UTC기준의 특정 형식('YYYY-M-DD HH:mm:ss')으로 변환.
+    // @param {utcDate} time - 날짜/시간
+    // @returns {string} 'YYYY-MM-DD HH:mm:ss'형식 날짜
+    // @memberOf time
+    //
+    static getUTCDateTime(utcDate) {
+        return moment(utcDate).utc().format('YYYY-MM-DD HH:mm:ss');
+    }
+
+    ///////////////////////////////////////////////////////////////
+    //
     // Decimal 을 함수화
     // @param n
     // @returns {Decimal}

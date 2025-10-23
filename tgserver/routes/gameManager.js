@@ -67,6 +67,9 @@ router.post('/startGame', async (req, res, next) => {
 
    // 캐싱 초기화.
 //   await cache.truncate(user_id);
+   let item_list = {};
+   let hero_list = {};
+   let equip_list = {};
 
    let result = tgRouteHandler.successJson({
       resourceInfo: resource_info,
@@ -82,6 +85,13 @@ router.post('/startGame', async (req, res, next) => {
 
    await res.json(result);
 });
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+// 출석 체크.
+//
 
 
 module.exports = router;
