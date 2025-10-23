@@ -3,10 +3,10 @@ const baseClass = require("./baseClass");
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// 스테이지 클래스
+// 우편 클래스
 //
-class stageClass  extends baseClass {
+class mailClass  extends baseClass {
 
 }
 
-module.exports = new stageClass();
+module.exports = new mailClass();

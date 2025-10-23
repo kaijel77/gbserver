@@ -3,7 +3,7 @@ const baseClass = require("./baseClass");
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// 업적 클래스
+// 아이템 클래스
 //
 class itemClass  extends baseClass {
 
