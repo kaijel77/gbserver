@@ -1,11 +1,12 @@
 const config = require('../config/default');
 const useful = require('../utils/useful');
+const ERR_CODE = require('../config/errorCode');
+
 
 ///////////////////////////////////////////////////////////////
 // 
 //  오류 관리 클래스 
 //
-
 class errorHandler {
    constructor() {
       if(this.instance) {
@@ -120,6 +121,73 @@ user-agent: ${err?.req?.headers?.['user-agent']}\n`;
       let log_time = useful.getDateTimeWithTz(useful.getNowTime(), 'YYYY-MM-DD_HH');
       fs.appendFileSync(`./log/game_error_${log_time}.txt`, '\ufeff' + text, {encoding: 'utf8'});
   }
+
+   ///////////////////////////////////////////////////////////////
+   // 
+   // 에러 정보 세팅 함수
+   // @param {String} error_code 에러코드
+   // @memberOf errorHandler
+   //
+
+    async #getErrorInfo (error_code) {
+        try {
+            let error = {};
+            const mysqlHandler = require('./mysqlHandler');
+            const CONSTANT = require('../config/constant');
+
+            const query = `SELECT error_code, action_code, message_ko, message_en FROM error_code`
+                +` WHERE error_code = ?`;
+            const values = [error_code];
+
+            await mysqlHandler.query(CONSTANT.DB.STATIC, query, values).then((res) => {
+                if(res.length > 0){
+                    error = res[0];
+                }
+            }).catch((err) => { console.log(err); });
+            if(Object.keys(error).length > 0){
+                this._error = {
+                    "message": error.message_en,
+                    "message_ko": error.message_ko,
+                    "code": error.error_code,
+                    "action": error.action_code
+                };
+            } else {
+                // DB에 존재하지 않는 Error Code
+                this._error = {
+                    "message": 'Not in use',
+                    "message_ko": 'DB에 존재하지 않는 Error Code, 서버 개발자에게 알려주세요!',
+                    "code": error_code,
+                    "action": 0
+                };
+            }
+        } catch (err){
+            console.log(err)
+        }
+    }  
+
+   ///////////////////////////////////////////////////////////////
+   // 
+   // 에러 핸들러 함수, app.js에서 선언
+   // @returns {function} 모든 API 후 에러 데이터 처리 함수
+   // @memberOf errorHandler
+   //
+    wrapAsync () {
+        return (async (error, req, res, next) => {
+            try {
+                console.info('$ errorHandler.wrapAsync');
+                console.error(error);
+                // error.message 가 코드면, 코드값 처리, 그 외에는 에러 메시지 반환
+                let error_code = error.message;
+                if(!error_code || isNaN(error_code)){
+                    error_code = ERR_CODE.SERVER_9100;
+                }
+                await this.#getErrorInfo(error_code);
+                res.send(this._error);
+            } catch (err) { 
+                res.send(error);
+            }
+        });
+    }
 
 }
 

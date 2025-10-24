@@ -34,6 +34,21 @@ class usefulClass {
         return moment(utcDate).utc().format('YYYY-MM-DD HH:mm:ss');
     }
 
+
+    ///////////////////////////////////////////////////////////////
+    //
+    // 두 시간의 차를 구해옴. precise 는 seconds, minuets, hours, days 등을 사용 가능.
+    // @param date1
+    // @param date2
+    // @param unit
+    // @param unit
+    // @returns {number}
+    //
+    static dateDiff (date1, date2, unit = null, precise = false) {
+        return new moment(date1).diff(date2, unit, precise);
+    }
+
+
     ///////////////////////////////////////////////////////////////
     //
     // Decimal 을 함수화

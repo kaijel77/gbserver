@@ -70,17 +70,14 @@ router.post('/startGame', async (req, res, next) => {
    let item_list = {};
    let hero_list = {};
    let equip_list = {};
+   
+
+   // 여기서 출석 체크를 할 여부를 정한다.
 
    let result = tgRouteHandler.successJson({
-      resourceInfo: resource_info,
-      buildingList: building_list,
       itemList: item_list,
       heroList: hero_list,
-      timerList: timer_list,
       equipList: equip_list,
-      purchaseList: purchase_list,
-      purchaseCount: limit_list,
-      myranking:myrankinginfo
    });
 
    await res.json(result);

@@ -10,9 +10,11 @@ const config = require('./config/default');
 const errorHandler = require('./Handler/errorHandler');
 const tgRouteHandler = require('./Handler/tgRouteHandler');
 
+const useful = require('./utils/useful');
+
 app.use(cors());
 if (config.debug_mode) {
-   app.use(logger('dev'));
+    app.use(logger('dev'));
 }
 app.use(bodyParser.json());
 app.use(express.json());
@@ -33,14 +35,15 @@ let debug_account = (config.debug_mode) ? true : false; // 디버그 모드가 �
 // 
 let authentication = async function (req, res, next) {
 
-   let path = req.originalUrl.split('/')[1];
-   let sub_path = req.originalUrl.split('/')[2];
-   if (['gameInit', 'initAll', 'checkToken', 'battleLog', 'gameNickCreate', 'test'].includes(path)) { // 게임 초기화시 필요한 기능. 디버그 모드에서만 동작 해야함.
-         const accountClass = require('./class/accountClass');
-      if (!debug_account) {
-         return res.json(day1.error(1015, 9999999)); // TODO 신규 추가 코드 필요.
-      }
-      let user_id = req.header('user-id');
+    let path = req.originalUrl.split('/')[1];
+    let sub_path = req.originalUrl.split('/')[2];
+    if (['gameInit', 'initAll', 'checkToken', 'battleLog', 'gameNickCreate', 'test'].includes(path)) { // 게임 초기화시 필요한 기능. 디버그 모드에서만 동작 해야함.
+   
+        const accountClass = require('./class/accountClass');
+        if (!debug_account) {
+            return res.json(day1.error(1015, 9999999)); // TODO 신규 추가 코드 필요.
+        }
+        let user_id = req.header('user-id');
 
       req.account_info = await accountClass.getGameAccount(user_id);
       if (!req.account_info?.user_id) {
@@ -70,45 +73,32 @@ let authentication = async function (req, res, next) {
          let authToken = req.header('td-access-token');
 
          let token_info = await accountClass.verifyToken(authToken);
-         /*OHTG_ING            
-         let path_check = true;
-         if(['pass'].includes(path) && ['getStagePass'].includes(sub_path)){
-         path_check = false;
+         if(token_info === null || token_info === undefined) {
+            errorHandler.throwError(1021, 9000042); // 토큰을 통한 계정 유무 확인
          }
-         if (false == ['dispatcher'].includes(path) && path_check) {
-         let data = req.originalUrl;
-         data = useful.replaceAll(data, '/', '');
-         let check_Packet = await redisCT.get(token_info.user_id + data);
-         if (check_Packet) {
-         errorHandler.throwError(1023, 9001011); // 토큰을 통한 계정 유무 확인
-         }
-         
-         await redisCT.pset(token_info.user_id + data, authToken, 450); // 토큰을 Redis 저장. 세션 겸용 이므로 유효 시간 필수.
-         }
-         */
+
          req.account_info = await accountClass.getGameAccount(token_info.user_id);
          if (!req.account_info?.user_id) {
             errorHandler.throwError(1021, 9000042); // 토큰을 통한 계정 유무 확인
          }
-         /*
+
          if (req.account_info?.block === true) {
-         let limit = useful.dateDiff(req.account_info.block_limit, useful.getNowTime(), 'seconds');
-         if (limit > 1) {
-         errorHandler.throwError(2104, 9000252); // 사용이 금지된 유저 계정.
-         } else {
-         // 여기서 해제 되어야함.
-         req.account_info = await account.unblock(token_info.user_id);
-         }
+            let limit = useful.dateDiff(req.account_info.block_date, useful.getNowTime(), 'seconds');
+            if (limit > 1) {
+               errorHandler.throwError(2104, 9000252); // 사용이 금지된 유저 계정.
+            } else {
+               // 여기서 해제 되어야함.
+               req.account_info = await account.unblock(token_info.user_id);
+            }
          }
          
          if (['withdrawCancel'].includes(path)) {
-         if (req.account_info?.withdraw === false) {
-         errorHandler.throwError(2103, 9001021); // 취소할 필요 없는 계정.
-         }
+            if (req.account_info?.withdraw === false) {
+               errorHandler.throwError(2103, 9001021); // 취소할 필요 없는 계정.
+            }
          } else if (req.account_info?.withdraw === true) { // 그 외
-         errorHandler.throwError(2101, 9001025); // 이미 탈퇴한 계정이라면 막아야함.
+            errorHandler.throwError(2101, 9001025); // 이미 탈퇴한 계정이라면 막아야함.
          }
-         */
          next();
       } catch (err) {
          errorHandler.setError(err);
@@ -117,10 +107,15 @@ let authentication = async function (req, res, next) {
    }
 };
 
+
 app.use(authentication);
 
 
 require('./Handler/routeHandler')(app);
 
+// =====================
+// API Error Handler
+// =====================
+app.use(errorHandler.wrapAsync());
 
 module.exports = app;

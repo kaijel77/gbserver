@@ -7,6 +7,37 @@ const baseClass = require("./baseClass");
 //
 class mailClass  extends baseClass {
 
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    // 우편 리스트 가져오기
+    //
+    async getMailList() {
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    // 우편 가져오기
+    //
+    async getMailInfo() {
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    //
+    // 우편 가져오기
+    //
+    async deleteMailInfo() {
+
+    }
+
+    async getMailReward() {
+
+    }
+
+    async sendMailInfo() {
+        
+    }
 }
 
 module.exports = new mailClass();

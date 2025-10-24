@@ -41,7 +41,7 @@ router.post('/connect', async (req, res, next) => {
    }
    else {
       // 로그인 기록에 대한 고민 필요. (토스트에서 로그인 로그를 어느정도 제공함.)
-      await accountClass.lastAccessUpdate(account_info.user_id, authtype); // 마지막 접속 시간 갱신.
+      await accountClass.lastAccessUpdate(account_info.account_no, authtype); // 마지막 접속 시간 갱신.
       account_info.authtype = authtype;
    }
 
@@ -102,10 +102,11 @@ router.post('/withdraw', async (req, res, next) => {
 
    let now_date = useful.getNowTime();
 
-   // 지갑이 연동되어 있는지 체크한다. 
+   // 길드가 있으면 탈퇴 처리 실패처리 한다.
 
-   // 길드가 있는지 체크한다.
+   // 지갑이 연동되어 있으면 해제처리 한다.
 
+   // 
    // 계정 임시 탈퇴처리
    let account_info = await mongo.game.select('account').updateReturn({ user_id: user_id }, {
        $set: {

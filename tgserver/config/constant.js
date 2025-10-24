@@ -14,7 +14,6 @@ CONSTANT.LOG = {
 CONSTANT.CRYPT_IV_SIZE = 16;    // 암호화 IV 생성시 크기
 CONSTANT.CRYPT_KEY = '7e510acb6ee42e08ee5a13a3e5906c7b';
 
-
 /**
  * 게임내에 자주 사용될 상수값을 정리할 CONFIG 파일
  * 구분을 위해 사용시 특별한 경우가 아닌 경우에는 대문자로 사용할 것을 권장.
@@ -42,7 +41,6 @@ CONSTANT.REDIS_KEY = { // REDIS 고유키
     GUILDBOSSRAID_GUILDMEMBER : 'bossRaid_GuildMember',
 };
 
-
 CONSTANT.DEFAULT = {
     VALUE: -1,
     ZERO: 0,
@@ -59,6 +57,10 @@ CONSTANT.MAIL = {
     STATE_NEW: 1, // 상태: 신규
     STATE_HOLDING: 2, // 상태: 보유중
     STATE_PAYMENT_COMPLETED: 3// 상태: 지급완료
+};
+
+CONSTANT.RANKER = {
+    MAX_RANKER_USER_COUNT: 150
 };
 
 module.exports = CONSTANT;

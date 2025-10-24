@@ -1,7 +1,7 @@
 process.env.DOTENV_DISABLE_LOG = 'true';
 require('dotenv').config({
-  path: ['.env.local', '.env'],
-  debug: false,
+    path: ['.env.local', '.env'],
+    debug: false,
 });
 let app = require('../app');
 let debug = require('debug')('temp:server');
@@ -18,40 +18,40 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 function normalizePort(val) {
-   let port = parseInt(val, 10);
-   if (isNaN(port)) {
-      return val;
-   }
-   if (port >= 0) {
-      return port;
-   }
-   return false;
+    let port = parseInt(val, 10);
+    if (isNaN(port)) {
+        return val;
+    }
+    if (port >= 0) {
+        return port;
+    }
+    return false;
 }
 
 
 function onError(error) {
-   if (error.syscall !== 'listen') {
-      throw error;
-   }
-   let bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-   switch (error.code) {
-      case 'EACCES':
-         console.error(bind + ' requires elevated privileges');
-         process.exit(1);
-         break;
-      case 'EADDRINUSE':
-         console.error(bind + ' is already in use');
-         process.exit(1);
-         break;
-      default:
-         throw error;
-   }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+    let bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 function onListening() {
-   let addr = server.address();
-   let bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-   debug('Listening on ' + bind);
+    let addr = server.address();
+    let bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }
 
 
@@ -59,48 +59,48 @@ function onListening() {
 // 🧠 Graceful Shutdown
 // ========================
 const gracefulShutdown = async (signal) => {
-   console.log(`\n🛑 [${process.pid}] Received ${signal}. Saving data...`);
+    console.log(`\n🛑 [${process.pid}] Received ${signal}. Saving data...`);
 
-   try {
-      await saveCacheToDB(mysqlHandler.getPool());
+    try {
+        await saveCacheToDB(mysqlHandler.getPool());
 
-      await pool.end();
-      console.log(`✅ [${process.pid}] DB connection closed.`);
+        await pool.end();
+        console.log(`✅ [${process.pid}] DB connection closed.`);
 
-      server.close(() => {
-         console.log(`💤 [${process.pid}] HTTP server closed.`);
-         process.exit(0);
-      });
-   } catch (err) {
-      console.error(`❌ [${process.pid}] Error during shutdown:`, err);
-      process.exit(1);
-   }
+        server.close(() => {
+            console.log(`💤 [${process.pid}] HTTP server closed.`);
+            process.exit(0);
+        });
+    } catch (err) {
+        console.error(`❌ [${process.pid}] Error during shutdown:`, err);
+        process.exit(1);
+    }
 };
 
 async function saveCacheToDB(mysqlHandler) {
-   console.log(`💾 [${process.pid}] Saving temporary data...`);
+    console.log(`💾 [${process.pid}] Saving temporary data...`);
 
     // 예시: 서버 메모리 데이터 저장
     const connection = await pool.getConnection();
     try {
-      await connection.query(
-        "INSERT INTO server_logs (worker_id, message, created_at) VALUES (?, ?, NOW())",
-        [process.pid, "Graceful shutdown data saved"]
-      );
-      console.log(`✅ [${process.pid}] Data saved successfully.`);
+        await connection.query(
+            "INSERT INTO server_logs (worker_id, message, created_at) VALUES (?, ?, NOW())",
+            [process.pid, "Graceful shutdown data saved"]
+        );
+        console.log(`✅ [${process.pid}] Data saved successfully.`);
     } finally {
-      connection.release();
+        connection.release();
     }
 }
 
 // 종료 신호 감지
 ['SIGINT', 'SIGTERM'].forEach(signal => {
-   process.on(signal, () => gracefulShutdown(signal));
+    process.on(signal, () => gracefulShutdown(signal));
 });
 
 process.on('uncaughtException', (err) => {
-   console.error(`💥 [${process.pid}] Uncaught Exception:`, err);
-   gracefulShutdown('uncaughtException');
+    console.error(`💥 [${process.pid}] Uncaught Exception:`, err);
+    gracefulShutdown('uncaughtException');
 });
 
 
