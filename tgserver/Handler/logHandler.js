@@ -10,9 +10,7 @@ class logClass  {
     constructor(request) {
 //        this.log_id = useful.newUuid();
 //        this.log_queue = [];
-//        this.request = request;
-
-        this.mongoClass = null;
+        this.request = request;
     }
 
     includeClass (classes = []) {
@@ -99,18 +97,12 @@ class logClass  {
 
             let query = `INSERT INTO ${tableName} (${columns}) VALUES (${values})`;
             await this.mysqlHandlerClass
-            .query(CONSTANT.DB.GAME, query)
+            .query(CONSTANT.DB.LOG, query)
             .then(async (result) => { })
             .catch((err) => {
                 throw err;
             });
 
-            let account = await this.getGameAccount(gameuser_id);
-            if (Object.keys(account).length === 0) {
-                throw new Error(ERROR_CODE.USER_LOGIN_1006); // 계정생성에 실패했습니다.
-            }
-
-            return account;
         } catch (err) {
             throw new Error(ERROR_CODE.USER_LOGIN_1006); // 계정생성에 실패했습니다.
         }
@@ -162,6 +154,7 @@ class logClass  {
     // @param log_data
     ///
     queue_accountConn (account_info, reason) {
+        /*
         this.includeClass(['mongo']);
         this.mongoClass.log.select('accountconnect_log').insertOne({
             log_date: useful.getNowTime(),
@@ -169,6 +162,11 @@ class logClass  {
             user_name: account_info.user_name,
             gamebase_id: account_info.gamebase_id,
             log_reason:reason,
+            ip_address: this.request._remoteAddress,
+        });
+        */
+       this.createGameLog(account_info, 'accountCount', reason, {
+            log_date: useful.getNowTime(),
             ip_address: this.request._remoteAddress,
         });
     }
@@ -1264,7 +1262,7 @@ class logClass  {
     // @returns {Promise<void>}
     ///
     async submitQueue() {
-        this.includeClass(['mongo']);
+        /*OHTG_ING
         if (this.log_queue.length > 0) {
             for (let log_info of this.log_queue) {
                 if (log_info.log_table === null || log_info.log_table === undefined) {    
@@ -1273,6 +1271,7 @@ class logClass  {
             }
             this.clearQueue();
         }
+        */
     }
 }
 

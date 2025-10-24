@@ -1,7 +1,7 @@
 const config = require('../config/default');
 const CONSTANT = require('../config/constant');
 const crypto = require("crypto");
-
+const logHandler = require('./logHandler');
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -40,8 +40,8 @@ class tgRouteHandler {
    }
    includeHandler(classes = []) {
       for (let name of classes) {
-         if (!this?.[`${name}`]) {
-            this[`${name}`] = require(`../Handler/${name}`);
+         if (!this?.[`${name}Class`]) {
+            this[`${name}Class`] = require(`../Handler/${name}`);
          }
       }
    }
@@ -56,7 +56,7 @@ class tgRouteHandler {
    asyncWrap (asyncFn) {
         this.includeHandler(['mysqlHandler', 'redisHandler', 'errorHandler']);
         return (async (req, res, next) => {
-            this.log = new log(req);
+            this.logHandler = new logHandler(req);
             this.request = req;
             this.response = res;
             try {
@@ -64,7 +64,7 @@ class tgRouteHandler {
             } catch (err) {
             } finally {
                 this.errorHandlerClass.clearError();
-                await this.log.submitQueue();
+                await this.logHandler.submitQueue();
             }
         })
     }

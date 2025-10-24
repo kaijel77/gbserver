@@ -52,8 +52,6 @@ function onError(error) {
 
 function onListening() {
 
-    let log = new logHandler(null);
-    log.createLogTable();
     let addr = server.address();
     let bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     debug('Listening on ' + bind);
