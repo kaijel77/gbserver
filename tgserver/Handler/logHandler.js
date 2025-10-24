@@ -90,10 +90,11 @@ class logClass  {
             let nowdate = useful.getNowTime();
             const month = String(nowdate.getMonth() + 1).padStart(2, "0");
             let tableName = 'tbl_logdata' + nowdate.getFullYear().toString()+month;
+            let strText = JSON.stringify(log_data);
 
             // 계정생성
             let columns = 'account_no, user_id, type, reason, log_data';
-            let values = `'${account_info.account_no}', '${account_info.user_id}', '${type}', '${reason}', '${log_data}'`;
+            let values = `'${account_info.account_no}', '${account_info.user_id}', '${type}', '${reason}', '${strText}'`;
 
             let query = `INSERT INTO ${tableName} (${columns}) VALUES (${values})`;
             await this.mysqlHandlerClass
