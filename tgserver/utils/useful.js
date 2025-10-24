@@ -18,8 +18,9 @@ class usefulClass {
     // @returns Date|string
     //
     static getNowTime() {
-        let time3 = new Date(moment.now());
-        return time3;
+        let time = new Date();
+
+        return time;
     }
 
 
@@ -34,6 +35,22 @@ class usefulClass {
         return moment(utcDate).utc().format('YYYY-MM-DD HH:mm:ss');
     }
 
+
+    /**
+     * config 에서 설정한 타임존에 맞는 시간을 반환.
+     * @param time
+     * @param format
+     * @returns {string}
+     */
+    static getDateTimeWithTz (time = null,format = null) {
+        time = (! time) ? this.getNowTime() : time;
+        return moment(time).format(format);
+    }
+
+    static getDateTimeWithKorea (time ,format = null) {
+        time = (! time) ? this.getNowTime() : time;
+        return moment(time).format(format);
+    }
 
     ///////////////////////////////////////////////////////////////
     //

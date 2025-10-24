@@ -1,13 +1,16 @@
-const useful = require('./useful');
+const useful = require('../utils/useful');
+const ERROR_CODE = require('../config/errorCode');
+const CONSTANT = require('../config/constant');
+
 
 ///////////////////////////////////////////////////////////////////////////
 // 게임 로그 클래스
 ///
-class logClass {
+class logClass  {
     constructor(request) {
-        this.log_id = useful.newUuid();
-        this.log_queue = [];
-        this.request = request;
+//        this.log_id = useful.newUuid();
+//        this.log_queue = [];
+//        this.request = request;
 
         this.mongoClass = null;
     }
@@ -19,6 +22,100 @@ class logClass {
             }
         }
     }
+
+    includeHandler(classes = []) {
+        for (let name of classes) {
+            if (!this?.[`${name}Class`]) {
+                this[`${name}Class`] = require(`../Handler/${name}`);
+            }
+        }
+    }
+
+
+    async createLogTable(){
+        try {
+            this.includeHandler(['mysqlHandler', 'errorHandler']);
+
+            let nowdate = useful.getNowTime();
+            const month2 = String(nowdate.getMonth()).padStart(2, "0");
+            const month = String(nowdate.getMonth() + 1).padStart(2, "0");
+            let tableName = 'tbl_logdata' + nowdate.getFullYear().toString()+month;
+
+            let query = `CREATE TABLE ${tableName} (
+                        log_no bigint NOT NULL AUTO_INCREMENT,
+                        account_no bigint NOT NULL,
+                        user_id varchar(45) NOT NULL,
+                        type varchar(45) NOT NULL,
+                        reason varchar(45) NOT NULL,
+                        log_data varchar(3000) NOT NULL,
+                        create_date datetime DEFAULT now(),
+                        PRIMARY KEY (log_no),
+                        KEY index_account_no (account_no),
+                        KEY index_create_date (create_date)
+                        ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                        `;
+            await this.mysqlHandlerClass
+            .query(CONSTANT.DB.LOG, query)
+            .then(async (result) => { })
+            .catch((err) => {
+                throw err;
+            });
+
+        } catch (err) {
+            this.errorHandlerClass.setError(2032, 9000187);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////
+    //
+    // 회원을 생성한다.
+    // @param {Object} gameuser_id 계정 기본 아이디
+    //
+    // 
+    // @param {Object} param body의 파라미터
+    // @param {String} param.mb_id 계정 id
+    // @param {String} param.mb_password 계정 비밀번호
+    // @param {String} param.mb_name 이름
+    // @param {String} param.mb_nick 닉네임
+    // @param {String} param.mb_email 이메일
+    // @param {String} param.mb_hp 휴대폰번호
+    // @param {String} param.mb_zip 우편번호
+    // @param {String} param.mb_addr1 주소
+    //
+    // @returns {Object} 회원 정보
+    // @memberOf account
+    // 
+    async createGameLog(account_info, type, reason, log_data = {}) {
+        try {
+            this.includeHandler(['mysqlHandler', 'errorHandler']);
+
+            let nowdate = useful.getNowTime();
+            const month = String(nowdate.getMonth() + 1).padStart(2, "0");
+            let tableName = 'tbl_logdata' + nowdate.getFullYear().toString()+month;
+
+            // 계정생성
+            let columns = 'account_no, user_id, type, reason, log_data';
+            let values = `'${account_info.account_no}', '${account_info.user_id}', '${type}', '${reason}', '${log_data}'`;
+
+            let query = `INSERT INTO ${tableName} (${columns}) VALUES (${values})`;
+            await this.mysqlHandlerClass
+            .query(CONSTANT.DB.GAME, query)
+            .then(async (result) => { })
+            .catch((err) => {
+                throw err;
+            });
+
+            let account = await this.getGameAccount(gameuser_id);
+            if (Object.keys(account).length === 0) {
+                throw new Error(ERROR_CODE.USER_LOGIN_1006); // 계정생성에 실패했습니다.
+            }
+
+            return account;
+        } catch (err) {
+            throw new Error(ERROR_CODE.USER_LOGIN_1006); // 계정생성에 실패했습니다.
+        }
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     // 업데이트 로그tgHandler

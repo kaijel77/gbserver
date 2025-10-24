@@ -38,8 +38,8 @@ class MysqlHandler {
         }
     }
 
-    async getPool(db) {
-        return await this.pool[db];
+    getPool(db) {
+        return this.pool[db];
     }
 }
 module.exports = new MysqlHandler();

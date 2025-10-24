@@ -49,7 +49,31 @@ class tgRouteHandler {
    
    ///////////////////////////////////////////////////////////////////////////
    //
+   // 동기 랩핑용 함수
+   // @param asyncFn
+   // @returns {(function(*, *, *): Promise<*|undefined>)|*}
+   //
+   asyncWrap (asyncFn) {
+        this.includeHandler(['mysqlHandler', 'redisHandler', 'errorHandler']);
+        return (async (req, res, next) => {
+            this.log = new log(req);
+            this.request = req;
+            this.response = res;
+            try {
+                return await asyncFn(req, res, next);
+            } catch (err) {
+            } finally {
+                this.errorHandlerClass.clearError();
+                await this.log.submitQueue();
+            }
+        })
+    }
+
+   
+   ///////////////////////////////////////////////////////////////////////////
+   //
    // 접속 확인
+   // @param account_info
    // @returns {Promise<void>}
    //
    async server_connectCheck(account_info) {

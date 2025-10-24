@@ -56,8 +56,10 @@ class errorHandler {
       return this._err;
    }
 
+   
    throwError(code, textCode, info = '') {
-      throw this.setError(code, textCode, info);
+        let test = this.setError(code, textCode, info); 
+      throw test;
    }
 
    addError(err) {
@@ -89,9 +91,9 @@ class errorHandler {
      }
      error['log_date'] = useful.getNowTime();
 
-     if (err.name !== 'System') {   
+// OHTG_ING    if (err.name !== 'System') {   
          this.errorLog(err);
-     }
+  //   }
 
      this._error = error;
    }
@@ -191,5 +193,7 @@ user-agent: ${err?.req?.headers?.['user-agent']}\n`;
 
 }
 
-
+/*
+module.exports = new ErrorHandler();
+*/
 module.exports = new errorHandler();

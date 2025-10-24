@@ -26,8 +26,8 @@ module.exports = function (app) {
     //
     app.use(async (req, res, next) => {
 
-    let result = tgRouteHandler.errorJson(404, 404, '❌ 요청한 URL을 찾을 수 없습니다.', false);
+        let result = tgRouteHandler.errorJson(404, 404, '❌ 요청한 URL을 찾을 수 없습니다.', false);
 
-    await res.json(result);
+        await res.json(result);
     });
 };
