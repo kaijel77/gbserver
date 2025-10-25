@@ -1,9 +1,12 @@
 const express = require('express');
+const session = require("express-session");
 const cors = require('cors');
 const logger = require('morgan');
+
 const requestIp = require('request-ip');
 const bodyParser = require('body-parser');
-const app = express();
+const { createClient } = require('redis');
+const { RedisStore } = require('connect-redis'); // connect-redis 가져오기
 
 const config = require('./config/default');
    
@@ -12,16 +15,58 @@ const tgRouteHandler = require('./Handler/tgRouteHandler');
 
 const useful = require('./utils/useful');
 
+const app = express();
 app.use(cors());
+
+// 상용이 아닐 때 화면에 로그 표시
+if (process.env.NODE_ENV !== 'production') {
+   app.use(logger('dev'));
+}
+/*
 if (config.debug_mode) {
     app.use(logger('dev'));
 }
+*/
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// 미들웨어 연결
 app.use(requestIp.mw())
 
 let debug_account = (config.debug_mode) ? true : false; // 디버그 모드가 아니라면 동작하면 안됨.
+
+
+// =====================
+// DB 연결
+// =====================
+//const mysql = require('./middleware/mysqlHandler');
+
+const redisClient = createClient({
+   url: 'redis://192.168.0.9:6379',
+   password: 'oh1ent1#',  // 비밀번호 입력
+   legacyMode: true,
+});
+
+redisClient.connect().catch(console.error);
+
+// RedisStore 설정 (함수처럼 호출)
+
+const redisStore = new RedisStore({
+   client: redisClient,
+   prefix: 'session:', // Optional, prefix for session keys
+});
+
+
+app.use(session({
+   store: redisStore,
+   secret: "or4m3riT71BckVemYBJm",// 암호화 키 new Date().getMilliseconds()+
+   saveUninitialized: false, // 세션이 저장되기 전 uninitialized 상태로 미리 만들어 저장
+   resave: false, // 세션을 언제나 저장할지 설정함
+   cookie: {
+       maxAge: config.unlimited_access
+   }
+}));
 
 
 ///////////////////////////////////////////////////////////////////////////

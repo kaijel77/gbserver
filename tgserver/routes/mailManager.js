@@ -40,4 +40,29 @@ const mailClass = require('../class/mailClass');
 //
 
 
+
+///////////////////////////////////////////////////////////////////////////
+//
+// E메일 보내기
+//
+router.post('/password_lostcheck', async function (req, res) {
+
+   let body = req.body;
+
+   let accountInfo =await accounts.getUserEmail(body.mb_email);
+
+   await emailsend.message(accountInfo.id, accountInfo.password);
+
+
+   data = {
+      page: 'bbsMng/password_lostcheck',
+      cate: 'password_lostcheck',
+      accountinfo:accountInfo,      
+   }
+
+   res.render('main', data);
+});
+
+
+
 module.exports = router;

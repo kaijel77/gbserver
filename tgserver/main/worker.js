@@ -1,16 +1,15 @@
-process.env.DOTENV_DISABLE_LOG = 'true';
-require('dotenv').config({
-    path: ['.env.local', '.env'],
-    debug: false,
-});
+require('dotenv').config();
+
 let app = require('../app');
 let debug = require('debug')('temp:server');
 let http = require('http');
+
 const CONSTANT = require('../config/constant');
+
 const mysqlHandler = require('../Handler/mysqlHandler');
 const logHandler = require('../Handler/logHandler');
 
-let port = normalizePort(process.env.PORT || 7700);
+let port = normalizePort(process.env.PORT || config.PORT);
 app.set('port', port);
 
 let server = http.createServer(app);
@@ -119,4 +118,8 @@ process.on('unhandledRejection', (reason, promise) => {
     console.error('⚠️ Unhandled Rejection:', reason);
 });
 
-console.log(`Worker ${process.pid} started`);
+console.log(`──────────────────────────────────────────────`);
+console.log(`## Server Start Worker ${process.pid} started #`);
+console.log('## Server Mode:', process.env.NODE_ENV, '  \t#');
+console.log('## Server Port:', port, '                  \t#');
+console.log(`──────────────────────────────────────────────`);

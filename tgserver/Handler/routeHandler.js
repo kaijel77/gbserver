@@ -30,4 +30,10 @@ module.exports = function (app) {
 
         await res.json(result);
     });
+
+    // 없는 API 처리
+    app.route('/api/*').all(function (req, res, next) {
+        next(`API_NOT_FOUND URL: [${req.method}] ${req.url} is not found.`);
+    });
+
 };

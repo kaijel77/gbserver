@@ -93,7 +93,7 @@ class AccountClass extends baseClass {
 
             return account;
         } catch (err) {
-            throw new Error(ERROR_CODE.USER_LOGIN_1006); // 계정생성에 실패했습니다.
+            throw err; // 계정생성에 실패했습니다.
         }
     }
 
@@ -146,7 +146,7 @@ class AccountClass extends baseClass {
 
             return token;
         } catch (err) {
-            throw new Error(err); // 계정생성에 실패했습니다.
+            throw err; // 계정생성에 실패했습니다.
         }
     }
 
