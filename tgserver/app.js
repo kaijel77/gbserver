@@ -38,10 +38,12 @@ let debug_account = (config.debug_mode) ? true : false; // 디버그 모드가 �
 
 
 // =====================
-// DB 연결
+// DB 연결 OHTG_ING
 // =====================
-//const mysql = require('./middleware/mysqlHandler');
-
+// const mysql = require('./middleware/mysqlHandler');
+//
+/*
+OHTG_ING
 const redisClient = createClient({
    url: 'redis://192.168.0.9:6379',
    password: 'oh1ent1#',  // 비밀번호 입력
@@ -67,7 +69,7 @@ app.use(session({
        maxAge: config.unlimited_access
    }
 }));
-
+*/
 
 ///////////////////////////////////////////////////////////////////////////
 //
