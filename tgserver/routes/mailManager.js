@@ -13,6 +13,25 @@ const mailClass = require('../class/mailClass');
 //
 // 우편함 리스트
 //
+router.post('/mailList', async function (req, res) {
+
+   let body = req.body;
+/*
+   let accountInfo =await accounts.getUserEmail(body.mb_email);
+
+   await emailsend.message(accountInfo.id, accountInfo.password);
+*/
+   let result = tgRouteHandler.successJson({
+      page: 'bbsMng/password_lostcheck',
+      cate: 'password_lostcheck',
+//      accountinfo:accountInfo,         
+   });
+
+
+   
+   await res.json(result);
+});
+
 
 
 

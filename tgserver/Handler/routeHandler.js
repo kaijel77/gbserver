@@ -6,6 +6,7 @@ module.exports = function (app) {
     const paths = [
         { loc: '../routes/mainManager', api: '' },
         { loc: '../routes/gameManager', api: 'game' },
+        { loc: '../routes/mailManager', api: 'mail' },
     ];
     console.log('======= routes loading... =======');
     for (let p of paths) {

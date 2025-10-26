@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.Windows;
-
-
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.Windows;
 
 
 public class AuthClient : MonoBehaviour
@@ -50,7 +48,6 @@ public class AuthClient : MonoBehaviour
         form.AddField("crypt", encyData);
         yield return SendRequest("/game/gameNickCreate", "", "POST", jwtToken, form);
 
-
         if (result == "ok")
         {
             Debug.Log($"StartCoroutine(gameStart())");
@@ -61,6 +58,18 @@ public class AuthClient : MonoBehaviour
     IEnumerator gameStart()
     {
         yield return SendRequest("/game/startGame", "", "POST", jwtToken, null);
+
+        if (result == "ok")
+        {
+            Debug.Log($"StartCoroutine(Mail 확인())");
+            StartCoroutine(mailList());
+        }
+    }
+
+
+    IEnumerator mailList()
+    {
+        yield return SendRequest("/mail/mailList", "", "POST", jwtToken, null);
     }
 
     IEnumerator Register(string username, string password)
@@ -114,6 +123,10 @@ public class AuthClient : MonoBehaviour
             {
                 www.SetRequestHeader("td-access-token", header);
             }
+            else if (endpoint == "/mail/mailList")
+            {
+                www.SetRequestHeader("td-access-token", header);
+            }
         }
         else
         {
@@ -142,6 +155,10 @@ public class AuthClient : MonoBehaviour
                 gameNickCreate resultCreate = JsonUtility.FromJson<gameNickCreate>(www.downloadHandler.text);
                 Debug.Log($"🔑 Data 토큰: {resultCreate.data}");
                 result = resultCreate.data.result;
+            }
+            else if (endpoint == "/game/startGame")
+            {
+                result = "ok";
             }
         }
         else
@@ -233,5 +250,23 @@ public class AuthClient : MonoBehaviour
         public int errorCode;
         public bool isSuccess;
         public NickCreate data;
+    }
+
+
+
+    [System.Serializable]
+    public class startgameList
+    {
+        public string itemList;
+        public string heroList;
+        public string equipList;
+    }
+
+    [System.Serializable]
+    public class startGame
+    {
+        public int errorCode;
+        public bool isSuccess;
+        public startgameList data;
     }
 }

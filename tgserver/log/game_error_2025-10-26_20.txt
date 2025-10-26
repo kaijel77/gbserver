@@ -1,0 +1,55 @@
+﻿
+
+
+log_time: 2025-10-26 20:07:52
+code: Error: ENOENT: no such file or directory, open 'D:\03_Project\GBServer\tgserver\log\game_error_2025-10-26_20.txt'
+servercode: undefined
+info: undefined
+message: undefined
+stack: System
+    at errorHandler.setError (D:\03_Project\GBServer\tgserver\Handler\errorHandler.js:46:19)
+    at authentication (D:\03_Project\GBServer\tgserver\app.js:151:23)
+    at Layer.handleRequest (D:\03_Project\GBServer\tgserver\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:342:13)
+    at D:\03_Project\GBServer\tgserver\node_modules\router\index.js:297:9
+    at processParams (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:582:12)
+    at next (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:291:5)
+    at D:\03_Project\GBServer\tgserver\node_modules\request-ip\lib\index.js:139:5
+    at Layer.handleRequest (D:\03_Project\GBServer\tgserver\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:342:13)﻿
+
+
+log_time: 2025-10-26 20:08:59
+code: 1012
+servercode: undefined
+info: 
+message: 9000003
+stack: System: 9000003
+    at errorHandler.setError (D:\03_Project\GBServer\tgserver\Handler\errorHandler.js:46:19)
+    at errorHandler.throwError (D:\03_Project\GBServer\tgserver\Handler\errorHandler.js:61:25)
+    at authentication (D:\03_Project\GBServer\tgserver\app.js:118:26)
+    at Layer.handleRequest (D:\03_Project\GBServer\tgserver\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:342:13)
+    at D:\03_Project\GBServer\tgserver\node_modules\router\index.js:297:9
+    at processParams (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:582:12)
+    at next (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:291:5)
+    at D:\03_Project\GBServer\tgserver\node_modules\request-ip\lib\index.js:139:5
+    at Layer.handleRequest (D:\03_Project\GBServer\tgserver\node_modules\router\lib\layer.js:152:17)﻿
+
+
+log_time: 2025-10-26 20:09:25
+code: System: 9000003
+servercode: undefined
+info: undefined
+message: undefined
+stack: System
+    at errorHandler.setError (D:\03_Project\GBServer\tgserver\Handler\errorHandler.js:46:19)
+    at authentication (D:\03_Project\GBServer\tgserver\app.js:151:23)
+    at Layer.handleRequest (D:\03_Project\GBServer\tgserver\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:342:13)
+    at D:\03_Project\GBServer\tgserver\node_modules\router\index.js:297:9
+    at processParams (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:582:12)
+    at next (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:291:5)
+    at D:\03_Project\GBServer\tgserver\node_modules\request-ip\lib\index.js:139:5
+    at Layer.handleRequest (D:\03_Project\GBServer\tgserver\node_modules\router\lib\layer.js:152:17)
+    at trimPrefix (D:\03_Project\GBServer\tgserver\node_modules\router\index.js:342:13)
