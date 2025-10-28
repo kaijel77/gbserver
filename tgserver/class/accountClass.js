@@ -162,7 +162,6 @@ class AccountClass extends baseClass {
             this.includeHandler(['mysqlHandler']);
             const nowTime = useful.getUTCDateTime(new Date());
             let set = `last_access_date = "${nowTime}"`;
-            let select = `account_no, id, password`;
             const query = `UPDATE tbl_account SET ${set} WHERE account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
@@ -178,7 +177,6 @@ class AccountClass extends baseClass {
         } catch (err) {
             throw err;
         }
-        return null;
     }
 
 

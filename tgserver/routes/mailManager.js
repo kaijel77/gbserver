@@ -15,16 +15,17 @@ const mailClass = require('../class/mailClass');
 //
 router.post('/mailList', async function (req, res) {
 
-   let body = req.body;
+   let account_info = req.account_info;
+   let gameChar_info = req.gameChar_info;
+
+   let mail_list = await mailClass.getMailList(gameChar_info.char_no);
 /*
    let accountInfo =await accounts.getUserEmail(body.mb_email);
 
    await emailsend.message(accountInfo.id, accountInfo.password);
 */
    let result = tgRouteHandler.successJson({
-      page: 'bbsMng/password_lostcheck',
-      cate: 'password_lostcheck',
-//      accountinfo:accountInfo,         
+      mail_list: mail_list,
    });
 
 

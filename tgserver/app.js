@@ -114,6 +114,8 @@ let authentication = async function (req, res, next) {
    } else { // 그 외에는 필수체크
       try {
          const accountClass = require('./class/accountClass');
+         const gameCharClass = require('./class/gameCharClass');
+
          if (!req.header('td-access-token')) {
             errorHandler.throwError(1012, 9000003);
          }
@@ -126,6 +128,11 @@ let authentication = async function (req, res, next) {
 
          req.account_info = await accountClass.getGameAccount(token_info.user_id);
          if (!req.account_info?.user_id) {
+            errorHandler.throwError(1021, 9000042); // 토큰을 통한 계정 유무 확인
+         }
+
+         req.gameChar_info = await gameCharClass.getGameChar(req.account_info.account_no);
+         if (req.gameChar_info === null || req.gameChar_info === undefined) {
             errorHandler.throwError(1021, 9000042); // 토큰을 통한 계정 유무 확인
          }
 

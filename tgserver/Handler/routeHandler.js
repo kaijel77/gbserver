@@ -7,6 +7,8 @@ module.exports = function (app) {
         { loc: '../routes/mainManager', api: '' },
         { loc: '../routes/gameManager', api: 'game' },
         { loc: '../routes/mailManager', api: 'mail' },
+        { loc: '../routes/eventManager', api: 'event' },
+        { loc: '../routes/characterManager', api: 'character' },
     ];
     console.log('======= routes loading... =======');
     for (let p of paths) {
