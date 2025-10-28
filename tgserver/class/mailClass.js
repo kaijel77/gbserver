@@ -54,13 +54,13 @@ class mailClass  extends baseClass {
     //
     // 우편 가져오기
     //
-    async getMailInfo(mail_no) {
+    async getMailInfo(mail_no, char_no) {
         try {
             this.includeHandler(['mysqlHandler']);
 
             let mailinfo = null;
             let select = `mail_no, char_no, subject, content, reward_data, create_date, is_read, is_received, receive_date`;
-            const query = `SELECT ${select} FROM tbl_mail WHERE mail_no='${mail_no}'`;
+            const query = `SELECT ${select} FROM tbl_mail WHERE mail_no='${mail_no}' and char_no='${char_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -83,22 +83,80 @@ class mailClass  extends baseClass {
             .catch((err) => {
                 throw err;
             });
-            return mailList;
+
+            if(mailinfo.is_read == false)
+            {
+                if(this.readMailInfo(mail_no, char_no))
+                {
+                    mailinfo.is_read = true;
+                }
+            }
+
+            return mailinfo;
         } catch (err) {
             throw err;
         }
     }
 
+
+    async readMailInfo(mail_no, char_no) {
+        try {
+            this.includeHandler(['mysqlHandler']);
+
+            const nowTime = useful.getUTCDateTime(new Date());
+            let set = `is_read = true`;
+            const query = `UPDATE tbl_mail SET ${set} WHERE mail_no='${mail_no}' and char_no='${char_no}'`;
+
+            await this.mysqlHandlerClass
+            .query(CONSTANT.DB.GAME, query)
+            .then(async (result) => {
+                if (result.affectedRows > 0) {
+                }
+            })
+            .catch((err) => {
+                throw err;
+            });
+            return nowTime;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+
+    async rewardMailInfo(mail_no, char_no) {
+        try {
+            this.includeHandler(['mysqlHandler']);
+
+            const nowTime = useful.getUTCDateTime(new Date());
+            let set = `is_received = true`;
+            const query = `UPDATE tbl_mail SET ${set} WHERE mail_no='${mail_no}' and char_no='${char_no}'`;
+
+            await this.mysqlHandlerClass
+            .query(CONSTANT.DB.GAME, query)
+            .then(async (result) => {
+                if (result.affectedRows > 0) {
+                }
+            })
+            .catch((err) => {
+                throw err;
+            });
+            return nowTime;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+
     ///////////////////////////////////////////////////////////////////////////
     //
     // 우편 삭제처리
     //
-    async deleteMailInfo(mail_no) {
+    async deleteMailInfo(mail_no, char_no) {
         try {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            const query = `DELETE FROM tbl_mail WHERE mail_no='${mail_no}'`;
+            const query = `DELETE FROM tbl_mail WHERE mail_no='${mail_no}' and char_no='${char_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -116,28 +174,6 @@ class mailClass  extends baseClass {
         }
     }
 
-    async getMailReward(mail_no) {
-        try {
-            this.includeHandler(['mysqlHandler']);
-
-            const nowTime = useful.getUTCDateTime(new Date());
-            let set = `is_received = true`;
-            const query = `UPDATE tbl_mail SET ${set} WHERE mail_no='${mail_no}'`;
-
-            await this.mysqlHandlerClass
-            .query(CONSTANT.DB.GAME, query)
-            .then(async (result) => {
-                if (result.affectedRows > 0) {
-                }
-            })
-            .catch((err) => {
-                throw err;
-            });
-            return nowTime;
-        } catch (err) {
-            throw err;
-        }
-    }
 
     async sendMailInfo(char_no, subject, content, mail_day) {
         try {

@@ -40,11 +40,30 @@ router.post('/mailList', async function (req, res) {
 //
 // 우편 읽기
 //
+router.post('/mailRead', async function (req, res) {
 
-///////////////////////////////////////////////////////////////////////////
-//
-// 우편 삭제
-//
+   let account_info = req.account_info;
+   let gameChar_info = req.gameChar_info;
+
+   let params = tgRouteHandler.verifyParams(req, ['mail_no']);
+   let mail_no = params['mail_no'];
+   if(mail_no === null || mail_no === undefined){
+      // 닉네임이 있어서 실패 
+      errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+   }
+
+   let mail_info = await mailClass.getMailInfo(mail_no, gameChar_info.char_no);
+   if(mail_info === null || mail_info === undefined){
+      // 닉네임이 있어서 실패 
+      errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+   }
+
+   let result = tgRouteHandler.successJson({
+      mail_info: mail_info,
+   });
+
+   await res.json(result);
+});
 
 
 
@@ -52,13 +71,62 @@ router.post('/mailList', async function (req, res) {
 //
 // 우편 보상받기
 //
+router.post('/mailReward', async function (req, res) {
+
+   let account_info = req.account_info;
+   let gameChar_info = req.gameChar_info;
+   let mail_no = params['mail_no'];
+   if(mail_no === null || mail_no === undefined){
+      // 닉네임이 있어서 실패 
+      errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+   }
+
+   let bDelete = await mailClass.rewardMailInfo(mail_no, gameChar_info.char_no);
+   if(bDelete == false){
+      // 닉네임이 있어서 실패 
+      errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+   }
+
+   let result = tgRouteHandler.successJson({
+      result: true,
+   });
+
+   await res.json(result);
+});
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+// 우편 삭제
+//
+router.post('/mailDelete', async function (req, res) {
+
+   let account_info = req.account_info;
+   let gameChar_info = req.gameChar_info;
+   let mail_no = params['mail_no'];
+   if(mail_no === null || mail_no === undefined){
+      // 닉네임이 있어서 실패 
+      errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+   }
+
+   let bDelete = await mailClass.deleteMailInfo(mail_no, gameChar_info.char_no);
+   if(bDelete == false){
+      // 닉네임이 있어서 실패 
+      errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+   }
+
+   let result = tgRouteHandler.successJson({
+      result: true,
+   });
+
+   await res.json(result);
+});
 
 
 ///////////////////////////////////////////////////////////////////////////
 //
 // 우편 보내기
 //
-
 
 
 ///////////////////////////////////////////////////////////////////////////
