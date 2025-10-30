@@ -4,8 +4,8 @@ const router = express.Router();
 const tgRouteHandler = require('../Handler/tgRouteHandler');
 const errorHandler = require('../Handler/errorHandler');
 
-const gameCharClass = require('../class/gameCharClass');
 const mailClass = require('../class/mailClass');
+const itemClass = require('../class/itemClass');
 
 
 
@@ -13,12 +13,11 @@ const mailClass = require('../class/mailClass');
 //
 // 우편함 리스트
 //
-router.post('/mailList', async function (req, res) {
+router.post('/mailList', tgRouteHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
-   let gameChar_info = req.gameChar_info;
 
-   let mail_list = await mailClass.getMailList(gameChar_info.char_no);
+   let mail_list = await mailClass.getMailList(account_info.account_no);
 /*
    let accountInfo =await accounts.getUserEmail(body.mb_email);
 
@@ -31,7 +30,7 @@ router.post('/mailList', async function (req, res) {
 
    
    await res.json(result);
-});
+}));
 
 
 
@@ -40,7 +39,7 @@ router.post('/mailList', async function (req, res) {
 //
 // 우편 읽기
 //
-router.post('/mailRead', async function (req, res) {
+router.post('/mailRead', tgRouteHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
    let gameChar_info = req.gameChar_info;
@@ -63,7 +62,7 @@ router.post('/mailRead', async function (req, res) {
    });
 
    await res.json(result);
-});
+}));
 
 
 
@@ -71,7 +70,7 @@ router.post('/mailRead', async function (req, res) {
 //
 // 우편 보상받기
 //
-router.post('/mailReward', async function (req, res) {
+router.post('/mailReward', tgRouteHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
    let gameChar_info = req.gameChar_info;
@@ -92,14 +91,14 @@ router.post('/mailReward', async function (req, res) {
    });
 
    await res.json(result);
-});
+}));
 
 
 ///////////////////////////////////////////////////////////////////////////
 //
 // 우편 삭제
 //
-router.post('/mailDelete', async function (req, res) {
+router.post('/mailDelete', tgRouteHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
    let gameChar_info = req.gameChar_info;
@@ -120,7 +119,7 @@ router.post('/mailDelete', async function (req, res) {
    });
 
    await res.json(result);
-});
+}));
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -133,7 +132,7 @@ router.post('/mailDelete', async function (req, res) {
 //
 // E메일 보내기
 //
-router.post('/password_lostcheck', async function (req, res) {
+router.post('/password_lostcheck', tgRouteHandler.asyncWrap(async function (req, res) {
 
    let body = req.body;
 
@@ -149,7 +148,7 @@ router.post('/password_lostcheck', async function (req, res) {
    }
 
    res.render('main', data);
-});
+}));
 
 
 

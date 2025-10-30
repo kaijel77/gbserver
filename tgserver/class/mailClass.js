@@ -13,13 +13,13 @@ class mailClass  extends baseClass {
     // 우편 리스트 가져오기
     // @returns {Object[]} 우편 목록
     //
-    async getMailList(gameChar_id) {
+    async getMailList(account_no) {
         try {
             this.includeHandler(['mysqlHandler']);
 
             let mailList = [];
-            let select = `mail_no, char_no, subject, content, reward_data, create_date, is_read, is_received, receive_date`;
-            const query = `SELECT ${select} FROM tbl_mail WHERE char_no='${gameChar_id}'`;
+            let select = `mail_no, account_no, subject, content, reward_data, create_date, is_read, is_received, receive_date`;
+            const query = `SELECT ${select} FROM tbl_mail WHERE account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -29,7 +29,7 @@ class mailClass  extends baseClass {
                     {
                         mailList.push({
                             mail_no: mail_info.mail_no,
-                            char_no: mail_info.char_no,
+                            account_no: mail_info.account_no,
                             subject: mail_info.subject,
                             content: mail_info.content,
                             reward_data: mail_info.reward_data,

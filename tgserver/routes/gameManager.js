@@ -8,11 +8,11 @@ const gameCharClass = require('../class/gameCharClass');
 
 
 
-
+///////////////////////////////////////////////////////////////////////////
 //
 // 게임 접속시 게임 계정 생성 및 닉네임 생성0.
 //
-router.post('/gameNickCreate', async(req, res, next) => {
+router.post('/gameNickCreate', tgRouteHandler.asyncWrap(async(req, res, next) => {
 
    let account_info = req.account_info;
    let user_id = account_info.user_id;
@@ -46,14 +46,14 @@ router.post('/gameNickCreate', async(req, res, next) => {
    });
 
    await res.json(result);
-});
+}));
 
 
 ///////////////////////////////////////////////////////////////////////////
 //
 // 게임 기본 정보를 받는다.
 //
-router.post('/startGame', async (req, res, next) => {
+router.post('/startGame', tgRouteHandler.asyncWrap(async (req, res, next) => {
     let account_info = req.account_info;
     let user_id = account_info.user_id;
 
@@ -81,7 +81,7 @@ router.post('/startGame', async (req, res, next) => {
    });
 
    await res.json(result);
-});
+}));
 
 
 

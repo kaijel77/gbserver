@@ -84,8 +84,8 @@ class gameCharClass extends baseClass {
       }
 
       try {
-         let select = `char_name`;
-         const query = `SELECT ${select} FROM tbl_character WHERE char_name ='${gamechar_name}'`;
+         let select = `nickname`;
+         const query = `SELECT ${select} FROM tbl_character WHERE nickname ='${gamechar_name}'`;
          await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
             .then((result) => {
@@ -132,7 +132,7 @@ class gameCharClass extends baseClass {
          this.includeHandler(['mysqlHandler']);
 
          // 계정생성
-         let columns = 'account_no, char_name';
+         let columns = 'account_no, nickname';
          let values = `'${account_no}', '${gamechar_name}'`;
          let bCreate = false;
 

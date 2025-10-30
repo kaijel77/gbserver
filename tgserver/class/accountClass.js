@@ -26,8 +26,8 @@ class AccountClass extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let user = null;
-            let select = `account_no, id, password, withdraw, withdraw_date, block, block_date`;
-            const query = `SELECT ${select} FROM tbl_account WHERE id='${gameUser_id}'`;
+            let select = `ta.account_no, ta.id, ta.password, ta.withdraw, ta.withdraw_date, ta.block, ta.block_date, COALESCE(tc.nickname, '') AS nickname`;
+            const query = `SELECT ${select} FROM tbl_account ta LEFT JOIN tbl_character tc ON ta.account_no = tc.account_no WHERE id='${gameUser_id}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -38,6 +38,7 @@ class AccountClass extends baseClass {
                         account_no: result.account_no,
                         user_id: result.id,
                         password: result.password,
+                        nickname: result.nickname
                     };
                 }
             })
@@ -191,6 +192,39 @@ class AccountClass extends baseClass {
             throw new Error("authToken authentication failed.");
         }
         return jwt.verify(token, config.jwtSecretKey);
+    }
+
+
+
+    ///////////////////////////////////////////////////////////////
+    //
+    // 계정 탈퇴/ 탈퇴 취소 처리
+    // @param account_no
+    // @param withdraw
+    // @returns {Promise<*>}
+    //
+    async update_AccountWithdraw(account_no, withdraw, nowTime) {
+        try {
+            this.includeHandler(['mysqlHandler']);
+
+            let bUpdate = false;
+            let set = `withdraw = "${withdraw}", withdraw_date = "${nowTime}"`;
+            const query = `UPDATE tbl_account SET ${set} WHERE account_no='${account_no}'`;
+
+            await this.mysqlHandlerClass
+            .query(CONSTANT.DB.GAME, query)
+            .then(async (result) => {
+                if (result.affectedRows > 0) {
+                    bUpdate = true;
+                }
+            })
+            .catch((err) => {
+                throw err;
+            });
+            return bUpdate;
+        } catch (err) {
+            throw err;
+        }
     }
 }
 

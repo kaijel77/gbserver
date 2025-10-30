@@ -34,7 +34,7 @@ router.post('/connect', tgRouteHandler.asyncWrap(async (req, res, next) => {
 
     // 계정이 없으니 새로 생성함.
     let is_create_account = false;
-    let is_nick_setting = true;
+    let is_nick_setting = false;
     let reason = '';
     if (account_info === null || account_info === undefined) {
         account_info = await accountClass.createGameAccount(gameuser_id, game_locale, authtype);
@@ -48,10 +48,9 @@ router.post('/connect', tgRouteHandler.asyncWrap(async (req, res, next) => {
         reason = 'connect';
     }
 
-    let gameChar_info = await gameCharClass.getGameChar(account_info.account_no);
-    if (gameChar_info === null || gameChar_info === undefined) {
-        is_nick_setting = false;
-    }
+    if (useful.decimal(account_info.nickname.length).greaterThan(0)) {
+        is_nick_setting = true;
+    };
 
     user_id = account_info.user_id; // 게임 유저아이디 찾아오기
 
@@ -59,9 +58,8 @@ router.post('/connect', tgRouteHandler.asyncWrap(async (req, res, next) => {
     let token = await accountClass.getLoginToken(account_info);
     let server_time = useful.getNowTime();
 
-    let serverip;
-    let serverinfos;
-    let servercoount = 999;
+    // 서버 정보를
+    let servercoount = 9999;
     let serverInfo = {};
     let server_list = await redisHandler.hGetAll(CONSTANT.REDIS_KEY.SERVER_CONNECT);
 
@@ -102,8 +100,8 @@ router.post('/connect', tgRouteHandler.asyncWrap(async (req, res, next) => {
 //
 // 탈퇴 요청
 //
-router.post('/withdraw', async (req, res, next) => {
-    let user_id = req.account_info.user_id;
+router.post('/withdraw', tgRouteHandler.asyncWrap(async (req, res, next) => {
+    let account_info = req.account_info;
 
     let now_date = useful.getNowTime();
 
@@ -113,31 +111,34 @@ router.post('/withdraw', async (req, res, next) => {
 
     // 
     // 계정 임시 탈퇴처리
-    let account_info = await mongo.game.select('account').updateReturn({ user_id: user_id }, {
-        $set: {
-            withdraw: true,
-            withdraw_date: now_date
-        }
-    }, { projection: { id: false, gamebase_id: false } });
+    const nowTime = useful.getUTCDateTime(new Date());
+    let bUpdate = await accountClass.update_AccountWithdraw(account_info.account_no, true, nowTime);
+
+    account_info.withdraw = bUpdate;
+    account_info.withdraw_date = nowTime;
+
 
     // 로그 기록
-    day1.log.queue_accountConn(account_info, 'withdraw');
+    tgRouteHandler.logHandler.queue_accountConn(account_info, 'withdraw');
 
     let result = day1.success({
         ...account_info
     });
     await res.json(result);
-});
+}));
 
 
 ///////////////////////////////////////////////////////////////////////////
 //
 // 탈퇴 요청 취소
 //
-router.post('/withdrawCancel', async (req, res) => {
-    let user_id = req.account_info.user_id;
+router.post('/withdrawCancel', tgRouteHandler.asyncWrap(async (req, res) => {
+    let account_info = req.account_info;
 
+    
     // 계정 탈퇴취소 가능한날짜인지 체크한다.
+    let user_secession = 7 * 24 * 60 * 60;
+    const nowTime = useful.getUTCDateTime(new Date());
     let now_date = useful.getNowTime();
     let diff_time = useful.dateDiff(now_date, req.account_info.withdraw_date, 'seconds');
     if (diff_time >= parseInt(user_secession)) {
@@ -145,21 +146,19 @@ router.post('/withdrawCancel', async (req, res) => {
     }
 
     // 계정 탈퇴취소 시킨다.
-    let account_info = await mongo.game.select('account').updateReturn({ user_id: user_id }, {
-        $set: {
-            withdraw: false,
-            withdraw_date: now_date
-        }
-    }, { projection: { id: false, gamebase_id: false } });
+    let bUpdate = await accountClass.update_AccountWithdraw(account_info.account_no, false, nowTime);
+
+    account_info.withdraw = false;
+    account_info.withdraw_date = nowTime;
 
     // 로그 기록
-    day1.log.queue_accountConn(account_info, 'withdraw_cancel');
+    tgRouteHandler.logHandler.queue_accountConn(account_info, 'withdraw_cancel');
 
     let result = day1.success({
         ...account_info
     });
     await res.json(result);
-});
+}));
 
 
 module.exports = router;

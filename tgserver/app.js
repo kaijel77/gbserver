@@ -131,11 +131,6 @@ let authentication = async function (req, res, next) {
             errorHandler.throwError(1021, 9000042); // 토큰을 통한 계정 유무 확인
          }
 
-         req.gameChar_info = await gameCharClass.getGameChar(req.account_info.account_no);
-         if (req.gameChar_info === null || req.gameChar_info === undefined) {
-            errorHandler.throwError(1021, 9000042); // 토큰을 통한 계정 유무 확인
-         }
-
          if (req.account_info?.block === true) {
             let limit = useful.dateDiff(req.account_info.block_date, useful.getNowTime(), 'seconds');
             if (limit > 1) {
