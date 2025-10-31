@@ -14,7 +14,7 @@ class itemClass  extends baseClass {
     // @param account_no 계정 기본 아이디
     // @returns {Promise<*[]|*>} 아이템 정보 리스트
     //    
-    async getList (account_no) {
+    async getItemList (account_no) {
         try {
             this.includeHandler(['mysqlHandler']);
 
