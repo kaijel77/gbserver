@@ -6,6 +6,10 @@ CREATE TABLE `im_game`.`tbl_item` (
   `item_id` int NOT NULL,
   `item_type` smallint NOT NULL,
   `item_count` int NOT NULL,
+  `item_grade` int NOT NULL,
+  `item_level` int NOT NULL,
+  `item_exp` int NOT NULL,
+  `end_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `create_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`item_no`),
   KEY `index_account_no` (`account_no`)
