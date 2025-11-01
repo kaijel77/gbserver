@@ -1,11 +1,12 @@
-DROP TABLE IF EXISTS `im_log`.`tbl_log`;
+DROP TABLE IF EXISTS `im_log`.`tbl_logdata202511`;
 
-CREATE TABLE `im_log`.`tbl_log` (
+CREATE TABLE `im_log`.`tbl_logdata202511` (
   `log_no` bigint NOT NULL AUTO_INCREMENT,
-  `command` int NOT NULL,
-  `reason` int NOT NULL,  
   `account_no` bigint NOT NULL,
-  `nickname` bigint NOT NULL,
+  `user_id` varchar(45) NOT NULL,
+  `command` varchar(45) NOT NULL,
+  `reason` varchar(45) NOT NULL,  
+  `nickname` varchar(20) NOT NULL,  
   `char_level` int NOT NULL,
   `p0` bigint null,
   `p1` bigint null,
@@ -27,6 +28,7 @@ CREATE TABLE `im_log`.`tbl_log` (
   `c7` varchar(50) null,
   `c8` varchar(50) null,
   `c9` varchar(50) null,
-  `create_date` datetime DEFAULT now(), 
+  `log_data` varchar(3000) NOT NULL,
+  `create_date` datetime DEFAULT now(),
   PRIMARY KEY (`log_no`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

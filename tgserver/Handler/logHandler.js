@@ -43,7 +43,7 @@ class logClass  {
                         log_no bigint NOT NULL AUTO_INCREMENT,
                         account_no bigint NOT NULL,
                         user_id varchar(45) NOT NULL,
-                        type varchar(45) NOT NULL,
+                        command varchar(45) NOT NULL,
                         reason varchar(45) NOT NULL,
                         log_data varchar(3000) NOT NULL,
                         create_date datetime DEFAULT now(),
@@ -83,7 +83,7 @@ class logClass  {
     // @returns {Object} 회원 정보
     // @memberOf account
     // 
-    async createGameLog(account_info, type, reason, log_data = {}) {
+    async createGameLog(account_info, command, reason, log_data = {}) {
         try {
             this.includeHandler(['mysqlHandler', 'errorHandler']);
 
@@ -93,8 +93,8 @@ class logClass  {
             let strText = JSON.stringify(log_data);
 
             // 계정생성
-            let columns = 'account_no, user_id, type, reason, log_data';
-            let values = `'${account_info.account_no}', '${account_info.user_id}', '${type}', '${reason}', '${strText}'`;
+            let columns = 'account_no, user_id, nickname, command, reason, char_level, log_data';
+            let values = `'${account_info.account_no}', '${account_info.user_id}', '${account_info.nickname}', '${command}', '${reason}', 0, '${strText}'`;
 
             let query = `INSERT INTO ${tableName} (${columns}) VALUES (${values})`;
             await this.mysqlHandlerClass
