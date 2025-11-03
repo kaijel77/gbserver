@@ -1,5 +1,5 @@
 const express = require('express');
-const tgRouteHandler = require('../Handler/tgRouteHandler');
+const pscHandler = require('./pscHandler');
 
 
 module.exports = function (app) {
@@ -8,6 +8,10 @@ module.exports = function (app) {
         { loc: '../routes/gameManager', api: 'game' },
         { loc: '../routes/mailManager', api: 'mail' },
         { loc: '../routes/eventManager', api: 'event' },
+        { loc: '../routes/itemManager', api: 'item' },
+        { loc: '../routes/equipmentManager', api: 'equip' },
+        { loc: '../routes/guildManager', api: 'guild' },
+        { loc: '../routes/friendManager', api: 'friend' },
     ];
     console.log('======= routes loading... =======');
     for (let p of paths) {
@@ -28,7 +32,7 @@ module.exports = function (app) {
     //
     app.use(async (req, res, next) => {
 
-        let result = tgRouteHandler.errorJson(404, 404, '❌ 요청한 URL을 찾을 수 없습니다.', false);
+        let result = pscHandler.errorJson(404, 404, '❌ 요청한 URL을 찾을 수 없습니다.', false);
 
         await res.json(result);
     });

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const tgRouteHandler = require('../Handler/tgRouteHandler');
+const pscHandler = require('../Handler/pscHandler');
 const errorHandler = require('../Handler/errorHandler');
 
 const friendClass = require('../class/friendClass');
@@ -18,11 +18,11 @@ const friendClass = require('../class/friendClass');
 //
 // 친구 리스트
 //
-router.post('/friendList', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/friendList', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
    });
    
    await res.json(result);
@@ -33,11 +33,11 @@ router.post('/friendList', tgRouteHandler.asyncWrap(async function (req, res) {
 //
 // 친구 추가
 //
-router.post('/friendInvite', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/friendInvite', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
    });
    
    await res.json(result);
@@ -48,12 +48,12 @@ router.post('/friendInvite', tgRouteHandler.asyncWrap(async function (req, res) 
 //
 // 친구 수락
 //
-router.post('/friendAccept', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/friendAccept', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
    });
    
    await res.json(result);
@@ -64,12 +64,12 @@ router.post('/friendAccept', tgRouteHandler.asyncWrap(async function (req, res) 
 //
 // 친구 삭제
 //
-router.post('/friendRemove', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/friendRemove', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
    });
    
    await res.json(result);

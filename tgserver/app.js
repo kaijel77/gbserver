@@ -11,7 +11,7 @@ const { RedisStore } = require('connect-redis'); // connect-redis 가져오기
 const config = require('./config/default');
    
 const errorHandler = require('./Handler/errorHandler');
-const tgRouteHandler = require('./Handler/tgRouteHandler');
+const pscHandler = require('./Handler/pscHandler');
 
 const useful = require('./utils/useful');
 
@@ -151,7 +151,7 @@ let authentication = async function (req, res, next) {
          next();
       } catch (err) {
          errorHandler.setError(err);
-         return res.json(tgRouteHandler.errorJson(err.code, err.message, errorHandler.error));
+         return res.json(pscHandler.errorJson(err.code, err.message, errorHandler.error));
       }
    }
 };

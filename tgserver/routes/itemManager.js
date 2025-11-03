@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const tgRouteHandler = require('../Handler/tgRouteHandler');
+const pscHandler = require('../Handler/pscHandler');
 const errorHandler = require('../Handler/errorHandler');
 
 const itemClass = require('../class/itemClass');
@@ -12,13 +12,13 @@ const itemClass = require('../class/itemClass');
 //
 // 아이템 리스트
 //
-router.post('/itemList', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/itemList', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
    let item_list = await itemClass.getItemList(account_info.account_no);
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
       item_list: item_list,
    });
    
@@ -30,13 +30,13 @@ router.post('/itemList', tgRouteHandler.asyncWrap(async function (req, res) {
 //
 // 아이템 사용
 //
-router.post('/itemUse', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/itemUse', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
    let item_list = await itemClass.getItemList(account_info.account_no);
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
       item_list: item_list,
    });
    
@@ -48,12 +48,29 @@ router.post('/itemUse', tgRouteHandler.asyncWrap(async function (req, res) {
 //
 // 아이템 획득
 //
-router.post('/itemAdd', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/itemAdd', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
+      item_list: item_list,
+   });
+   
+   await res.json(result);
+}));
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+// 아이템 삭제
+//
+router.post('/itemRemove', pscHandler.asyncWrap(async function (req, res) {
+
+   let account_info = req.account_info;
+
+
+   let result = pscHandler.successJson({
       item_list: item_list,
    });
    

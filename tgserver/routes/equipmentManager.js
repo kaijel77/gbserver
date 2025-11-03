@@ -4,14 +4,9 @@ const router = express.Router();
 const pscHandler = require('../Handler/pscHandler');
 const errorHandler = require('../Handler/errorHandler');
 
-const gameCharClass = require('../class/gameCharClass');
+const itemClass = require('../class/itemClass');
 
 
-
-///////////////////////////////////////////////////////////////////////////
-//
-// 접속 이벤트
-//
 
 
 module.exports = router;

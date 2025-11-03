@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const tgRouteHandler = require('../Handler/tgRouteHandler');
+const pscHandler = require('../Handler/pscHandler');
 const errorHandler = require('../Handler/errorHandler');
 
 const guildClass = require('../class/guildClass');
@@ -32,11 +32,11 @@ const guildClass = require('../class/guildClass');
 //
 // 길드 정보
 //
-router.post('/guildInfo', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/guildInfo', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
    });
    
    await res.json(result);
@@ -47,11 +47,11 @@ router.post('/guildInfo', tgRouteHandler.asyncWrap(async function (req, res) {
 //
 // 길드멤버 정보
 //
-router.post('/guildMemberList', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/guildMemberList', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
    });
    
    await res.json(result);
@@ -62,12 +62,12 @@ router.post('/guildMemberList', tgRouteHandler.asyncWrap(async function (req, re
 //
 // 길드 초다
 //
-router.post('/guildInvite', tgRouteHandler.asyncWrap(async function (req, res) {
+router.post('/guildInvite', pscHandler.asyncWrap(async function (req, res) {
 
    let account_info = req.account_info;
 
 
-   let result = tgRouteHandler.successJson({
+   let result = pscHandler.successJson({
    });
    
    await res.json(result);

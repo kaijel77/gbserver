@@ -3,7 +3,7 @@ const router = express.Router();
 
 const useful = require('../utils/useful');
 const mysqlHandler = require('../Handler/mysqlHandler');
-const tgRouteHandler = require('../Handler/tgRouteHandler');
+const pscHandler = require('../Handler/pscHandler');
 const redisHandler = require('../Handler/redisHandler');
 const errorHandler = require('../Handler/errorHandler');
 
@@ -18,7 +18,7 @@ const gameCharClass = require('../class/gameCharClass');
 //
 // 게임 접속시 최초 1회 실행. 인증 성공시 게임용 JWT 토큰과 유저 정보를 반환함.
 //
-router.post('/connect', tgRouteHandler.asyncWrap(async (req, res, next) => {
+router.post('/connect', pscHandler.asyncWrap(async (req, res, next) => {
 
     let gameuser_id = req.header('user-id');
     let authtype = req.header('isGuest');
@@ -30,7 +30,7 @@ router.post('/connect', tgRouteHandler.asyncWrap(async (req, res, next) => {
     let account_info = await accountClass.getGameAccount(gameuser_id);
 
     //  접속가능 여부 체크 시스템 관리 쪽에서 처리
-    await tgRouteHandler.server_connectCheck(account_info);
+    await pscHandler.server_connectCheck(account_info);
 
     // 계정이 없으니 새로 생성함.
     let is_create_account = false;
@@ -81,9 +81,9 @@ router.post('/connect', tgRouteHandler.asyncWrap(async (req, res, next) => {
         }
     }
 
-    tgRouteHandler.logHandler.queue_accountConn(account_info, reason);
+    pscHandler.logHandler.queue_accountConn(account_info, reason);
 
-    let result = tgRouteHandler.successJson({
+    let result = pscHandler.successJson({
         server_time: server_time,
         isCreateAccount: is_create_account,
         isNickSetting: is_nick_setting,
@@ -100,7 +100,7 @@ router.post('/connect', tgRouteHandler.asyncWrap(async (req, res, next) => {
 //
 // 탈퇴 요청
 //
-router.post('/withdraw', tgRouteHandler.asyncWrap(async (req, res, next) => {
+router.post('/withdraw', pscHandler.asyncWrap(async (req, res, next) => {
     let account_info = req.account_info;
 
     let now_date = useful.getNowTime();
@@ -119,7 +119,7 @@ router.post('/withdraw', tgRouteHandler.asyncWrap(async (req, res, next) => {
 
 
     // 로그 기록
-    tgRouteHandler.logHandler.queue_accountConn(account_info, 'withdraw');
+    pscHandler.logHandler.queue_accountConn(account_info, 'withdraw');
 
     let result = day1.success({
         ...account_info
@@ -132,7 +132,7 @@ router.post('/withdraw', tgRouteHandler.asyncWrap(async (req, res, next) => {
 //
 // 탈퇴 요청 취소
 //
-router.post('/withdrawCancel', tgRouteHandler.asyncWrap(async (req, res) => {
+router.post('/withdrawCancel', pscHandler.asyncWrap(async (req, res) => {
     let account_info = req.account_info;
 
     
@@ -152,7 +152,7 @@ router.post('/withdrawCancel', tgRouteHandler.asyncWrap(async (req, res) => {
     account_info.withdraw_date = nowTime;
 
     // 로그 기록
-    tgRouteHandler.logHandler.queue_accountConn(account_info, 'withdraw_cancel');
+    pscHandler.logHandler.queue_accountConn(account_info, 'withdraw_cancel');
 
     let result = day1.success({
         ...account_info

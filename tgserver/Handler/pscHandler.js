@@ -8,7 +8,7 @@ const logHandler = require('./logHandler');
 //
 // Router 용 클래스
 //
-class tgRouteHandler {
+class pscHandler {
    constructor() {
       if (this.instance) {
          return this.instance;
@@ -288,4 +288,4 @@ function decrypt(encrypted) {
 
 }
 
-module.exports = new tgRouteHandler();
+module.exports = new pscHandler();
