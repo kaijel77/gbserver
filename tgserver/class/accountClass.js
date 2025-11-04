@@ -76,13 +76,19 @@ class AccountClass extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             // 계정생성
+            let bCreate = false;
             let columns = 'id, password';
             let values = `'${gameuser_id}', '${gameuser_id}'`;
 
             let query = `INSERT INTO tbl_account (${columns}) VALUES (${values})`;
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
-            .then(async (result) => { })
+            .then(async (result) => {
+                if (result.affectedRows > 0) {
+                    bCreate = true;
+                    result.insertId;
+                }                
+             })
             .catch((err) => {
                 throw err;
             });

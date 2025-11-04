@@ -63,4 +63,48 @@ CONSTANT.RANKER = {
     MAX_RANKER_USER_COUNT: 150
 };
 
+
+CONSTANT.GUILD = {
+    GRADE: { // 등급
+        MASTER: 5,      // 마스터
+        VICE: 4,        // 부길마
+        ELDER: 3,       // 장로
+        MEMBER: 2,      // 정회원
+        GUEST: 1        // 준회원
+    },
+    GRADE_TYPE: { 
+        5: 'guild_master',     // 마스터
+        4: 'guild_vice',       // 부길마
+        3: 'guild_elder',      // 장로
+        2: 'guild_member',     // 정회원
+        1: 'guild_guest',      // 준회원
+    },
+    AUTH: { // 권한
+        MEMBER_SIGN: 'member_sign',             // 가입승인
+        MEMBER_PROMOTION: 'member_promotion',   // 멤버 승격 권한
+        NOTICE: 'notice',                       // 공지 작성 권한
+        RAID: 'raid',                           // 길드보스 참여 권한
+        SHOP: 'shop',                           // 길드 상점 이용 권한
+        CHAT: 'chat',                           // 채팅 사용 권한
+        SKILL: 'skill',                         // 스킬 관리 권한
+        VOTE: 'vote',                           // 투표 권한
+        DISTRIBUTION_RATE: 'distribution_rate', // 분배율 결정 권한
+    },
+    REQUEST_TYPE: { // 요청 타입
+        JOIN: 'join', // 가입요청
+    },
+    INFO_TYPE: { // 변경 가능한 길드정보 (key값)
+        // NAME: 'guild_name',  // 변경 불가
+        PROMOTE: 'promote',
+        NOTICE: 'notice',
+        AUTO_JOIN: 'auto_join',
+        SYMBOL: 'guild_symbol',
+    },
+    TOTAL_CHAT: 1000,
+    CHAT_TYPE: {
+        USER: 'user', 
+        SYSTEM: 'system'
+    }
+}
+
 module.exports = CONSTANT;
