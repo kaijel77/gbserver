@@ -191,39 +191,46 @@ router.post('/heroGradeStar', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
-    let params = pscHandler.verifyParams(req, ['item_no', 'item_count']);
-    let item_no = params['item_no'];
-    let item_count = params['item_count'];
-    if(item_no === null || item_no === undefined){
+    let params = pscHandler.verifyParams(req, ['hero_no', 'hero_grade', 'hero_star']);
+    let hero_no = params['hero_no'];
+    let hero_grade = params['hero_grade'];
+    let hero_star = params['hero_star'];
+    if(hero_no === null || hero_no === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 아이템 번호가 없을경우.
     }
 
-    item_count = useful.toNum(item_count);
-    if (useful.decimal(item_count).lessThanOrEqualTo(0)) {
+    hero_grade = useful.toNum(hero_grade);
+    if (useful.decimal(hero_grade).lessThanOrEqualTo(0)) {
         errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
     }
 
-    let item_info = await itemClass.getItemInfo(account_info.account_no, item_no);
-    if(item_info === null || item_info === undefined){
+    hero_star = useful.toNum(hero_star);
+    if (useful.decimal(hero_star).lessThanOrEqualTo(0)) {
+        errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
+    }
+
+    let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
+    if(hero_info === null || hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
-    if (useful.decimal(item_info.item_count).lessThanOrEqualTo(item_count)) {
+    if (useful.decimal(hero_info.hero_grade).lessThanOrEqualTo(hero_grade)) {
         errorHandler.throwError(5001, 9000136); // 현재 소지 아이템이 부족한 경우
-    }   
+    }
 
-    let bUpdate = await itemClass.updateItemInfo(account_info.account_no, item_no, item_count);
+    if (useful.decimal(hero_info.hero_star).lessThanOrEqualTo(hero_star)) {
+        errorHandler.throwError(5001, 9000136); // 현재 소지 아이템이 부족한 경우
+    }
+
+    let bUpdate = await itemClass.updateHeroGradeStar(account_info.account_no, hero_no, hero_grade, hero_star);
     if (bUpdate === false) {
         errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
     }
 
-    item_info.item_count = useful.decimal(item_info.item_count).minus(item_count).toNumber();
-
     let result = pscHandler.successJson({
-        item_info: item_info,
-        useitem_count:item_count
+        hero_info: hero_info,
     });
    
     await res.json(result);
