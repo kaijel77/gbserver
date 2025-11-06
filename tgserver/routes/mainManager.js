@@ -18,7 +18,7 @@ const gameCharClass = require('../class/gameCharClass');
 //
 // 게임 접속시 최초 1회 실행. 인증 성공시 게임용 JWT 토큰과 유저 정보를 반환함.
 //
-router.post('/connect', pscHandler.asyncWrap(async (req, res, next) => {
+router.post('/login', pscHandler.asyncWrap(async (req, res, next) => {
 
     let gameuser_id = req.header('user-id');
     let authtype = req.header('isGuest');
@@ -96,6 +96,40 @@ router.post('/connect', pscHandler.asyncWrap(async (req, res, next) => {
 }));
 
 
+
+///////////////////////////////////////////////////////////////////////////
+//
+// 로그아웃
+//
+router.post('/logout', pscHandler.asyncWrap(async (req, res, next) => {
+    let account_info = req.account_info;
+
+    let now_date = useful.getNowTime();
+/*
+        try {
+            this.includeMiddleware(['middleware']);
+            // 로그인 확인
+            const result = await this.middleware.isLogin(req);
+            if (!result) {
+                throw new Error(ERROR_CODE.USER_LOGOUT_1300);
+            }
+
+            req.session.destroy(function (err) {
+                if (err) {
+                    console.log(err);
+                    res.send('session is not destroy');
+                } else {
+                    res.send({ result: 100, message: 'Logout Success' });
+                }
+            });
+        } catch (err) {
+            next(err);
+        }
+*/
+}));
+
+
+
 ///////////////////////////////////////////////////////////////////////////
 //
 // 탈퇴 요청
@@ -126,6 +160,7 @@ router.post('/withdraw', pscHandler.asyncWrap(async (req, res, next) => {
     });
     await res.json(result);
 }));
+
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -159,6 +194,5 @@ router.post('/withdrawCancel', pscHandler.asyncWrap(async (req, res) => {
     });
     await res.json(result);
 }));
-
 
 module.exports = router;

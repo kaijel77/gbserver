@@ -98,7 +98,7 @@ let authentication = async function (req, res, next) {
       }
 
       next();
-   } else if (['connect'].includes(path)) { // 최초 접속시 토큰 확인
+   } else if (['login'].includes(path)) { // 최초 접속시 토큰 확인
       try {
          if (!debug_account && !req.header('user-id')) {
             errorHandler.throwError(1011, 9000002);

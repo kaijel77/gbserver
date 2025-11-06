@@ -108,6 +108,7 @@ process.on('uncaughtException', (err) => {
     gracefulShutdown('uncaughtException');
 });
 */
+
 process.on('uncaughtException', (err) => {
     console.error(`💥 [${process.pid}] Uncaught Exception:`, err);
     console.error(err.stack);
