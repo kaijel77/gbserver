@@ -75,17 +75,12 @@ router.post('/heroCreate', pscHandler.asyncWrap(async function (req, res) {
         errorHandler.throwError(1099, 9000006); // 아이템 번호가 없을경우.
     }
 
-    item_count = useful.toNum(item_count);
-    if (useful.decimal(item_count).lessThanOrEqualTo(0)) {
-        errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
-    }
-
     let hero_no = await heroClass.createHeroInfo(account_info.account_no, hero_id, hero_type, hero_grade, hero_star);
     if (hero_no === 0) {
         errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
     }
 
-    let hero_info = await heroClass.getItemInfo(account_info.account_no, hero_no);
+    let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
     if(hero_info === null || hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
