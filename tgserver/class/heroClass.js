@@ -53,6 +53,7 @@ class heroClass  extends baseClass {
     }
 
 
+
     ///////////////////////////////////////////////////////////////
     //
     // 용사 정보 가져오기
@@ -97,6 +98,7 @@ class heroClass  extends baseClass {
     }
 
 
+
     ///////////////////////////////////////////////////////////////
     //
     // 용사 정보 생성
@@ -136,20 +138,24 @@ class heroClass  extends baseClass {
     }
 
 
+
     ///////////////////////////////////////////////////////////////
     //
     // 용사 정보 갱신
     // @param account_no 계정 기본 아이디
     // @param hero_no 용사 아이디
-    // @param hero_count 용사 갯수
+    // @param hero_star 용사
+    // @param hero_grade 용사
+    // @param hero_level 용사
+    // @param hero_exp 용사
     // @returns {Promise<*[]|*>} 용사 정보
     // 
-    async updateHeroInfo (account_no, hero_no, hero_star, hero_grade, hero_level, hero_exp, hero_location, hero_task) {
+    async updateHeroLevelInfo (account_no, hero_no, hero_star, hero_grade, hero_level, hero_exp) {
         try {
             this.includeHandler(['mysqlHandler']);
 
             let bUpdate = false;
-            let set = `hero_star = "${hero_star}", hero_grade = "${hero_grade}", hero_level = "${hero_level}", hero_exp = "${hero_exp}", hero_location = "${hero_location}", hero_task = "${hero_task}"`;
+            let set = `hero_star = "${hero_star}", hero_grade = "${hero_grade}", hero_level = "${hero_level}", hero_exp = "${hero_exp}"`;
             const query = `UPDATE tbl_hero SET ${set} WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
 
             await this.mysqlHandlerClass
@@ -167,6 +173,42 @@ class heroClass  extends baseClass {
             throw err;
         }
     }
+
+
+
+    ///////////////////////////////////////////////////////////////
+    //
+    // 용사 정보 갱신
+    // @param account_no 계정 기본 아이디
+    // @param hero_no 용사 아이디
+    // @param hero_location 용사 
+    // @param hero_task 용사 
+    // @returns {Promise<*[]|*>} 용사 정보
+    // 
+    async updateHeroLocationInfo (account_no, hero_no, hero_location, hero_task) {
+        try {
+            this.includeHandler(['mysqlHandler']);
+
+            let bUpdate = false;
+            let set = `hero_location = "${hero_location}", hero_task = "${hero_task}"`;
+            const query = `UPDATE tbl_hero SET ${set} WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
+
+            await this.mysqlHandlerClass
+            .query(CONSTANT.DB.GAME, query)
+            .then(async (result) => {
+                if (result.affectedRows > 0) {
+                    bUpdate = true;
+                }
+            })
+            .catch((err) => {
+                throw err;
+            });
+            return bUpdate;
+        } catch (err) {
+            throw err;
+        }
+    }
+
 
 
     ///////////////////////////////////////////////////////////////
