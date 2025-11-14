@@ -186,7 +186,7 @@ router.post('/itemRemove', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let item_info = await itemClass.getItemInfo(account_info.account_no, item_no);
-    if(item_info === null && item_info === undefined){
+    if(item_info === null || item_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }

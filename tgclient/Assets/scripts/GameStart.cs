@@ -72,4 +72,50 @@ public class GameStart : MonoBehaviour
         StartCoroutine(kClient.send_heroRemove());
     }
 
+
+
+
+
+
+    public void EquipList(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_equipList());
+    }
+
+
+    public void EquipCreate(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_equipCreate());
+    }
+
+
+    public void EquipInstall(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_equipInstall());
+    }
+
+
+    public void EquipUnInstall(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_equipUninstall());
+    }
+
+
+    public void EquipLevel(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_equipLevel());
+    }
+
+
+    public void EquipLock(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_equipLock());
+    }
+
+
+    public void EquipRemove(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_equipRemove());
+    }
+
 }

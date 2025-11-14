@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const useful = require('../utils/useful');
+
 const pscHandler = require('../Handler/pscHandler');
 const errorHandler = require('../Handler/errorHandler');
 
@@ -101,41 +103,6 @@ router.post('/equipCreate', pscHandler.asyncWrap(async function (req, res) {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// 장비 삭제
-//
-router.post('/equipRemove', pscHandler.asyncWrap(async function (req, res) {
-
-    let account_info = req.account_info;
-
-    let params = pscHandler.verifyParams(req, ['equip_no']);
-    let equip_no = params['equip_no'];
-    if(equip_no === null || equip_no === undefined){
-        // 닉네임이 있어서 실패 
-        errorHandler.throwError(1099, 9000006); // 아이템 번호가 없을경우.
-    }
-
-    let equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
-    if(equip_info !== null && equip_info !== undefined){
-        // 닉네임이 있어서 실패 
-        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
-    }
-
-    let bDelete = await equipClass.removeEquipInfo(account_info.account_no, equip_no);
-    if (bDelete === false) {
-        errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
-    }
-
-    let result = pscHandler.successJson({
-        equip_info: equip_info,
-    });
-   
-    await res.json(result);
-}));
-
-
-
-///////////////////////////////////////////////////////////////////////////
-//
 // 장비 착용
 //
 router.post('/equipInstall', pscHandler.asyncWrap(async function (req, res) {
@@ -155,15 +122,22 @@ router.post('/equipInstall', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
-    if(equip_info !== null && equip_info !== undefined){
+    if(equip_info === null || equip_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
-    let equip_hero = useful.toNum(params['equip_info.equip_hero']);
+    let equip_hero = useful.toNum(equip_info.equip_hero);
     if (useful.decimal(equip_hero).greaterThan(0)) {
         errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
-    }    
+    }
+
+    let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
+    if(hero_info === null || hero_info === undefined){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+    
 
     let bUpdate = await equipClass.updateEquipHeroInfo(account_info.account_no, equip_no, hero_no);
     if(bUpdate === false){
@@ -173,8 +147,8 @@ router.post('/equipInstall', pscHandler.asyncWrap(async function (req, res) {
 
     // 이곳에서 영웅에게 장비를 착용 여부를 할지 고민
 
-    equip_info = await equipClass.getEquipInfo(account_info.account_no, equip);
-    if(equip_info !== null && equip_info !== undefined){
+    equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
+    if(equip_info === null || equip_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -203,17 +177,17 @@ router.post('/equipUninstall', pscHandler.asyncWrap(async function (req, res) {
         errorHandler.throwError(1099, 9000006); // 아이템 번호가 없을경우.
     }
 
-    if (useful.decimal(hero_no).lessThanOrEqualTo(0)) {
+    if (useful.decimal(equip_no).lessThanOrEqualTo(0)) {
         errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
     }
 
     let equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
-    if(equip_info !== null && equip_info !== undefined){
+    if(equip_info === null || equip_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
-    let equip_hero = useful.toNum(params['equip_info.equip_hero']);
+    let equip_hero = useful.toNum(equip_info.equip_hero);
     if (useful.decimal(equip_hero).lessThanOrEqualTo(0)) {
         errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
     }    
@@ -226,8 +200,8 @@ router.post('/equipUninstall', pscHandler.asyncWrap(async function (req, res) {
 
     // 이곳에서 영웅에게 장비를 착용 여부를 할지 고민
 
-    equip_info = await equipClass.getEquipInfo(account_info.account_no, equip);
-    if(equip_info !== null && equip_info !== undefined){
+    equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
+    if(equip_info === null || equip_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -274,19 +248,19 @@ router.post('/equipLevelup', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
-    if(equip_info !== null && equip_info !== undefined){
+    if(equip_info === null || equip_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
-    let bUpdate = await equipClass.updateHeroLevelInfo(account_info.account_no, equip_no, equip_star, equip_grade, equip_level, equip_exp);
+    let bUpdate = await equipClass.updateEquipLevelInfo(account_info.account_no, equip_no, equip_star, equip_grade, equip_level, equip_exp);
     if(bUpdate === false){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
     equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
-    if(equip_info !== null && equip_info !== undefined){
+    if(equip_info === null || equip_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -297,6 +271,54 @@ router.post('/equipLevelup', pscHandler.asyncWrap(async function (req, res) {
    
     await res.json(result);
 }));
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+// 장비 락/언락
+//
+router.post('/equipLocked', pscHandler.asyncWrap(async function (req, res) {
+    let account_info = req.account_info;
+
+    let params = pscHandler.verifyParams(req, ['equip_no', 'equip_lock']);
+    let equip_no = params['equip_no'];
+    let equip_lock = useful.toNum(params['equip_lock']);
+    if(equip_no === null || equip_no === undefined){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 아이템 번호가 없을경우.
+    }
+
+    let equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
+    if(equip_info === null || equip_info === undefined){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+
+    if (useful.decimal(equip_lock).equals(equip_info.equip_lock)) {
+        errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
+    }
+
+    let bUpdate = await equipClass.updateEquipLockInfo(account_info.account_no, equip_no, equip_lock);
+    if(bUpdate === false){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+
+    equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
+    if(equip_info === null || equip_info === undefined){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+
+    let result = pscHandler.successJson({
+        equip_info: equip_info,
+    });
+   
+    await res.json(result);
+}));
+
+
 
 
 
@@ -350,39 +372,28 @@ router.post('/equipCombine', pscHandler.asyncWrap(async function (req, res) {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// 장비 락/언락
+// 장비 삭제
 //
-router.post('/equipLocked', pscHandler.asyncWrap(async function (req, res) {
+router.post('/equipRemove', pscHandler.asyncWrap(async function (req, res) {
+
     let account_info = req.account_info;
 
-    let params = pscHandler.verifyParams(req, ['equip_no', 'equip_lock']);
+    let params = pscHandler.verifyParams(req, ['equip_no']);
     let equip_no = params['equip_no'];
-    let equip_lock = useful.toNum(params['equip_lock']);
     if(equip_no === null || equip_no === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 아이템 번호가 없을경우.
     }
 
-    if (useful.decimal(equip_lock).lessThanOrEqualTo(0)) {
-        errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
-    }
-
     let equip_info = await equipClass.getEquipInfo(account_info.account_no, equip_no);
-    if(equip_info !== null && equip_info !== undefined){
+    if(equip_info === null || equip_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
-    let bUpdate = await equipClass.updateEquipLockInfo(account_info.account_no, equip_no, equip_lock);
-    if(bUpdate === false){
-        // 닉네임이 있어서 실패 
-        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
-    }
-
-    equip_info = await equipClass.getEquipInfo(account_info.account_no, equip);
-    if(equip_info !== null && equip_info !== undefined){
-        // 닉네임이 있어서 실패 
-        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    let bDelete = await equipClass.removeEquipInfo(account_info.account_no, equip_no);
+    if (bDelete === false) {
+        errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
     }
 
     let result = pscHandler.successJson({
@@ -391,5 +402,6 @@ router.post('/equipLocked', pscHandler.asyncWrap(async function (req, res) {
    
     await res.json(result);
 }));
+
 
 module.exports = router;

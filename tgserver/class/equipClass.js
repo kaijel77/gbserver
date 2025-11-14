@@ -68,7 +68,7 @@ class equipClass  extends baseClass {
 
             let equipInfo = null;
             let select = `equip_no, equip_id, equip_type, equip_star, equip_grade, equip_level, equip_exp, equip_hero, equip_lock, create_date`;
-            const query = `SELECT ${select} FROM tbl_equip WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
+            const query = `SELECT ${select} FROM tbl_equipInfo WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -120,7 +120,7 @@ class equipClass  extends baseClass {
             let columns = 'account_no, equip_id, equip_type, equip_star, equip_grade, equip_level, equip_exp, equip_hero, equip_lock, create_date';
             let values = `'${account_no}', '${equip_id}', '${equip_type}', '${equip_star}', '${equip_grade}', 1, 0, 0, 0, now()`;
 
-            let query = `INSERT INTO tbl_equip (${columns}) VALUES (${values})`;
+            let query = `INSERT INTO tbl_equipInfo (${columns}) VALUES (${values})`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -157,7 +157,7 @@ class equipClass  extends baseClass {
 
             let bUpdate = false;
             let set = `equip_star = "${equip_star}", equip_grade = "${equip_grade}", equip_level = "${equip_level}", equip_exp = "${equip_exp}"`;
-            const query = `UPDATE tbl_equip SET ${set} WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
+            const query = `UPDATE tbl_equipInfo SET ${set} WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -191,7 +191,7 @@ class equipClass  extends baseClass {
 
             let bUpdate = false;
             let set = `equip_hero = "${equip_hero}"`;
-            const query = `UPDATE tbl_equip SET ${set} WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
+            const query = `UPDATE tbl_equipInfo SET ${set} WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -225,7 +225,7 @@ class equipClass  extends baseClass {
 
             let bUpdate = false;
             let set = `equip_lock = "${equip_lock}"`;
-            const query = `UPDATE tbl_equip SET ${set} WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
+            const query = `UPDATE tbl_equipInfo SET ${set} WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -257,7 +257,7 @@ class equipClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            let query = `DELETE FROM tbl_equip WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
+            let query = `DELETE FROM tbl_equipInfo WHERE account_no='${account_no}' and equip_no='${equip_no}'`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)

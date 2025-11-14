@@ -178,6 +178,97 @@ public class AuthClient : MonoBehaviour
 
 
 
+
+
+
+
+    public IEnumerator send_equipList()
+    {
+        yield return SendRequest("/equip/equipList", "", "POST", jwtToken, null);
+    }
+
+    public IEnumerator send_equipCreate()
+    {
+
+        var data = JsonUtility.ToJson(new equipCreate(20001, 2, 2, 2));
+        Debug.Log($"🔑 ItemAdd  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 ItemAdd encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/equip/equipCreate", "", "POST", jwtToken, form);
+    }
+    public IEnumerator send_equipInstall()
+    {
+
+        var data = JsonUtility.ToJson(new equipInstall(1, 2));
+        Debug.Log($"🔑 ItemAdd  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 ItemAdd encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/equip/equipInstall", "", "POST", jwtToken, form);
+    }
+    public IEnumerator send_equipUninstall()
+    {
+
+        var data = JsonUtility.ToJson(new equipUninstall(1));
+        Debug.Log($"🔑 ItemAdd  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 ItemAdd encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/equip/equipUninstall", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_equipLevel()
+    {
+
+        var data = JsonUtility.ToJson(new equipLevel(1, 2, 2, 2, 333));
+        Debug.Log($"🔑 itemUse  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 itemUse encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/equip/equipLevelup", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_equipLock()
+    {
+
+        var data = JsonUtility.ToJson(new equipLock(1, 1));
+        Debug.Log($"🔑 itemUse  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 itemUse encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/equip/equipLocked", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_equipRemove()
+    {
+
+        var data = JsonUtility.ToJson(new equipRemove(1));
+        Debug.Log($"🔑 itemRemove  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 itemRemove encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/equip/equipRemove", "", "POST", jwtToken, form);
+    }
+
+
+
+
+
+
+
     IEnumerator SendRequest(string endpoint, string json, string method, string header, WWWForm form)
     {
         UnityWebRequest www;
@@ -470,6 +561,112 @@ public class AuthClient : MonoBehaviour
         {
 
             hero_no = herono;
+        }
+    }
+
+
+
+
+
+
+    [System.Serializable]
+    public class equipCreate
+    {
+        public int equip_id;
+        public int equip_type;
+        public int equip_grade;
+        public int equip_star;
+
+        public equipCreate(int equipid, int equiptype, int equipgrade, int equipstar)
+        {
+            equip_id = equipid;
+
+            equip_type = equiptype;
+
+            equip_grade = equipgrade;
+
+            equip_star = equipstar;
+        }
+    }
+
+
+
+    [System.Serializable]
+    public class equipInstall
+    {
+        public int equip_no;
+        public int hero_no;
+        public int equip_grade;
+        public int equip_star;
+
+        public equipInstall(int equipno, int herono)
+        {
+            equip_no = equipno;
+
+            hero_no = herono;
+        }
+    }
+
+
+    [System.Serializable]
+    public class equipUninstall
+    {
+        public int equip_no;
+
+        public equipUninstall(int equipno)
+        {
+            equip_no = equipno;
+        }
+    }
+
+
+    [System.Serializable]
+    public class equipLevel
+    {
+        public int equip_no;
+        public int equip_grade;
+        public int equip_star;
+        public int equip_level;
+        public int equip_exp;
+
+        public equipLevel(int equipno, int equipgrade, int equipstar, int equiplevel, int equipexp)
+        {
+            equip_no = equipno;
+
+            equip_grade = equipgrade;
+
+            equip_star = equipstar;
+
+            equip_level = equiplevel;
+
+            equip_exp = equipexp;
+        }
+    }
+
+
+    [System.Serializable]
+    public class equipLock
+    {
+        public int equip_no;
+        public int equip_lock;
+
+        public equipLock(int equipno, int equiplock)
+        {
+            equip_no = equipno;
+            equip_lock = equiplock;
+        }
+    }
+
+
+    [System.Serializable]
+    public class equipRemove
+    {
+        public int equip_no;
+
+        public equipRemove(int equipno)
+        {
+
+            equip_no = equipno;
         }
     }
 }

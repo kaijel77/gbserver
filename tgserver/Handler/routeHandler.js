@@ -8,10 +8,10 @@ module.exports = function (app) {
         { loc: '../routes/gameManager', api: 'game' },
         { loc: '../routes/itemManager', api: 'item' },
         { loc: '../routes/heroManager', api: 'hero' },
+        { loc: '../routes/equipManager', api: 'equip' },
 
         { loc: '../routes/mailManager', api: 'mail' },
         { loc: '../routes/eventManager', api: 'event' },
-        { loc: '../routes/equipManager', api: 'equip' },
         { loc: '../routes/guildManager', api: 'guild' },
         { loc: '../routes/friendManager', api: 'friend' },
     ];

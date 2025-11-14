@@ -130,7 +130,7 @@ router.post('/heroLevelExp', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info === null && hero_info === undefined){
+    if(hero_info === null || hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -142,7 +142,7 @@ router.post('/heroLevelExp', pscHandler.asyncWrap(async function (req, res) {
     }
 
     hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info === null && hero_info === undefined){
+    if(hero_info === null || hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -181,7 +181,7 @@ router.post('/heroLocation', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info === null && hero_info === undefined){
+    if(hero_info === null || hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -193,7 +193,7 @@ router.post('/heroLocation', pscHandler.asyncWrap(async function (req, res) {
     }
 
     hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info === null && hero_info === undefined){
+    if(hero_info === null || hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -223,7 +223,7 @@ router.post('/heroRemove', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info === null && hero_info === undefined){
+    if(hero_info === null || hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
