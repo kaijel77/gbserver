@@ -16,10 +16,27 @@ public class GameStart : MonoBehaviour
         
     }
 
-    public void ServerConnect()
+
+    public void ItemList(AuthClient kClient)
     {
-        Debug.Log($"ttttttttttttttttttttttttt()");
+        StartCoroutine(kClient.send_itemList());
+    }
 
 
+    public void ItemAdd(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_itemAdd());
+    }
+
+
+    public void ItemUse(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_itemUse());
+    }
+
+
+    public void ItemRemove(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_itemRemove());
     }
 }

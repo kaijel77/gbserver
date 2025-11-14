@@ -86,10 +86,56 @@ public class AuthClient : MonoBehaviour
         if (!string.IsNullOrEmpty(jwtToken))
             StartCoroutine(GetProfile());
     }
+
     IEnumerator GetProfile()
     {
         yield return SendRequest("/profile", null, "GET", "", null);
     }
+
+    public IEnumerator send_itemList()
+    {
+        yield return SendRequest("/item/itemList", "", "POST", jwtToken, null);
+    }
+
+    public IEnumerator send_itemAdd()
+    {
+
+        var data = JsonUtility.ToJson(new itemAdd(0, 20001, 2, 2));
+        Debug.Log($"🔑 ItemAdd  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 ItemAdd encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/item/itemAdd", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_itemUse()
+    {
+
+        var data = JsonUtility.ToJson(new itemUse(11, 2));
+        Debug.Log($"🔑 itemUse  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 itemUse encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/item/itemUse", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_itemRemove()
+    {
+
+        var data = JsonUtility.ToJson(new itemRemove(11));
+        Debug.Log($"🔑 itemRemove  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 itemRemove encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/item/itemRemove", "", "POST", jwtToken, form);
+    }
+
 
     IEnumerator SendRequest(string endpoint, string json, string method, string header, WWWForm form)
     {
@@ -115,15 +161,7 @@ public class AuthClient : MonoBehaviour
             {
                 www.SetRequestHeader("user-id", header);
             }
-            else if (endpoint == "/game/gameNickCreate")
-            {
-                www.SetRequestHeader("td-access-token", header);
-            }
-            else if (endpoint == "/game/startGame")
-            {
-                www.SetRequestHeader("td-access-token", header);
-            }
-            else if (endpoint == "/mail/mailList")
+            else
             {
                 www.SetRequestHeader("td-access-token", header);
             }
@@ -269,4 +307,54 @@ public class AuthClient : MonoBehaviour
         public bool isSuccess;
         public startgameList data;
     }
+
+
+    [System.Serializable]
+    public class itemAdd
+    {
+        public int item_no;
+        public int item_id;
+        public int item_type;
+        public int item_count;
+
+        public itemAdd(int itemno, int itemid, int itemtype, int itemcount)
+        {
+            item_no = itemno;
+
+            item_id = itemid;
+            
+            item_type = itemtype;
+            
+            item_count = itemcount;
+        }
+    }
+
+
+    [System.Serializable]
+    public class itemUse
+    {
+        public int item_no;
+        public int item_count;
+
+        public itemUse(int itemno, int itemcount)
+        {
+            item_count = itemcount;
+
+            item_no = itemno;
+        }
+    }
+
+
+    [System.Serializable]
+    public class itemRemove
+    {
+        public int item_no;
+
+        public itemRemove(int itemno)
+        {
+
+            item_no = itemno;
+        }
+    }
+
 }

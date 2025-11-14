@@ -151,14 +151,15 @@ router.post('/itemUse', pscHandler.asyncWrap(async function (req, res) {
 
     if (useful.decimal(item_info.item_count).lessThanOrEqualTo(item_count)) {
         errorHandler.throwError(5001, 9000136); // 현재 소지 아이템이 부족한 경우
-    }   
+    }
 
-    let bUpdate = await itemClass.updateItemInfo(account_info.account_no, item_no, item_count);
+    let itemcount = useful.decimal(item_info.item_count).minus(item_count).toNumber();
+    let bUpdate = await itemClass.updateItemInfo(account_info.account_no, item_no, itemcount);
     if (bUpdate === false) {
         errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
     }
 
-    item_info.item_count = useful.decimal(item_info.item_count).minus(item_count).toNumber();
+    item_info.item_count = itemcount;
 
     let result = pscHandler.successJson({
         item_info: item_info,
@@ -185,7 +186,7 @@ router.post('/itemRemove', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let item_info = await itemClass.getItemInfo(account_info.account_no, item_no);
-    if(item_info !== null && item_info !== undefined){
+    if(item_info === null && item_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
