@@ -31,10 +31,10 @@ class itemClass  extends baseClass {
                     {
                         itemList.push({
                             item_no: item_info.item_no,
-                            item_id: mail_info.item_id,
-                            item_type: mail_info.item_type,
-                            item_count: mail_info.item_count,
-                            create_date: mail_info.create_date,
+                            item_id: item_info.item_id,
+                            item_type: item_info.item_type,
+                            item_count: item_info.item_count,
+                            create_date: item_info.create_date,
                         });
                     }
                 }
