@@ -39,4 +39,37 @@ public class GameStart : MonoBehaviour
     {
         StartCoroutine(kClient.send_itemRemove());
     }
+
+
+
+
+    public void HeroList(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_heroList());
+    }
+
+
+    public void HeroCreate(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_heroCreate());
+    }
+
+
+    public void HeroLevel(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_heroLevel());
+    }
+
+
+    public void HeroLocation(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_heroLocation());
+    }
+
+
+    public void HeroRemove(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_heroRemove());
+    }
+
 }

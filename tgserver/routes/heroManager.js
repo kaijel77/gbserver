@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const useful = require('../utils/useful');
+
 const pscHandler = require('../Handler/pscHandler');
 const errorHandler = require('../Handler/errorHandler');
 
@@ -97,41 +99,6 @@ router.post('/heroCreate', pscHandler.asyncWrap(async function (req, res) {
 
 ///////////////////////////////////////////////////////////////////////////
 //
-// 영웅 삭제
-//
-router.post('/heroRemove', pscHandler.asyncWrap(async function (req, res) {
-
-    let account_info = req.account_info;
-
-    let params = pscHandler.verifyParams(req, ['hero_no']);
-    let hero_no = params['hero_no'];
-    if(hero_no === null || hero_no === undefined){
-        // 닉네임이 있어서 실패 
-        errorHandler.throwError(1099, 9000006); // 아이템 번호가 없을경우.
-    }
-
-    let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info !== null && hero_info !== undefined){
-        // 닉네임이 있어서 실패 
-        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
-    }
-
-    let bDelete = await heroClass.removeHeroInfo(account_info.account_no, hero_no);
-    if (bDelete === false) {
-        errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
-    }
-
-    let result = pscHandler.successJson({
-        hero_info: hero_info,
-    });
-   
-    await res.json(result);
-}));
-
-
-
-///////////////////////////////////////////////////////////////////////////
-//
 // 영웅 경험치 증가
 //
 router.post('/heroLevelExp', pscHandler.asyncWrap(async function (req, res) {
@@ -163,7 +130,7 @@ router.post('/heroLevelExp', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info !== null && hero_info !== undefined){
+    if(hero_info === null && hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -175,7 +142,7 @@ router.post('/heroLevelExp', pscHandler.asyncWrap(async function (req, res) {
     }
 
     hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info !== null && hero_info !== undefined){
+    if(hero_info === null && hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -214,7 +181,7 @@ router.post('/heroLocation', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info !== null && hero_info !== undefined){
+    if(hero_info === null && hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -226,9 +193,44 @@ router.post('/heroLocation', pscHandler.asyncWrap(async function (req, res) {
     }
 
     hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
-    if(hero_info !== null && hero_info !== undefined){
+    if(hero_info === null && hero_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+
+    let result = pscHandler.successJson({
+        hero_info: hero_info,
+    });
+   
+    await res.json(result);
+}));
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+// 영웅 삭제
+//
+router.post('/heroRemove', pscHandler.asyncWrap(async function (req, res) {
+
+    let account_info = req.account_info;
+
+    let params = pscHandler.verifyParams(req, ['hero_no']);
+    let hero_no = params['hero_no'];
+    if(hero_no === null || hero_no === undefined){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 아이템 번호가 없을경우.
+    }
+
+    let hero_info = await heroClass.getHeroInfo(account_info.account_no, hero_no);
+    if(hero_info === null && hero_info === undefined){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+
+    let bDelete = await heroClass.removeHeroInfo(account_info.account_no, hero_no);
+    if (bDelete === false) {
+        errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
     }
 
     let result = pscHandler.successJson({

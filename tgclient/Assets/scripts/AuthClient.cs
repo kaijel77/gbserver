@@ -19,8 +19,6 @@ public class AuthClient : MonoBehaviour
     void Start()
     {
         StartCoroutine(connect("serwer"));
-        //StartCoroutine(Register("serwer", "1234"));
-        //StartCoroutine(Login("user01", "1234"));
     }
 
     IEnumerator connect(string username)
@@ -72,25 +70,7 @@ public class AuthClient : MonoBehaviour
         yield return SendRequest("/mail/mailList", "", "POST", jwtToken, null);
     }
 
-    IEnumerator Register(string username, string password)
-    {
-        var body = JsonUtility.ToJson(new UserData(username, password));
-        yield return SendRequest("/register", body, "POST", "", null);
-    }
 
-    IEnumerator Login(string username, string password)
-    {
-        var body = JsonUtility.ToJson(new UserData(username, password));
-        yield return SendRequest("/login", body, "POST", "", null);
-
-        if (!string.IsNullOrEmpty(jwtToken))
-            StartCoroutine(GetProfile());
-    }
-
-    IEnumerator GetProfile()
-    {
-        yield return SendRequest("/profile", null, "GET", "", null);
-    }
 
     public IEnumerator send_itemList()
     {
@@ -135,6 +115,67 @@ public class AuthClient : MonoBehaviour
         form.AddField("crypt", encyData);
         yield return SendRequest("/item/itemRemove", "", "POST", jwtToken, form);
     }
+
+
+
+
+    public IEnumerator send_heroList()
+    {
+        yield return SendRequest("/hero/heroList", "", "POST", jwtToken, null);
+    }
+
+    public IEnumerator send_heroCreate()
+    {
+
+        var data = JsonUtility.ToJson(new heroCreate(20001, 2, 2, 2));
+        Debug.Log($"🔑 ItemAdd  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 ItemAdd encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/hero/heroCreate", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_heroLevel()
+    {
+
+        var data = JsonUtility.ToJson(new heroLevel(1, 2, 2, 2, 333));
+        Debug.Log($"🔑 itemUse  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 itemUse encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/hero/heroLevelExp", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_heroLocation()
+    {
+
+        var data = JsonUtility.ToJson(new heroLocation(1, 2, 3));
+        Debug.Log($"🔑 itemUse  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 itemUse encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/hero/heroLocation", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_heroRemove()
+    {
+
+        var data = JsonUtility.ToJson(new heroRemove(1));
+        Debug.Log($"🔑 itemRemove  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 itemRemove encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/hero/heroRemove", "", "POST", jwtToken, form);
+    }
+
 
 
     IEnumerator SendRequest(string endpoint, string json, string method, string header, WWWForm form)
@@ -357,4 +398,78 @@ public class AuthClient : MonoBehaviour
         }
     }
 
+
+
+    [System.Serializable]
+    public class heroCreate
+    {
+        public int hero_id;
+        public int hero_type;
+        public int hero_grade;
+        public int hero_star;
+
+        public heroCreate(int heroid, int herotype, int herograde, int herostar)
+        {
+            hero_id = heroid;
+
+            hero_type = herotype;
+
+            hero_grade = herograde;
+
+            hero_star = herostar;
+        }
+    }
+
+
+    [System.Serializable]
+    public class heroLevel
+    {
+        public int hero_no;
+        public int hero_grade;
+        public int hero_star;
+        public int hero_level;
+        public int hero_exp;
+
+        public heroLevel(int herono, int herograde, int herostar, int herolevel, int heroexp)
+        {
+            hero_no = herono;
+
+            hero_grade = herograde;
+
+            hero_star = herostar;
+
+            hero_level = herolevel;
+
+            hero_exp = heroexp;
+        }
+    }
+
+
+    [System.Serializable]
+    public class heroLocation
+    {
+        public int hero_no;
+        public int hero_location;
+        public int hero_task;
+
+        public heroLocation(int herono, int herolocation, int herotask)
+        {
+            hero_no = herono;
+            hero_location = herolocation;
+            hero_task = herotask;
+        }
+    }
+
+
+    [System.Serializable]
+    public class heroRemove
+    {
+        public int hero_no;
+
+        public heroRemove(int herono)
+        {
+
+            hero_no = herono;
+        }
+    }
 }
