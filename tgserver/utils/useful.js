@@ -79,6 +79,17 @@ class usefulClass {
 
     ///////////////////////////////////////////////////////////////
     //
+    // Decimal을 이용해 문자열를 숫자로 변환.
+    // @param n
+    // @returns {number}
+    //
+    static toNum (n) {
+        return this.decimal(n).toNumber();
+    }
+
+
+    ///////////////////////////////////////////////////////////////
+    //
     // Zero Space 이슈 대응용 함수.
     // @param str
     // @returns {*}

@@ -1,4 +1,5 @@
 const baseClass = require("./baseClass");
+const CONSTANT = require('../config/constant');
 
 
 ///////////////////////////////////////////////////////////////////////////

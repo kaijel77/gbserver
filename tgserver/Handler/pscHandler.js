@@ -84,10 +84,11 @@ class pscHandler {
       //}
 
       // 임시로 넘어간다.
-      return;
       if (account_info === null || account_info === undefined) {
          this.errorHandler.throwError(1004, 9999999); // 게임 점검 진행 중 입니다.
       }
+      return;
+      /*
       else {
          // DB에서 화이트 리스트에 정보가 있는지 체크 해서 있으면 무조건 접속을 시킨다.
          let white = null;
@@ -98,6 +99,7 @@ class pscHandler {
             this.errorHandler.throwError(1004, 9999999); // 게임 점검 진행 중 입니다.
          }
       }
+      */
    }
 
 
@@ -261,7 +263,23 @@ function decrypt(encrypted) {
          for (let param of params) {
             let p = param.split(':');
             if (typeof p[0] === 'string' && !p[1]) { // 필수적 파라미터
-               if ((typeof body2 !== 'object' || !body2[p[0]] || body2[p[0]] === '')) {
+               if ((typeof body2 !== 'object' || (typeof body2[p[0]] !== "number" && !body2[p[0]])  || body2[p[0]] === '')) {
+                  if(typeof body2 !== 'object')
+                  {
+                     let test = 0;
+                  }
+                  if(typeof body2[p[0]] !== "number")
+                  {
+                     let test = 0;
+                  }                  
+                  if(!body2[p[0]])
+                  {
+                     let test = 0;
+                  }
+                  if(body2[p[0]] === '')
+                  {
+                     let test = 0;
+                  }
                   this.errorHandler.throwError(1100, 9000008);
                }
                query[p[0]] = body2[p[0]];

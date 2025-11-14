@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const useful = require('../utils/useful');
 
 const pscHandler = require('../Handler/pscHandler');
 const errorHandler = require('../Handler/errorHandler');
@@ -59,7 +60,7 @@ router.post('/itemAdd', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
-    let params = pscHandler.verifyParams(req, ['item_no', 'item_id', 'item_type', 'item_count']);
+    let params = pscHandler.verifyParams(req, ['item_id', 'item_type', 'item_count', 'item_no']);
     let item_no = params['item_no'];
     let item_id = params['item_id'];
     let item_type = params['item_type'];
@@ -80,7 +81,16 @@ router.post('/itemAdd', pscHandler.asyncWrap(async function (req, res) {
         errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
     }
 
-    if(item_no === null || item_no === undefined){
+    let item_info = null;
+    if(item_no === null || item_no === undefined || item_no === 0){
+
+        item_info = await itemClass.getItemIDInfo(account_info.account_no, item_id);
+        if(false == (item_info === null || item_info === undefined)){
+            item_no = item_info.item_no;
+        }        
+    }
+
+    if(item_info === null || item_info === undefined){
 
         item_no = await itemClass.addItemInfo(account_info.account_no, item_id, item_type, item_count);
         if (item_no === 0) {
@@ -93,10 +103,10 @@ router.post('/itemAdd', pscHandler.asyncWrap(async function (req, res) {
         if (bUpdate === false) {
             errorHandler.throwError(5001, 9000136); // 아이템 사용 갯수를 잘못 입력한경우
         }
-
     }
 
-    let item_info = await itemClass.getItemInfo(account_info.account_no, item_no);
+
+     item_info = await itemClass.getItemInfo(account_info.account_no, item_no);
     if(item_info === null || item_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.

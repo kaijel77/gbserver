@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer'); // 이메일 전송을 위한 nodemailer 모듈 불러오기
+const CONSTANT = require('../config/constant');
+
 
 class emailsend {
    constructor() {
