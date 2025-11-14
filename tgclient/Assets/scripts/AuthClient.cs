@@ -25,7 +25,7 @@ public class AuthClient : MonoBehaviour
 
     IEnumerator connect(string username)
     {
-        yield return SendRequest("/connect", "", "POST", username, null);
+        yield return SendRequest("/login", "", "POST", username, null);
 
         if (resultData.isNickSetting == false) {
             Debug.Log($"StartCoroutine(gameNickName())");
@@ -111,7 +111,7 @@ public class AuthClient : MonoBehaviour
                 www = UnityWebRequest.Post(baseUrl + endpoint, form);
             }
 
-            if (endpoint == "/connect")
+            if (endpoint == "/login")
             {
                 www.SetRequestHeader("user-id", header);
             }
@@ -141,7 +141,7 @@ public class AuthClient : MonoBehaviour
         if (www.result == UnityWebRequest.Result.Success)
         {
             Debug.Log($"✅ {endpoint} 응답: {www.downloadHandler.text}");
-            if (endpoint == "/connect")
+            if (endpoint == "/login")
             {
                 Login2Response result = JsonUtility.FromJson<Login2Response>(www.downloadHandler.text);
                 Debug.Log($"🔑 Data 토큰: {result.data}");

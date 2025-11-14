@@ -9,7 +9,7 @@ module.exports = function (app) {
         { loc: '../routes/mailManager', api: 'mail' },
         { loc: '../routes/eventManager', api: 'event' },
         { loc: '../routes/itemManager', api: 'item' },
-        { loc: '../routes/equipmentManager', api: 'equip' },
+        { loc: '../routes/equipManager', api: 'equip' },
         { loc: '../routes/guildManager', api: 'guild' },
         { loc: '../routes/friendManager', api: 'friend' },
     ];

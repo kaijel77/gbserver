@@ -64,7 +64,6 @@ class pscHandler {
             } catch (err) {
             } finally {
                 this.errorHandlerClass.clearError();
-                await this.logHandler.submitQueue();
             }
         })
     }
