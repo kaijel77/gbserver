@@ -10,10 +10,15 @@ module.exports = function (app) {
         { loc: '../routes/heroManager', api: 'hero' },
         { loc: '../routes/equipManager', api: 'equip' },
 
+        { loc: '../routes/deckManager', api: 'deck' },
         { loc: '../routes/mailManager', api: 'mail' },
+        { loc: '../routes/couponManager', api: 'coupon' },
         { loc: '../routes/eventManager', api: 'event' },
         { loc: '../routes/guildManager', api: 'guild' },
         { loc: '../routes/friendManager', api: 'friend' },
+        { loc: '../routes/missionManager', api: 'mission' },
+        { loc: '../routes/stageManager', api: 'stage' },
+        { loc: '../routes/chatManager', api: 'chat' },
     ];
     console.log('======= routes loading... =======');
     for (let p of paths) {

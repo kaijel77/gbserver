@@ -115,7 +115,6 @@ class deckClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bCreate = false;
-            let deck_no = 0;
 
             let columns = 'account_no, deck_type, deck_hero01, deck_hero02, deck_hero03, deck_hero04, deck_hero05, deck_hero06, deck_hero07, deck_hero08, create_date';
             let values = `'${account_no}', '${deck_type}', '${deck_hero01}', '${deck_hero02}', '${deck_hero03}', '${deck_hero04}', '${deck_hero05}', '${deck_hero06}', '${deck_hero07}', '${deck_hero08 }', now()`;
@@ -127,13 +126,12 @@ class deckClass  extends baseClass {
             .then(async (result) => {
                 if (result.affectedRows > 0) {
                     bCreate = true;
-                    deck_no = result.insertId;
                 }
             })
             .catch((err) => {
                 throw err;
             });
-            return deck_no;
+            return bCreate;
         } catch (err) {
             throw err;
         }
