@@ -118,23 +118,4 @@ public class GameStart : MonoBehaviour
         StartCoroutine(kClient.send_equipRemove());
     }
 
-
-
-
-    public void DeckList(AuthClient kClient)
-    {
-        StartCoroutine(kClient.send_deckList());
-    }
-
-
-    public void DeckSetting(AuthClient kClient)
-    {
-        StartCoroutine(kClient.send_deckSetting());
-    }
-
-
-    public void DeckRemove(AuthClient kClient)
-    {
-        StartCoroutine(kClient.send_deckRemove());
-    }
 }
