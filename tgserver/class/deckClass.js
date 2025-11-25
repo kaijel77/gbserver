@@ -67,7 +67,7 @@ class deckClass  extends baseClass {
 
             let deckInfo = null;
             let select = `deck_type, deck_hero01, deck_hero02, deck_hero03, deck_hero04, deck_hero05, deck_hero06, deck_hero07, deck_hero08, create_date`;
-            const query = `SELECT ${select} FROM tbl_deck WHERE account_no='${account_no}' and deck_type='${deck_type}'`;
+            const query = `SELECT ${select} FROM tbl_deckInfo WHERE account_no='${account_no}' and deck_type='${deck_type}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -115,23 +115,25 @@ class deckClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bCreate = false;
+            let deck_no = 0;
 
             let columns = 'account_no, deck_type, deck_hero01, deck_hero02, deck_hero03, deck_hero04, deck_hero05, deck_hero06, deck_hero07, deck_hero08, create_date';
             let values = `'${account_no}', '${deck_type}', '${deck_hero01}', '${deck_hero02}', '${deck_hero03}', '${deck_hero04}', '${deck_hero05}', '${deck_hero06}', '${deck_hero07}', '${deck_hero08 }', now()`;
 
-            let query = `INSERT INTO tbl_deck (${columns}) VALUES (${values})`;
+            let query = `INSERT INTO tbl_deckInfo (${columns}) VALUES (${values})`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
             .then(async (result) => {
                 if (result.affectedRows > 0) {
                     bCreate = true;
+                    deck_no = result.insertId;
                 }
             })
             .catch((err) => {
                 throw err;
             });
-            return bCreate;
+            return deck_no;
         } catch (err) {
             throw err;
         }
@@ -152,7 +154,7 @@ class deckClass  extends baseClass {
 
             let bUpdate = false;
             let set = `deck_hero01 = "${deck_hero01}", deck_hero02 = "${deck_hero02}", deck_hero03 = "${deck_hero03}", deck_hero04 = "${deck_hero04}", deck_hero05 = "${deck_hero05}", deck_hero06 = "${deck_hero06}", deck_hero07 = "${deck_hero07}", deck_hero08 = "${deck_hero08}"`;
-            const query = `UPDATE tbl_deck SET ${set} WHERE account_no='${account_no}' and deck_type='${deck_type}'`;
+            const query = `UPDATE tbl_deckInfo SET ${set} WHERE account_no='${account_no}' and deck_type='${deck_type}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -183,7 +185,7 @@ class deckClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            let query = `DELETE FROM tbl_deck WHERE account_no='${account_no}' and deck_type='${deck_type}'`;
+            let query = `DELETE FROM tbl_deckInfo WHERE account_no='${account_no}' and deck_type='${deck_type}'`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)

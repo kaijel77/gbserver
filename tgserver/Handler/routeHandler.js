@@ -9,8 +9,8 @@ module.exports = function (app) {
         { loc: '../routes/itemManager', api: 'item' },
         { loc: '../routes/heroManager', api: 'hero' },
         { loc: '../routes/equipManager', api: 'equip' },
-
         { loc: '../routes/deckManager', api: 'deck' },
+
         { loc: '../routes/mailManager', api: 'mail' },
         { loc: '../routes/couponManager', api: 'coupon' },
         { loc: '../routes/eventManager', api: 'event' },

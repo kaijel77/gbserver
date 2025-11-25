@@ -266,6 +266,36 @@ public class AuthClient : MonoBehaviour
 
 
 
+    public IEnumerator send_deckList()
+    {
+        yield return SendRequest("/deck/deckList", "", "POST", jwtToken, null);
+    }
+
+    public IEnumerator send_deckSetting()
+    {
+
+        var data = JsonUtility.ToJson(new deckSetting(1, 2, 0, 0, 0, 0, 0, 0, 0));
+        Debug.Log($"🔑 deckSetting  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 deckSetting encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/deck/deckSetting", "", "POST", jwtToken, form);
+    }
+    public IEnumerator send_deckRemove()
+    {
+
+        var data = JsonUtility.ToJson(new deckRemove(1));
+        Debug.Log($"🔑 deckRemove  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 deckRemove encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/deck/deckRemove", "", "POST", jwtToken, form);
+    }
+
 
 
 
@@ -669,4 +699,60 @@ public class AuthClient : MonoBehaviour
             equip_no = equipno;
         }
     }
+
+
+
+
+
+
+    [System.Serializable]
+    public class deckSetting
+    {
+        public int deck_type;
+        public int deck_hero01;
+        public int deck_hero02;
+        public int deck_hero03;
+        public int deck_hero04;
+        public int deck_hero05;
+        public int deck_hero06;
+        public int deck_hero07;
+        public int deck_hero08;
+
+        public deckSetting(int decktype, int deckhero01, int deckhero02, int deckhero03, int deckhero04, int deckhero05, int deckhero06, int deckhero07, int deckhero08)
+        {
+
+            deck_type = decktype;
+
+            deck_hero01 = deckhero01;
+
+            deck_hero02 = deckhero02;
+
+            deck_hero03 = deckhero03;
+
+            deck_hero04 = deckhero04;
+
+            deck_hero05 = deckhero05;
+
+            deck_hero06 = deckhero06;
+
+            deck_hero07 = deckhero07;
+
+            deck_hero08 = deckhero08;
+
+        }
+    }
+
+
+
+    [System.Serializable]
+    public class deckRemove
+    {
+        public int deck_type;
+
+        public deckRemove(int decktype)
+        {
+            deck_type = decktype;
+        }
+    }
+
 }
