@@ -299,6 +299,62 @@ public class AuthClient : MonoBehaviour
 
 
 
+    public IEnumerator send_missionList()
+    {
+        yield return SendRequest("/mission/missionList", "", "POST", jwtToken, null);
+    }
+
+    public IEnumerator send_missionUpdate()
+    {
+        var data = JsonUtility.ToJson(new missionUpdate(1, 2));
+        Debug.Log($"🔑 missionSetting  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 missionSetting encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+
+        yield return SendRequest("/mission/missionUpdate", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_missionComplete()
+    {
+        var data = JsonUtility.ToJson(new missionComplete(1));
+        Debug.Log($"🔑 missionSetting  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 missionSetting encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/mission/missionComplete", "", "POST", jwtToken, form);
+    }
+    public IEnumerator send_missionReward()
+    {
+        var data = JsonUtility.ToJson(new missionReward(1));
+        Debug.Log($"🔑 missionSetting  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 missionSetting encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/mission/missionReward", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_missionRemove()
+    {
+        var data = JsonUtility.ToJson(new missionRemove(1));
+        Debug.Log($"🔑 missionRemove  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 missionRemove encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/mission/missionRemove", "", "POST", jwtToken, form);
+    }
+
+
+
+
     IEnumerator SendRequest(string endpoint, string json, string method, string header, WWWForm form)
     {
         UnityWebRequest www;
@@ -703,8 +759,6 @@ public class AuthClient : MonoBehaviour
 
 
 
-
-
     [System.Serializable]
     public class deckSetting
     {
@@ -755,4 +809,54 @@ public class AuthClient : MonoBehaviour
         }
     }
 
+
+
+
+    [System.Serializable]
+    public class missionUpdate
+    {
+        public int mission_id;
+        public int mission_count;
+
+        public missionUpdate(int missionid, int missioncount)
+        {
+
+            mission_id = missionid;
+
+            mission_count = missioncount;
+        }
+    }
+    
+    [System.Serializable]
+    public class missionComplete
+    {
+        public int mission_id;
+
+        public missionComplete(int missionid)
+        {
+            mission_id = missionid;
+        }
+    }
+
+    [System.Serializable]
+    public class missionReward
+    {
+        public int mission_id;
+
+        public missionReward(int missionid)
+        {
+            mission_id = missionid;
+        }
+    }
+
+    [System.Serializable]
+    public class missionRemove
+    {
+        public int mission_id;
+
+        public missionRemove(int missionid)
+        {
+            mission_id = missionid;
+        }
+    }
 }

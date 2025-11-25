@@ -137,4 +137,35 @@ public class GameStart : MonoBehaviour
     {
         StartCoroutine(kClient.send_deckRemove());
     }
+
+
+
+    public void MissionList(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_missionList());
+    }
+
+
+    public void MissionUpdate(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_missionUpdate());
+    }
+
+
+    public void MissionComplete(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_missionComplete());
+    }
+
+
+    public void MissionReward(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_missionReward());
+    }
+
+
+    public void MissionRemove(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_missionRemove());
+    }
 }
