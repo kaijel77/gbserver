@@ -5946,8 +5946,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1253696191}
         m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: MissionComplete
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -6212,8 +6212,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1253696191}
         m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: MissionReward
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -6345,8 +6345,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1253696191}
         m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: MissionUpdate
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -6478,8 +6478,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1253696191}
         m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: MissionList
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -6878,8 +6878,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1253696191}
         m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: MissionRemove
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
