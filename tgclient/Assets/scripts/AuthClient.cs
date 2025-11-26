@@ -355,6 +355,64 @@ public class AuthClient : MonoBehaviour
 
 
 
+    public IEnumerator send_guildList()
+    {
+        yield return SendRequest("/guild/guildList", "", "POST", jwtToken, null);
+    }
+
+    public IEnumerator send_guildCheckName()
+    {
+        var data = JsonUtility.ToJson(new guildCheckName("tesguildte"));
+        Debug.Log($"🔑 guildCheckName  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildCheckName encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildCheckName", "", "POST", jwtToken, form);
+    }
+
+
+
+    public IEnumerator send_guildCreate()
+    {
+        var data = JsonUtility.ToJson(new guildCreate("tesguildte"));
+        Debug.Log($"🔑 guildCheckName  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildCheckName encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildCreate", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_guildBreakUp()
+    {
+        var data = JsonUtility.ToJson(new guildBreakUp(1));
+        Debug.Log($"🔑 guildCheckName  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildCheckName encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildBreakUp", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_guildChangeName()
+    {
+        var data = JsonUtility.ToJson(new guildChangeName(1, "wer234"));
+        Debug.Log($"🔑 guildCheckName  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildCheckName encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildChangeName", "", "POST", jwtToken, form);
+    }
+
+
     IEnumerator SendRequest(string endpoint, string json, string method, string header, WWWForm form)
     {
         UnityWebRequest www;

@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `im_game`.`tbl_guildmember`;
+DROP TABLE IF EXISTS `im_game`.`tbl_guildmemberInfo`;
 
-CREATE TABLE `im_game`.`tbl_guildmember` (
+CREATE TABLE `im_game`.`tbl_guildmemberInfo` (
   `account_no` bigint NOT NULL,
   `guild_no` bigint NOT NULL,
   `guild_grade` smallint default 99,

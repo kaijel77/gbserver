@@ -1,6 +1,8 @@
 const CONSTANT = require('../config/constant');
 const express = require('express');
 const router = express.Router();
+const useful = require('../utils/useful');
+
 
 const pscHandler = require('../Handler/pscHandler');
 const errorHandler = require('../Handler/errorHandler');
@@ -24,12 +26,21 @@ router.post('/guildList', pscHandler.asyncWrap(async function (req, res) {
     await res.json(result);
 }));
 
+
 ///////////////////////////////////////////////////////////////////////////
 //
 // 길드 임의의 정보보내주기
 //
 router.post('/guildSearch', pscHandler.asyncWrap(async function (req, res) {
 
+    let params = pscHandler.verifyParams(req, ['guild_name']);
+    let guild_name = params['guild_name'];
+    if(guild_name === null || guild_name === undefined){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+
+        
     let guild_List = await guildClass.searchGuildList();
 
     let result = pscHandler.successJson({
@@ -145,14 +156,15 @@ router.post('/guildCheckName', pscHandler.asyncWrap(async function (req, res) {
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
+    let resultOK = false;
     let check_guild_info = await guildClass.getGuildNameInfo(guild_name);
-    if(check_guild_info !== null || check_guild_info !== undefined){
+    if(check_guild_info === null || check_guild_info === undefined){
         // 닉네임이 있어서 실패 
-        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+        resultOK = true;
     }
 
     let result = pscHandler.successJson({
-        result : 'ok',
+        result : resultOK,
     });
 
     await res.json(result);
@@ -175,19 +187,25 @@ router.post('/guildCreate', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let check_guild_info = await guildClass.getGuildNameInfo(guild_name);
-    if(check_guild_info !== null || check_guild_info !== undefined){
+    if(check_guild_info !== null && check_guild_info !== undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
-    let guildmember_info = await guildClass.getGuildMemberInfo(guild_no, account_info.account_no);
-    if(guildmember_info !== null || guildmember_info !== undefined){
+    let guildmember_info = await guildClass.getGuildMemberAccountInfo(account_info.account_no);
+    if(guildmember_info !== null && guildmember_info !== undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
-    let guild_no = await guildClass.createGuildInfo(guild_name, account_info.account_no, account_info.nick_name);
+    let guild_no = await guildClass.createGuildInfo(guild_name, account_info.account_no, account_info.nickname);
     if(guild_no === 0){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+
+    let bCreate = await guildClass.addGuildMember_info(guild_no, account_info.account_no);
+    if(bCreate === false){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -204,7 +222,7 @@ router.post('/guildCreate', pscHandler.asyncWrap(async function (req, res) {
 //
 // 길드 해체
 //
-router.post('/guildBeakUp', pscHandler.asyncWrap(async function (req, res) {
+router.post('/guildBreakUp', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
@@ -216,13 +234,13 @@ router.post('/guildBeakUp', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let check_guild_info = await guildClass.getGuildInfo(guild_no);
-    if(check_guild_info !== null || check_guild_info !== undefined){
+    if(check_guild_info === null || check_guild_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
     let guildmember_info = await guildClass.getGuildMemberInfo(guild_no, account_info.account_no);
-    if(guildmember_info !== null || guildmember_info !== undefined){
+    if(guildmember_info === null || guildmember_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -233,19 +251,28 @@ router.post('/guildBeakUp', pscHandler.asyncWrap(async function (req, res) {
     }
     
     let guildmember_List = await guildClass.getGuildMemberList(guild_no);
-    if(guildmember_List !== null || guildmember_List !== undefined){
+    if(useful.decimal(guildmember_List.length).lessThanOrEqualTo(0)){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
     // 길드 멤버가 있어서 해체가 불가능하다.
-    if(useful.decimal(guildmember_List.length).greaterThan(0)){
+    if(useful.decimal(guildmember_List.length).greaterThan(1)){
         errorHandler.throwError(5545, 9026013); // 길드장은 탈퇴할 수 없습니다.
     }
 
-    await guildClass.removeGuildInfo(guild_no);
-    await guildClass.removeGuildMeberList(guild_no);
+    let bDelete = await guildClass.removeGuildInfo(guild_no);
+    if(bDelete === false)
+    {
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
 
+    bDelete = await guildClass.removeGuildMeberList(guild_no);
+    if(bDelete === false)
+    {
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+    
     let result = pscHandler.successJson({
         result : 'ok',
     });
@@ -275,13 +302,13 @@ router.post('/guildChangeName', pscHandler.asyncWrap(async function (req, res) {
     }
 
     let check_guild_info = await guildClass.getGuildNameInfo(guild_name);
-    if(check_guild_info !== null || check_guild_info !== undefined){
+    if(check_guild_info !== null && check_guild_info !== undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
     let guildmember_info = await guildClass.getGuildMemberInfo(guild_no, account_info.account_no);
-    if(guildmember_info !== null || guildmember_info !== undefined){
+    if(guildmember_info === null || guildmember_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
@@ -292,7 +319,7 @@ router.post('/guildChangeName', pscHandler.asyncWrap(async function (req, res) {
     }
     
     let bUpdate = await guildClass.updateGuildName(guild_no, guild_name);
-    if(bUpdate !== null || bUpdate !== undefined){
+    if(bUpdate === false){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }

@@ -21,7 +21,7 @@ class guildClass  extends baseClass {
             let guildList = [];
 
             let select = `guild_no, guild_name, guild_message, guild_isautujoin, guild_joinlimitlevel, guildmaster_no, guildmaster_name, guild_level, guild_exp, create_date`;
-            const query = `SELECT ${select} FROM tbl_guild`;
+            const query = `SELECT ${select} FROM tbl_guildInfo`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -113,7 +113,7 @@ class guildClass  extends baseClass {
             let guildInfo = null;
 
             let select = `guild_no, guild_name, guild_message, guild_isautujoin, guild_joinlimitlevel, guildmaster_no, guildmaster_name, guild_level, guild_exp, create_date`;
-            const query = `SELECT ${select} FROM tbl_guild WHERE guild_no='${guild_no}'`;
+            const query = `SELECT ${select} FROM tbl_guildInfo WHERE guild_no='${guild_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -157,7 +157,7 @@ class guildClass  extends baseClass {
             let guildInfo = null;
 
             let select = `guild_no, guild_name`;
-            const query = `SELECT ${select} FROM tbl_guild WHERE guild_name='${guild_name}'`;
+            const query = `SELECT ${select} FROM tbl_guildInfo WHERE guild_name='${guild_name}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -193,9 +193,9 @@ class guildClass  extends baseClass {
             let bCreate = false;
             let guild_no = 0;
 
-            let column = `guild_name, guild_message, guild_isautujoin, guild_joinlimitlevel, guildmaster_no, guildmaster_name, guild_level, guild_exp, create_date`;
-            let values = `'${guild_name}', '', '', '', account_no, nick_name, 1, 0, now()`;
-            let query = `INSERT INTO tbl_guild (${columns}) VALUES (${values})`;
+            let columns = `guild_name, guild_message, guild_isautujoin, guild_joinlimitlevel, guildmaster_no, guildmaster_name, guild_level, guild_exp, create_date`;
+            let values = `'${guild_name}', '', false, 0, '${account_no}', '${nick_name}', 1, 0, now()`;
+            let query = `INSERT INTO tbl_guildInfo (${columns}) VALUES (${values})`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -227,7 +227,7 @@ class guildClass  extends baseClass {
 
             let bUpdate = false;
             let set = `guild_name = "${change_guild_name}"`;
-            const query = `UPDATE tbl_guild SET ${set} WHERE guild_no='${guild_no}'`;
+            const query = `UPDATE tbl_guildInfo SET ${set} WHERE guild_no='${guild_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -257,7 +257,7 @@ class guildClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            let query = `DELETE FROM tbl_guild WHERE guild_no='${guild_no}'`;
+            let query = `DELETE FROM tbl_guildInfo WHERE guild_no='${guild_no}'`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -286,10 +286,10 @@ class guildClass  extends baseClass {
        try {
             this.includeHandler(['mysqlHandler']);
 
-            let guildmemberList = null;
+            let guildmemberList = [];
 
             let select = `guild_no, account_no, guild_grade, join_date, create_date`;
-            const query = `SELECT ${select} FROM tbl_guildmember WHERE guild_no='${guild_no}'`;
+            let query = `SELECT ${select} FROM tbl_guildmemberInfo WHERE guild_no='${guild_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -324,6 +324,46 @@ class guildClass  extends baseClass {
     // @param account_no 계정 넘버
     // @returns {Promise<*[]|*>} 아이템 정보
     // 
+    async getGuildMemberAccountInfo (account_no) {
+        try {
+             this.includeHandler(['mysqlHandler']);
+ 
+             let guildmemberinfo = null;
+ 
+             let select = `guild_no, account_no, guild_grade, join_date, create_date`;
+             const query = `SELECT ${select} FROM tbl_guildmemberInfo WHERE account_no='${account_no}'`;
+ 
+             await this.mysqlHandlerClass
+             .query(CONSTANT.DB.GAME, query)
+             .then((result) => {
+                 if (result.length > 0) {
+                     result = result[0];
+                     guildmemberinfo = {
+                         guild_no: result.guild_no,
+                         account_no: result.account_no,
+                         guild_grade: result.guild_grade,
+                         join_date: result.join_date,
+                         create_date: result.create_date,
+                     };
+                 }                
+             })
+             .catch((err) => {
+                 throw err;
+             });
+             return guildmemberinfo;
+         } catch (err) {
+             throw err;
+         }
+     }
+
+
+    ///////////////////////////////////////////////////////////////
+    //
+    // 길드멤버 정보 가져오기
+    // @param guild_no 길드 넘버
+    // @param account_no 계정 넘버
+    // @returns {Promise<*[]|*>} 아이템 정보
+    // 
     async getGuildMemberInfo (guild_no, account_no) {
        try {
             this.includeHandler(['mysqlHandler']);
@@ -331,7 +371,7 @@ class guildClass  extends baseClass {
             let guildmemberinfo = null;
 
             let select = `guild_no, account_no, guild_grade, join_date, create_date`;
-            const query = `SELECT ${select} FROM tbl_guildmember WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
+            const query = `SELECT ${select} FROM tbl_guildmemberInfo WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -373,7 +413,7 @@ class guildClass  extends baseClass {
             let columns = 'guild_no, account_no, guild_grade, join_date, create_date';
             let values = `'${guild_no}', '${account_no}', 99, now(), now()`;
 
-            let query = `INSERT INTO tbl_guildmember (${columns}) VALUES (${values})`;
+            let query = `INSERT INTO tbl_guildmemberInfo (${columns}) VALUES (${values})`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -467,7 +507,7 @@ class guildClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            let query = `DELETE FROM tbl_guildmember WHERE guild_no='${guild_no}'`;
+            let query = `DELETE FROM tbl_guildmemberInfo WHERE guild_no='${guild_no}'`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
