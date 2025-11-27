@@ -20,12 +20,12 @@ const friendClass = require('../class/friendClass');
 //
 router.post('/friendList', pscHandler.asyncWrap(async function (req, res) {
 
-   let account_info = req.account_info;
+    let account_info = req.account_info;
 
-   let result = pscHandler.successJson({
-   });
-   
-   await res.json(result);
+    let result = pscHandler.successJson({
+    });
+
+    await res.json(result);
 }));
 
 
@@ -35,12 +35,12 @@ router.post('/friendList', pscHandler.asyncWrap(async function (req, res) {
 //
 router.post('/friendInvite', pscHandler.asyncWrap(async function (req, res) {
 
-   let account_info = req.account_info;
+    let account_info = req.account_info;
 
-   let result = pscHandler.successJson({
-   });
-   
-   await res.json(result);
+    let result = pscHandler.successJson({
+    });
+
+    await res.json(result);
 }));
 
 
@@ -50,13 +50,42 @@ router.post('/friendInvite', pscHandler.asyncWrap(async function (req, res) {
 //
 router.post('/friendAccept', pscHandler.asyncWrap(async function (req, res) {
 
-   let account_info = req.account_info;
+    let account_info = req.account_info;
+
+    let result = pscHandler.successJson({
+    });
+
+    await res.json(result);
+}));
 
 
-   let result = pscHandler.successJson({
-   });
-   
-   await res.json(result);
+///////////////////////////////////////////////////////////////////////////
+//
+// 친구 삭제
+//
+router.post('/friendKickOut', pscHandler.asyncWrap(async function (req, res) {
+
+    let account_info = req.account_info;
+
+    let result = pscHandler.successJson({
+    });
+
+    await res.json(result);
+}));
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+// 친구 삭제
+//
+router.post('/friendWithdrawal', pscHandler.asyncWrap(async function (req, res) {
+
+    let account_info = req.account_info;
+
+    let result = pscHandler.successJson({
+    });
+
+    await res.json(result);
 }));
 
 
@@ -66,13 +95,12 @@ router.post('/friendAccept', pscHandler.asyncWrap(async function (req, res) {
 //
 router.post('/friendRemove', pscHandler.asyncWrap(async function (req, res) {
 
-   let account_info = req.account_info;
+    let account_info = req.account_info;
 
+    let result = pscHandler.successJson({
+    });
 
-   let result = pscHandler.successJson({
-   });
-   
-   await res.json(result);
+    await res.json(result);
 }));
 
 
