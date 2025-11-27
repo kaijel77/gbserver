@@ -1,6 +1,7 @@
 const CONSTANT = require('../config/constant');
 const express = require('express');
 const router = express.Router();
+
 const useful = require('../utils/useful');
 
 
@@ -338,7 +339,7 @@ router.post('/guildChangeName', pscHandler.asyncWrap(async function (req, res) {
 //
 // 길드 가입 요청
 //
-router.post('/guildRequest', pscHandler.asyncWrap(async function (req, res) {
+router.post('/guildRequestJoin', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
