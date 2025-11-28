@@ -144,6 +144,29 @@ router.post('/guildRequestList', pscHandler.asyncWrap(async function (req, res) 
 
 ///////////////////////////////////////////////////////////////////////////
 //
+// 길드멤버 정보
+//
+router.post('/guildRequestAccountList', pscHandler.asyncWrap(async function (req, res) {
+
+    let account_info = req.account_info;
+
+    let guildrequest_List = await guildClass.getGuildRequestAccountList(account_info.account_no);
+    if(guildrequest_List === null || guildrequest_List === undefined){
+        // 닉네임이 있어서 실패 
+        errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
+    }
+
+    let result = pscHandler.successJson({
+        guildrequest_list: guildrequest_List,
+    });
+   
+    await res.json(result);
+}));
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//
 // 길드이름 사용 가능 체크
 //
 router.post('/guildCheckName', pscHandler.asyncWrap(async function (req, res) {

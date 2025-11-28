@@ -533,7 +533,7 @@ class guildClass  extends baseClass {
     // @param guild_no 길드 넘버
     // @returns {Promise<*[]|*>} 아이템 정보
     // 
-    async getGuildRequestList (guild_no, account_no) {
+    async getGuildRequestList (guild_no) {
        try {
             this.includeHandler(['mysqlHandler']);
 
@@ -567,6 +567,47 @@ class guildClass  extends baseClass {
         }
     }
     
+
+    ///////////////////////////////////////////////////////////////
+    //
+    // 길드가입요청 정보 리스트 가져오기
+    // @param account_no 계정정 넘버
+    // @returns {Promise<*[]|*>} 아이템 정보
+    // 
+    async getGuildRequestAccountList (account_no) {
+        try {
+            this.includeHandler(['mysqlHandler']);
+
+            let guildRequestList = [];
+
+            let select = `account_no, guild_no, request_message, request_date`;
+            const query = `SELECT ${select} FROM tbl_guildrequestInfo WHERE account_no='${account_no}'`;
+
+            await this.mysqlHandlerClass
+            .query(CONSTANT.DB.GAME, query)
+            .then((result) => {
+                if (result.length > 0) {
+                    for(let guildrequest_info of result)
+                    {
+                        guildRequestList.push({
+                            guild_no: guildrequest_info.guild_no,
+                            account_no: guildrequest_info.account_no,
+                            request_message: guildrequest_info.request_message,
+                            request_message: guildrequest_info.request_message,
+                            create_date: guildrequest_info.create_date,
+                        });
+                    }
+                }
+            })
+            .catch((err) => {
+                throw err;
+            });
+            return guildRequestList;
+        } catch (err) {
+            throw err;
+        }
+    }
+     
 
     ///////////////////////////////////////////////////////////////
     //

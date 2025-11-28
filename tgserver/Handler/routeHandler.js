@@ -11,8 +11,8 @@ module.exports = function (app) {
         { loc: '../routes/equipManager', api: 'equip' },
         { loc: '../routes/deckManager', api: 'deck' },
         { loc: '../routes/missionManager', api: 'mission' },
-
         { loc: '../routes/guildManager', api: 'guild' },
+
         { loc: '../routes/friendManager', api: 'friend' },
 
         { loc: '../routes/mailManager', api: 'mail' },
