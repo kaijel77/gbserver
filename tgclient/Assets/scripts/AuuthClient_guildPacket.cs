@@ -12,11 +12,35 @@ using UnityEngine.Windows;
 [System.Serializable]
 public class guildSearch
 {
-    public int mission_id;
+    public string guild_name;
 
-    public guildSearch(int missionid)
+    public guildSearch(string guildname)
     {
-        mission_id = missionid;
+        guild_name = guildname;
+    }
+}
+
+
+[System.Serializable]
+public class guildMemberList
+{
+    public int guild_no;
+
+    public guildMemberList(int guildno)
+    {
+        guild_no = guildno;
+    }
+}
+
+
+[System.Serializable]
+public class guildRequestList
+{
+    public int guild_no;
+
+    public guildRequestList(int guildno)
+    {
+        guild_no = guildno;
     }
 }
 
@@ -70,3 +94,93 @@ public class guildChangeName
         guild_name = guildname;
     }
 }
+
+
+[System.Serializable]
+public class guildRequestJoin
+{
+    public int guild_no;
+
+    public guildRequestJoin(int guildno)
+    {
+        guild_no = guildno;
+    }
+}
+
+
+[System.Serializable]
+public class guildRequestCancel
+{
+    public int guild_no;
+
+    public guildRequestCancel(int guildno)
+    {
+        guild_no = guildno;
+    }
+}
+
+
+[System.Serializable]
+public class guildRequestAccept
+{
+    public int guild_no;
+    public int account_no;
+
+    public guildRequestAccept(int guildno, int accounno)
+    {
+        guild_no = guildno;
+        account_no = accounno;
+    }
+}
+
+
+
+
+
+[System.Serializable]
+public class guildWithdrawal
+{
+    public int guild_no;
+
+    public guildWithdrawal(int guildno)
+    {
+        guild_no = guildno;
+    }
+}
+
+
+
+
+
+[System.Serializable]
+public class guildKickOut
+{
+    public int guild_no;
+    public int kickouter_no;
+
+    public guildKickOut(int guildno, int accounno)
+    {
+        guild_no = guildno;
+        kickouter_no = accounno;
+    }
+}
+
+
+
+
+[System.Serializable]
+public class guildChangeUserGrade
+{
+    public int guild_no;
+    public int member_no;
+    public int change_grade;
+
+    public guildChangeUserGrade(int guildno, int accounno, int changegrade)
+    {
+        guild_no = guildno;
+        member_no = accounno;
+        change_grade = changegrade;
+    }
+}
+
+

@@ -360,6 +360,45 @@ public class AuthClient : MonoBehaviour
         yield return SendRequest("/guild/guildList", "", "POST", jwtToken, null);
     }
 
+    public IEnumerator send_guildSearch()
+    {
+        var data = JsonUtility.ToJson(new guildSearch("tesguildte"));
+        Debug.Log($"🔑 guildSearch  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildSearch encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildSearch", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_guildMemberList()
+    {
+        var data = JsonUtility.ToJson(new guildMemberList(1));
+        Debug.Log($"🔑 guildMemberList  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildMemberList encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildMemberList", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_guildRequestList()
+    {
+        var data = JsonUtility.ToJson(new guildRequestList(1));
+        Debug.Log($"🔑 guildRequestList  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildRequestList encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildRequestList", "", "POST", jwtToken, form);
+    }
+
+
     public IEnumerator send_guildCheckName()
     {
         var data = JsonUtility.ToJson(new guildCheckName("tesguildte"));
@@ -412,6 +451,86 @@ public class AuthClient : MonoBehaviour
         yield return SendRequest("/guild/guildChangeName", "", "POST", jwtToken, form);
     }
 
+
+    public IEnumerator send_guildRequestJoin()
+    {
+        var data = JsonUtility.ToJson(new guildRequestJoin(1));
+        Debug.Log($"🔑 guildCheckName  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildCheckName encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildRequestJoin", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_guildRequestCancel()
+    {
+        var data = JsonUtility.ToJson(new guildRequestCancel(1));
+        Debug.Log($"🔑 guildCheckName  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildCheckName encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildRequestCancel", "", "POST", jwtToken, form);
+    }
+
+    public IEnumerator send_guildRequestAccept()
+    {
+        var data = JsonUtility.ToJson(new guildRequestAccept(1,2));
+        Debug.Log($"🔑 guildCheckName  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildCheckName encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildRequestAccept", "", "POST", jwtToken, form);
+    }
+
+
+
+
+
+
+    public IEnumerator send_guildWithdrawal()
+    {
+        var data = JsonUtility.ToJson(new guildWithdrawal(1));
+        Debug.Log($"🔑 guildWithdrawal  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildWithdrawal encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildWithdrawal", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_guildKickOut()
+    {
+        var data = JsonUtility.ToJson(new guildKickOut(1, 2));
+        Debug.Log($"🔑 guildKickOut  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildKickOut encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildKickOut", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_guildChangeUserGrade()
+    {
+        var data = JsonUtility.ToJson(new guildChangeUserGrade(1, 2, 33));
+        Debug.Log($"🔑 guildChangeUserGrade  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 guildChangeUserGrade encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/guild/guildChangeUserGrade", "", "POST", jwtToken, form);
+    }
 
     IEnumerator SendRequest(string endpoint, string json, string method, string header, WWWForm form)
     {

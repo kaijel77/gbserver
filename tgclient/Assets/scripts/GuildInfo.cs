@@ -22,7 +22,6 @@ public class GuildInfo : MonoBehaviour
     {
         StartCoroutine(kClient.send_guildList());
     }
-    /*
 
 
     public void GuildSearch(AuthClient kClient)
@@ -41,7 +40,7 @@ public class GuildInfo : MonoBehaviour
     {
         StartCoroutine(kClient.send_guildRequestList());
     }
-    */
+
 
     public void GuildCheckName(AuthClient kClient)
     {
@@ -64,40 +63,35 @@ public class GuildInfo : MonoBehaviour
         StartCoroutine(kClient.send_guildChangeName());
     }
 
-    /*
+    public void GuildRequest(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_guildRequestJoin());
+    }
 
-        public void GuildRequest(AuthClient kClient)
-        {
-            StartCoroutine(kClient.send_guildRequest());
-        }
+    public void GuildRequestCancel(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_guildRequestCancel());
+    }
 
-        public void GuildRequestAccept(AuthClient kClient)
-        {
-            StartCoroutine(kClient.send_guildRequestAccept());
-        }
+    public void GuildRequestAccept(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_guildRequestAccept());
+    }
 
-        public void GuildRequestCancel(AuthClient kClient)
-        {
-            StartCoroutine(kClient.send_guildRequestCancel());
-        }
-
-
-        public void GuildWithdrawal(AuthClient kClient)
-        {
-            StartCoroutine(kClient.send_guildWithdrawal());
-        }
+    public void GuildWithdrawal(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_guildWithdrawal());
+    }
 
 
-        public void GuildKickOut(AuthClient kClient)
-        {
-            StartCoroutine(kClient.send_guildKickOut());
-        }
+    public void GuildKickOut(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_guildKickOut());
+    }
 
 
-        public void GuildChangeUserGrade(AuthClient kClient)
-        {
-            StartCoroutine(kClient.send_guildChangeUserGrade());
-        }
-
-        */
+    public void GuildChangeUserGrade(AuthClient kClient)
+    {
+        StartCoroutine(kClient.send_guildChangeUserGrade());
+    }
 }

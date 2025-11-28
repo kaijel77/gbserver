@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `im_game`.`tbl_guildrequest`;
+DROP TABLE IF EXISTS `im_game`.`tbl_guildrequestInfo`;
 
-CREATE TABLE `im_game`.`tbl_guildrequest` (
+CREATE TABLE `im_game`.`tbl_guildrequestInfo` (
   `account_no` bigint NOT NULL,
   `guild_no` bigint NOT NULL,
   `request_message` varchar(50) NOT NULL,  

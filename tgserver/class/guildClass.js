@@ -445,7 +445,7 @@ class guildClass  extends baseClass {
 
             let bUpdate = false;
             let set = `guild_grade = "${update_grade}"`;
-            const query = `UPDATE tbl_guildmember SET ${set} WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
+            const query = `UPDATE tbl_guildmemberInfo SET ${set} WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -476,7 +476,7 @@ class guildClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            let query = `DELETE FROM tbl_guildmember WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
+            let query = `DELETE FROM tbl_guildmemberInfo WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -537,10 +537,10 @@ class guildClass  extends baseClass {
        try {
             this.includeHandler(['mysqlHandler']);
 
-            let guildRequestList = null;
+            let guildRequestList = [];
 
             let select = `account_no, guild_no, request_message, request_date`;
-            const query = `SELECT ${select} FROM tbl_guildrequest WHERE guild_no='${guild_no}'`;
+            const query = `SELECT ${select} FROM tbl_guildrequestInfo WHERE guild_no='${guild_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -582,7 +582,7 @@ class guildClass  extends baseClass {
             let guildRequestInfo = null;
 
             let select = `account_no, guild_no, request_message, request_date`;
-            const query = `SELECT ${select} FROM tbl_guildrequest WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
+            const query = `SELECT ${select} FROM tbl_guildrequestInfo WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -623,7 +623,7 @@ class guildClass  extends baseClass {
             let columns = 'account_no, guild_no, request_message, request_date';
             let values = `'${account_no}', '${guild_no}', '${request_message}', now()`;
 
-            let query = `INSERT INTO tbl_guildrequest (${columns}) VALUES (${values})`;
+            let query = `INSERT INTO tbl_guildrequestInfo (${columns}) VALUES (${values})`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -654,7 +654,7 @@ class guildClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            let query = `DELETE FROM tbl_guildrequest WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
+            let query = `DELETE FROM tbl_guildrequestInfo WHERE guild_no='${guild_no}' and  account_no='${account_no}'`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -685,7 +685,7 @@ class guildClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            let query = `DELETE FROM tbl_guildrequest WHERE account_no='${account_no}'`;
+            let query = `DELETE FROM tbl_guildrequestInfo WHERE account_no='${account_no}'`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)

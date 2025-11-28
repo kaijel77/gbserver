@@ -716,7 +716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &131245703
 RectTransform:
   m_ObjectHideFlags: 0
@@ -781,10 +781,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 701187867}
-        m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 701187868}
+        m_TargetAssemblyTypeName: GuildInfo, Assembly-CSharp
+        m_MethodName: GuildKickOut
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -985,7 +985,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &178812956
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1050,10 +1050,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 701187867}
-        m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 701187868}
+        m_TargetAssemblyTypeName: GuildInfo, Assembly-CSharp
+        m_MethodName: GuildSearch
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -2771,7 +2771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &685354496
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2836,10 +2836,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 701187867}
-        m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 701187868}
+        m_TargetAssemblyTypeName: GuildInfo, Assembly-CSharp
+        m_MethodName: GuildRequest
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -3443,7 +3443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &707777055
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3508,10 +3508,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 701187867}
-        m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 701187868}
+        m_TargetAssemblyTypeName: GuildInfo, Assembly-CSharp
+        m_MethodName: GuildChangeUserGrade
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -3710,7 +3710,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &763218300
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3775,10 +3775,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 701187867}
-        m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 701187868}
+        m_TargetAssemblyTypeName: GuildInfo, Assembly-CSharp
+        m_MethodName: GuildRequestAccept
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -4657,7 +4657,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &987921022
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4722,10 +4722,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 701187867}
-        m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 701187868}
+        m_TargetAssemblyTypeName: GuildInfo, Assembly-CSharp
+        m_MethodName: GuildRequestList
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -5231,7 +5231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1107927277
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5296,10 +5296,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 701187867}
-        m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 701187868}
+        m_TargetAssemblyTypeName: GuildInfo, Assembly-CSharp
+        m_MethodName: GuildMemberList
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
@@ -9714,7 +9714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1795343305
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9779,10 +9779,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 701187867}
-        m_TargetAssemblyTypeName: GameStart, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 701187868}
+        m_TargetAssemblyTypeName: GuildInfo, Assembly-CSharp
+        m_MethodName: GuildRequestCancel
+        m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 963194229}
           m_ObjectArgumentAssemblyTypeName: AuthClient, Assembly-CSharp
