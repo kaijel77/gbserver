@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `im_game`.`tbl_friendinvite`;
+DROP TABLE IF EXISTS `im_game`.`tbl_friendinviteInfo`;
 
-CREATE TABLE `im_game`.`tbl_friendinvite` (
+CREATE TABLE `im_game`.`tbl_friendinviteInfo` (
   `invite_no` bigint NOT NULL,
   `account_no` bigint NOT NULL,
   `create_date` datetime DEFAULT now(), 
