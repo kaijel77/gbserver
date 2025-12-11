@@ -18,21 +18,32 @@ class usefulClass {
     // @returns Date|string
     //
     static getNowTime() {
-        let time = new Date();
-
+        let time = new Date(moment.now());
         return time;
     }
 
 
     ///////////////////////////////////////////////////////////////
     //
-    // 날짜/시간을 UTC기준의 특정 형식('YYYY-M-DD HH:mm:ss')으로 변환.
+    // 게임내 시간에 기준이 되는 현재 시간.
+    // @returns {Date} 현재 시간
+    // @memberOf time
+    //
+    static getNowTimeFormat() {
+        let time = new Date(moment.now());
+        return moment(time).format('YYYY-MM-DD HH:mm:ss');
+    }
+
+    ///////////////////////////////////////////////////////////////
+    //
+    // 날짜/시간을 특정 형식('YYYY-M-DD HH:mm:ss')으로 변환.
     // @param {utcDate} time - 날짜/시간
     // @returns {string} 'YYYY-MM-DD HH:mm:ss'형식 날짜
     // @memberOf time
     //
-    static getUTCDateTime(utcDate) {
-        return moment(utcDate).utc().format('YYYY-MM-DD HH:mm:ss');
+    static getDateTimeFormat(utcDate) {
+        let test = moment(utcDate).format('YYYY-MM-DD HH:mm:ss');
+        return test;
     }
 
 
@@ -52,6 +63,7 @@ class usefulClass {
         return moment(time).format(format);
     }
 
+
     ///////////////////////////////////////////////////////////////
     //
     // 두 시간의 차를 구해옴. precise 는 seconds, minuets, hours, days 등을 사용 가능.
@@ -63,6 +75,19 @@ class usefulClass {
     //
     static dateDiff (date1, date2, unit = null, precise = false) {
         return new moment(date1).diff(date2, unit, precise);
+    }
+
+   
+    ///////////////////////////////////////////////////////////////
+    //
+    // 시작시간을 기준으로 흐른시간 만큼 후의 시간을 가져옴.
+    // @param start_datetime 시작시간 (현재시간 디폴트)
+    // @param secondPassed 흐른시간 (초단위)
+    // @returns {Date}
+    //
+    static dateAddTime (secondPassed, start_datetime = this.getNowTime()) {
+        let value = new Date(moment(start_datetime).add(secondPassed, 'seconds'));
+        return value;
     }
 
 

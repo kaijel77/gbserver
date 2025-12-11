@@ -167,7 +167,7 @@ class AccountClass extends baseClass {
     async lastAccessUpdate(account_no, authtype) {
         try {
             this.includeHandler(['mysqlHandler']);
-            const nowTime = useful.getUTCDateTime(new Date());
+            const nowTime = useful.getDateTimeFormat(new Date());
             let set = `last_access_date = "${nowTime}"`;
             const query = `UPDATE tbl_account SET ${set} WHERE account_no='${account_no}'`;
 

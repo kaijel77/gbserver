@@ -107,4 +107,13 @@ CONSTANT.GUILD = {
     }
 }
 
+
+CONSTANT.BUILDING = { // 건물
+    STATUS: { // 상태
+        IDLE: 1, // 대기
+        UPGRADE: 2 // 건설 or 업그레이드
+    }
+};
+
+
 module.exports = CONSTANT;

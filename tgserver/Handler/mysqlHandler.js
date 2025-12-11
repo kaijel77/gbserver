@@ -28,7 +28,7 @@ class MysqlHandler {
     async query(db, sql, values) {
         const connection = await this.pool[db].getConnection();
         try {
-            console.log(useful.getUTCDateTime(new Date()), `|| query msg: ${sql}${values ? ` | values: ${values}` : ''}`);
+            console.log(useful.getDateTimeFormat(new Date()), `|| query msg: ${sql}${values ? ` | values: ${values}` : ''}`);
             const [result] = await connection.query(sql, values);
             return result;
         } catch (error) {

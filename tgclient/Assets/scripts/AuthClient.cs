@@ -619,6 +619,66 @@ public class AuthClient : MonoBehaviour
 
 
 
+    public IEnumerator send_buildingList()
+    {
+        yield return SendRequest("/building/buildingList", "", "POST", jwtToken, null);
+    }
+
+
+    public IEnumerator send_buildingBuild()
+    {
+        var data = JsonUtility.ToJson(new buildingBuild(2));
+        Debug.Log($"🔑 buildingBuild  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 buildingBuild encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/building/buildingBuild", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_buildingUpgrade()
+    {
+        var data = JsonUtility.ToJson(new buildingUpgrade(2));
+        Debug.Log($"🔑 buildingUpgrade  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 buildingUpgrade encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/building/buildingUpgrade", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_buildingEndtime()
+    {
+        var data = JsonUtility.ToJson(new buildingEndtime(2));
+        Debug.Log($"🔑 buildingEndtime  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 buildingEndtime encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/building/buildingEndtime", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_buildingDestroy()
+    {
+        var data = JsonUtility.ToJson(new buildingDestroy(2));
+        Debug.Log($"🔑 buildingDestroy  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 buildingDestroy encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/building/buildingDestroy", "", "POST", jwtToken, form);
+    }
+
+
+
+
     IEnumerator SendRequest(string endpoint, string json, string method, string header, WWWForm form)
     {
         UnityWebRequest www;
@@ -687,440 +747,4 @@ public class AuthClient : MonoBehaviour
         }
     }
 
-    [System.Serializable]
-    public class UserData
-    {
-        public string username;
-        public string password;
-        public UserData(string u, string p)
-        {
-            username = u;
-            password = p;
-        }
-    }
-
-    [System.Serializable]
-    public class cryptData
-    {
-        public string crypt;
-        public cryptData(string u)
-        {
-            crypt = u;
-        }
-    }
-
-
-    [System.Serializable]
-    public class gamecharname
-    {
-        public string gamechar_name;
-        public gamecharname(string u)
-        {
-            gamechar_name = u;
-        }
-    }
-
-    [System.Serializable]
-    public class LoginResponse
-    {
-        public bool success;
-        public string authToken;
-    }
-
-    [System.Serializable]
-    public class UserInfo
-    {
-        public int accountno;
-        public string user_id;
-        public string password;
-    }
-
-    [System.Serializable]
-    public class Data
-    {
-        public string server_time;
-        public bool isCreateAccount;
-        public bool isNickSetting;
-        public string authToken;
-        public UserInfo userInfo;
-        // serverAddress가 빈 객체 {} 이므로, 임시로 string 처리 가능
-        public string serverAddress;
-    }
-
-    [System.Serializable]
-    public class Login2Response
-    {
-        public int errorCode;
-        public bool isSuccess;
-        public Data data;
-    }
-
-
-
-
-    [System.Serializable]
-    public class NickCreate
-    {
-        public string result;
-    }
-
-    [System.Serializable]
-    public class gameNickCreate
-    {
-        public int errorCode;
-        public bool isSuccess;
-        public NickCreate data;
-    }
-
-
-
-    [System.Serializable]
-    public class startgameList
-    {
-        public string itemList;
-        public string heroList;
-        public string equipList;
-    }
-
-    [System.Serializable]
-    public class startGame
-    {
-        public int errorCode;
-        public bool isSuccess;
-        public startgameList data;
-    }
-
-
-    [System.Serializable]
-    public class itemAdd
-    {
-        public int item_no;
-        public int item_id;
-        public int item_type;
-        public int item_count;
-
-        public itemAdd(int itemno, int itemid, int itemtype, int itemcount)
-        {
-            item_no = itemno;
-
-            item_id = itemid;
-            
-            item_type = itemtype;
-            
-            item_count = itemcount;
-        }
-    }
-
-
-    [System.Serializable]
-    public class itemUse
-    {
-        public int item_no;
-        public int item_count;
-
-        public itemUse(int itemno, int itemcount)
-        {
-            item_count = itemcount;
-
-            item_no = itemno;
-        }
-    }
-
-
-    [System.Serializable]
-    public class itemRemove
-    {
-        public int item_no;
-
-        public itemRemove(int itemno)
-        {
-
-            item_no = itemno;
-        }
-    }
-
-
-
-    [System.Serializable]
-    public class heroCreate
-    {
-        public int hero_id;
-        public int hero_type;
-        public int hero_grade;
-        public int hero_star;
-
-        public heroCreate(int heroid, int herotype, int herograde, int herostar)
-        {
-            hero_id = heroid;
-
-            hero_type = herotype;
-
-            hero_grade = herograde;
-
-            hero_star = herostar;
-        }
-    }
-
-
-    [System.Serializable]
-    public class heroLevel
-    {
-        public int hero_no;
-        public int hero_grade;
-        public int hero_star;
-        public int hero_level;
-        public int hero_exp;
-
-        public heroLevel(int herono, int herograde, int herostar, int herolevel, int heroexp)
-        {
-            hero_no = herono;
-
-            hero_grade = herograde;
-
-            hero_star = herostar;
-
-            hero_level = herolevel;
-
-            hero_exp = heroexp;
-        }
-    }
-
-
-    [System.Serializable]
-    public class heroLocation
-    {
-        public int hero_no;
-        public int hero_location;
-        public int hero_task;
-
-        public heroLocation(int herono, int herolocation, int herotask)
-        {
-            hero_no = herono;
-            hero_location = herolocation;
-            hero_task = herotask;
-        }
-    }
-
-
-    [System.Serializable]
-    public class heroRemove
-    {
-        public int hero_no;
-
-        public heroRemove(int herono)
-        {
-
-            hero_no = herono;
-        }
-    }
-
-
-
-
-
-
-    [System.Serializable]
-    public class equipCreate
-    {
-        public int equip_id;
-        public int equip_type;
-        public int equip_grade;
-        public int equip_star;
-
-        public equipCreate(int equipid, int equiptype, int equipgrade, int equipstar)
-        {
-            equip_id = equipid;
-
-            equip_type = equiptype;
-
-            equip_grade = equipgrade;
-
-            equip_star = equipstar;
-        }
-    }
-
-
-
-    [System.Serializable]
-    public class equipInstall
-    {
-        public int equip_no;
-        public int hero_no;
-        public int equip_grade;
-        public int equip_star;
-
-        public equipInstall(int equipno, int herono)
-        {
-            equip_no = equipno;
-
-            hero_no = herono;
-        }
-    }
-
-
-    [System.Serializable]
-    public class equipUninstall
-    {
-        public int equip_no;
-
-        public equipUninstall(int equipno)
-        {
-            equip_no = equipno;
-        }
-    }
-
-
-    [System.Serializable]
-    public class equipLevel
-    {
-        public int equip_no;
-        public int equip_grade;
-        public int equip_star;
-        public int equip_level;
-        public int equip_exp;
-
-        public equipLevel(int equipno, int equipgrade, int equipstar, int equiplevel, int equipexp)
-        {
-            equip_no = equipno;
-
-            equip_grade = equipgrade;
-
-            equip_star = equipstar;
-
-            equip_level = equiplevel;
-
-            equip_exp = equipexp;
-        }
-    }
-
-
-    [System.Serializable]
-    public class equipLock
-    {
-        public int equip_no;
-        public int equip_lock;
-
-        public equipLock(int equipno, int equiplock)
-        {
-            equip_no = equipno;
-            equip_lock = equiplock;
-        }
-    }
-
-
-    [System.Serializable]
-    public class equipRemove
-    {
-        public int equip_no;
-
-        public equipRemove(int equipno)
-        {
-
-            equip_no = equipno;
-        }
-    }
-
-
-
-
-    [System.Serializable]
-    public class deckSetting
-    {
-        public int deck_type;
-        public int deck_hero01;
-        public int deck_hero02;
-        public int deck_hero03;
-        public int deck_hero04;
-        public int deck_hero05;
-        public int deck_hero06;
-        public int deck_hero07;
-        public int deck_hero08;
-
-        public deckSetting(int decktype, int deckhero01, int deckhero02, int deckhero03, int deckhero04, int deckhero05, int deckhero06, int deckhero07, int deckhero08)
-        {
-
-            deck_type = decktype;
-
-            deck_hero01 = deckhero01;
-
-            deck_hero02 = deckhero02;
-
-            deck_hero03 = deckhero03;
-
-            deck_hero04 = deckhero04;
-
-            deck_hero05 = deckhero05;
-
-            deck_hero06 = deckhero06;
-
-            deck_hero07 = deckhero07;
-
-            deck_hero08 = deckhero08;
-
-        }
-    }
-
-
-
-    [System.Serializable]
-    public class deckRemove
-    {
-        public int deck_type;
-
-        public deckRemove(int decktype)
-        {
-            deck_type = decktype;
-        }
-    }
-
-
-
-
-    [System.Serializable]
-    public class missionUpdate
-    {
-        public int mission_id;
-        public int mission_count;
-
-        public missionUpdate(int missionid, int missioncount)
-        {
-
-            mission_id = missionid;
-
-            mission_count = missioncount;
-        }
-    }
-    
-    [System.Serializable]
-    public class missionComplete
-    {
-        public int mission_id;
-
-        public missionComplete(int missionid)
-        {
-            mission_id = missionid;
-        }
-    }
-
-    [System.Serializable]
-    public class missionReward
-    {
-        public int mission_id;
-
-        public missionReward(int missionid)
-        {
-            mission_id = missionid;
-        }
-    }
-
-    [System.Serializable]
-    public class missionRemove
-    {
-        public int mission_id;
-
-        public missionRemove(int missionid)
-        {
-            mission_id = missionid;
-        }
-    }
 }

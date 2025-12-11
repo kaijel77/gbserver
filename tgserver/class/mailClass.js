@@ -103,7 +103,7 @@ class mailClass  extends baseClass {
         try {
             this.includeHandler(['mysqlHandler']);
 
-            const nowTime = useful.getUTCDateTime(new Date());
+            const nowTime = useful.getDateTimeFormat(new Date());
             let set = `is_read = true`;
             const query = `UPDATE tbl_mail SET ${set} WHERE mail_no='${mail_no}' and char_no='${char_no}'`;
 
@@ -127,7 +127,7 @@ class mailClass  extends baseClass {
         try {
             this.includeHandler(['mysqlHandler']);
 
-            const nowTime = useful.getUTCDateTime(new Date());
+            const nowTime = useful.getDateTimeFormat(new Date());
             let set = `is_received = true`;
             const query = `UPDATE tbl_mail SET ${set} WHERE mail_no='${mail_no}' and char_no='${char_no}'`;
 
@@ -179,8 +179,8 @@ class mailClass  extends baseClass {
         try {
             this.includeHandler(['mysqlHandler']);
 
-            const nowTime = useful.getUTCDateTime(new Date());
-            const reward_data = useful.getUTCDateTime(new Date(14));
+            const nowTime = useful.getDateTimeFormat(new Date());
+            const reward_data = useful.getDateTimeFormat(new Date(14));
 
             // mail생성
             let bCreate = false;

@@ -145,7 +145,7 @@ router.post('/withdraw', pscHandler.asyncWrap(async (req, res, next) => {
 
     // 
     // 계정 임시 탈퇴처리
-    const nowTime = useful.getUTCDateTime(new Date());
+    const nowTime = useful.getDateTimeFormat(new Date());
     let bUpdate = await accountClass.update_AccountWithdraw(account_info.account_no, true, nowTime);
 
     account_info.withdraw = bUpdate;
@@ -173,7 +173,7 @@ router.post('/withdrawCancel', pscHandler.asyncWrap(async (req, res) => {
     
     // 계정 탈퇴취소 가능한날짜인지 체크한다.
     let user_secession = 7 * 24 * 60 * 60;
-    const nowTime = useful.getUTCDateTime(new Date());
+    const nowTime = useful.getDateTimeFormat(new Date());
     let now_date = useful.getNowTime();
     let diff_time = useful.dateDiff(now_date, req.account_info.withdraw_date, 'seconds');
     if (diff_time >= parseInt(user_secession)) {
