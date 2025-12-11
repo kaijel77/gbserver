@@ -14,14 +14,14 @@ class friendClass  extends baseClass {
     // 친구 리스트 가져오기
     // @returns {Promise<*[]|*>} 아이템 정보
     // 
-    async getFriendList (friend_no) {
+    async getFriendList (account_no) {
        try {
             this.includeHandler(['mysqlHandler']);
 
             let friendList = [];
 
             let select = `friend_no, account_no, create_date`;
-            const query = `SELECT ${select} FROM tbl_friendInfo WHERE friend_no='${friend_no}'`;
+            const query = `SELECT ${select} FROM tbl_friendInfo WHERE account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -52,14 +52,14 @@ class friendClass  extends baseClass {
     // 친구 정보 가져오기
     // @returns {Promise<*[]|*>} 아이템 정보
     // 
-    async getFriendInfo (friend_no, account_no) {
+    async getFriendInfo (account_no, friend_no) {
         try {
             this.includeHandler(['mysqlHandler']);
 
             let friendInfo = null;
 
             let select = `friend_no, account_no, create_date`;
-            const query = `SELECT ${select} FROM tbl_friendInfo WHERE friend_no='${friend_no}' and account_no='${account_no}'`;
+            const query = `SELECT ${select} FROM tbl_friendInfo WHERE account_no='${account_no}' and friend_no='${friend_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -76,7 +76,7 @@ class friendClass  extends baseClass {
             .catch((err) => {
                 throw err;
             });
-            return friendList;
+            return friendInfo;
         } catch (err) {
             throw err;
         }
@@ -105,7 +105,7 @@ class friendClass  extends baseClass {
                     for(let friendmember_info of result)
                     {
                         friendmemberList.push({
-                            friend_no: friendmember_info.friend_no,
+                            invite_no: friendmember_info.invite_no,
                             account_no: friendmember_info.account_no,
                             create_date: friendmember_info.create_date,
                         });
@@ -144,7 +144,7 @@ class friendClass  extends baseClass {
                     for(let friendmember_info of result)
                     {
                         friendmemberList.push({
-                            friend_no: friendmember_info.friend_no,
+                            invite_no: friendmember_info.invite_no,
                             account_no: friendmember_info.account_no,
                             create_date: friendmember_info.create_date,
                         });
@@ -163,12 +163,51 @@ class friendClass  extends baseClass {
 
     ///////////////////////////////////////////////////////////////
     //
+    // 친구초대 정보 가져오기
+    // @param friend_no 길드 넘버
+    // @returns {Promise<*[]|*>} 아이템 정보
+    // 
+    async getFriendInviteInfo (account_no, invite_no) {
+        try {
+            this.includeHandler(['mysqlHandler']);
+
+            let friendmemberList = [];
+
+            let select = `invite_no, account_no, create_date`;
+            let query = `SELECT ${select} FROM tbl_friendinviteInfo WHERE account_no='${account_no}' and invite_no='${invite_no}'`;
+
+            await this.mysqlHandlerClass
+            .query(CONSTANT.DB.GAME, query)
+            .then((result) => {
+                if (result.length > 0) {
+                    for(let friendmember_info of result)
+                    {
+                        friendmemberList.push({
+                            invite_no: friendmember_info.invite_no,
+                            account_no: friendmember_info.account_no,
+                            create_date: friendmember_info.create_date,
+                        });
+                    }
+                }                
+            })
+            .catch((err) => {
+                throw err;
+            });
+            return friendmemberList;
+        } catch (err) {
+            throw err;
+        }
+    }
+ 
+
+    ///////////////////////////////////////////////////////////////
+    //
     // 친구 요청
     // @param friend_no 친구 넘버
     // @param account_no 계정 넘버
     // @returns {Promise<*[]|*>} 아이템 정보
     // 
-    async insertFriendInfo (friend_no, account_no) {
+    async insertFriendInfo (account_no, friend_no) {
         try {
             this.includeHandler(['mysqlHandler']);
 
@@ -229,11 +268,11 @@ class friendClass  extends baseClass {
     ///////////////////////////////////////////////////////////////
     //
     // 친구초대 요청
-    // @param invite_no 친구 넘버
     // @param account_no 계정 넘버
+    // @param invite_no 친구 넘버
     // @returns {Promise<*[]|*>} 아이템 정보
     // 
-    async insertInviteInfo (invite_no, account_no) {
+    async insertFriendInviteInfo (account_no, invite_no) {
         try {
             this.includeHandler(['mysqlHandler']);
 
@@ -264,10 +303,11 @@ class friendClass  extends baseClass {
     ///////////////////////////////////////////////////////////////
     //
     // 길드멤버 탈퇴
-    // @param guild_no 길드 넘버
+    // @param account_no 계정 넘버
+    // @param invite_no 친구 넘버
     // @returns {Promise<*[]|*>} 아이템 정보
     // 
-    async removeInviteInfo (invite_no, account_no) {
+    async removeFriendInviteInfo (account_no, invite_no) {
         try {
             this.includeHandler(['mysqlHandler']);
 

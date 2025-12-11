@@ -532,6 +532,93 @@ public class AuthClient : MonoBehaviour
         yield return SendRequest("/guild/guildChangeUserGrade", "", "POST", jwtToken, form);
     }
 
+
+
+
+    public IEnumerator send_friendList()
+    {
+        yield return SendRequest("/friend/friendList", "", "POST", jwtToken, null);
+    }
+
+
+    public IEnumerator send_friendInviteList()
+    {
+        yield return SendRequest("/friend/friendInviteList", "", "POST", jwtToken, null);
+    }
+
+
+    public IEnumerator send_friendRequestList()
+    {
+        yield return SendRequest("/friend/friendRequestList", "", "POST", jwtToken, null);
+    }
+
+
+    public IEnumerator send_friendInvite()
+    {
+        var data = JsonUtility.ToJson(new friendInvite(2));
+        Debug.Log($"🔑 friendInvite  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 friendInvite encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/friend/friendInvite", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_friendInviteCancel()
+    {
+        var data = JsonUtility.ToJson(new friendInviteCancel(2));
+        Debug.Log($"🔑 friendInviteCancel  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 friendInviteCancel encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/friend/friendInviteCancel", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_friendAcceptCancel()
+    {
+        var data = JsonUtility.ToJson(new friendAcceptCancel(2));
+        Debug.Log($"🔑 friendAcceptCancel  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 friendAcceptCancel encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/friend/friendAcceptCancel", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_friendAcceptConfirm()
+    {
+        var data = JsonUtility.ToJson(new friendAcceptConfirm(2));
+        Debug.Log($"🔑 friendAcceptConfirm  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 friendAcceptConfirm encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/friend/friendAcceptConfirm", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_friendKickOut()
+    {
+        var data = JsonUtility.ToJson(new friendKickOut(2));
+        Debug.Log($"🔑 friendKickOut  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 friendKickOut encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/friend/friendKickOut", "", "POST", jwtToken, form);
+    }
+
+
+
     IEnumerator SendRequest(string endpoint, string json, string method, string header, WWWForm form)
     {
         UnityWebRequest www;
