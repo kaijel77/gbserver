@@ -179,7 +179,7 @@ router.post('/stageReward', pscHandler.asyncWrap(async function (req, res) {
 //
 // 스테이지 종료
 //
-router.post('/storyReward', pscHandler.asyncWrap(async function (req, res) {
+router.post('/stageStoryReward', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 

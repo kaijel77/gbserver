@@ -15,10 +15,11 @@ module.exports = function (app) {
         { loc: '../routes/friendManager', api: 'friend' },
         { loc: '../routes/buildingManager', api: 'building' },
 
+        { loc: '../routes/continentStageManager', api: 'continentStage' },
+
         { loc: '../routes/mailManager', api: 'mail' },
         { loc: '../routes/couponManager', api: 'coupon' },
         { loc: '../routes/eventManager', api: 'event' },
-        { loc: '../routes/stageManager', api: 'stage' },
         { loc: '../routes/chatManager', api: 'chat' },
     ];
     console.log('======= routes loading... =======');
