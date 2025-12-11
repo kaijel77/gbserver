@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `im_game`.`tbl_character`;
+DROP TABLE IF EXISTS `im_game`.`tbl_characterInfo`;
 
-CREATE TABLE `im_game`.`tbl_character` (
+CREATE TABLE `im_game`.`tbl_characterInfo` (
   `account_no` BIGINT NOT NULL,
   `nickname` VARCHAR(20) DEFAULT '',
   `char_type` INT DEFAULT 0,

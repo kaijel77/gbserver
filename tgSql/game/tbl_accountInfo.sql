@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `im_game`.`tbl_account`;
+DROP TABLE IF EXISTS `im_game`.`tbl_accountInfo`;
 
-CREATE TABLE `im_game`.`tbl_account` (
+CREATE TABLE `im_game`.`tbl_accountInfo` (
   `account_no` BIGINT NOT NULL AUTO_INCREMENT,
   `id` VARCHAR(45) NOT NULL,
   `password` VARCHAR(255) NOT NULL,

@@ -21,7 +21,7 @@ class itemClass  extends baseClass {
 
             let itemList = [];
             let select = `item_no, item_id, item_type, item_count, create_date`;
-            const query = `SELECT ${select} FROM tbl_item WHERE account_no='${account_no}'`;
+            const query = `SELECT ${select} FROM tbl_itemInfo WHERE account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -62,7 +62,7 @@ class itemClass  extends baseClass {
 
             let itemInfo = null;
             let select = `item_no, item_id, item_type, item_count, create_date`;
-            const query = `SELECT ${select} FROM tbl_item WHERE account_no='${account_no}' and item_no='${item_no}'`;
+            const query = `SELECT ${select} FROM tbl_itemInfo WHERE account_no='${account_no}' and item_no='${item_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -101,7 +101,7 @@ class itemClass  extends baseClass {
  
              let itemInfo = null;
              let select = `item_no, item_id, item_type, item_count, create_date`;
-             const query = `SELECT ${select} FROM tbl_item WHERE account_no='${account_no}' and item_id='${item_id}'`;
+             const query = `SELECT ${select} FROM tbl_itemInfo WHERE account_no='${account_no}' and item_id='${item_id}'`;
  
              await this.mysqlHandlerClass
              .query(CONSTANT.DB.GAME, query)
@@ -147,7 +147,7 @@ class itemClass  extends baseClass {
             let columns = 'account_no, item_id, item_type, item_count, item_grade, item_level, item_exp, create_date';
             let values = `'${account_no}', '${item_id}', '${item_type}', '${item_count}', 1, 1, 0, now()`;
 
-            let query = `INSERT INTO tbl_item (${columns}) VALUES (${values})`;
+            let query = `INSERT INTO tbl_itemInfo (${columns}) VALUES (${values})`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -181,7 +181,7 @@ class itemClass  extends baseClass {
 
             let bUpdate = false;
             let set = `item_count = "${item_count}"`;
-            const query = `UPDATE tbl_item SET ${set} WHERE account_no='${account_no}' and item_no='${item_no}'`;
+            const query = `UPDATE tbl_itemInfo SET ${set} WHERE account_no='${account_no}' and item_no='${item_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -212,7 +212,7 @@ class itemClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            let query = `DELETE FROM tbl_item WHERE account_no='${account_no}' and item_no='${item_no}'`;
+            let query = `DELETE FROM tbl_itemInfo WHERE account_no='${account_no}' and item_no='${item_no}'`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)

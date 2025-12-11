@@ -21,7 +21,7 @@ class heroClass  extends baseClass {
 
             let heroList = [];
             let select = `hero_no, hero_id, hero_type, hero_star, hero_grade, hero_level, hero_exp, hero_location, hero_task, create_date`;
-            const query = `SELECT ${select} FROM tbl_hero WHERE account_no='${account_no}'`;
+            const query = `SELECT ${select} FROM tbl_heroInfo WHERE account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -68,7 +68,7 @@ class heroClass  extends baseClass {
 
             let heroInfo = null;
             let select = `hero_no, hero_id, hero_type, hero_star, hero_grade, hero_level, hero_exp, hero_location, hero_task, create_date`;
-            const query = `SELECT ${select} FROM tbl_hero WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
+            const query = `SELECT ${select} FROM tbl_heroInfo WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -120,7 +120,7 @@ class heroClass  extends baseClass {
             let columns = 'account_no, hero_id, hero_type, hero_star, hero_grade, hero_level, hero_exp, hero_location, hero_task, create_date';
             let values = `'${account_no}', '${hero_id}', '${hero_type}', '${hero_star}', '${hero_grade}', 1, 0, 1, 1, now()`;
 
-            let query = `INSERT INTO tbl_hero (${columns}) VALUES (${values})`;
+            let query = `INSERT INTO tbl_heroInfo (${columns}) VALUES (${values})`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -157,7 +157,7 @@ class heroClass  extends baseClass {
 
             let bUpdate = false;
             let set = `hero_star = "${hero_star}", hero_grade = "${hero_grade}", hero_level = "${hero_level}", hero_exp = "${hero_exp}"`;
-            const query = `UPDATE tbl_hero SET ${set} WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
+            const query = `UPDATE tbl_heroInfo SET ${set} WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -192,7 +192,7 @@ class heroClass  extends baseClass {
 
             let bUpdate = false;
             let set = `hero_location = "${hero_location}", hero_task = "${hero_task}"`;
-            const query = `UPDATE tbl_hero SET ${set} WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
+            const query = `UPDATE tbl_heroInfo SET ${set} WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -224,7 +224,7 @@ class heroClass  extends baseClass {
             this.includeHandler(['mysqlHandler']);
 
             let bDelete = false;
-            let query = `DELETE FROM tbl_hero WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
+            let query = `DELETE FROM tbl_heroInfo WHERE account_no='${account_no}' and hero_no='${hero_no}'`;
             
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)

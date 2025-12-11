@@ -22,7 +22,7 @@ class gameCharClass extends baseClass {
          this.includeHandler(['mysqlHandler']);
          let user = null;
          let select = `char_no, account_no, char_name`;
-         const query = `SELECT ${select} FROM tbl_character WHERE account_no ='${account_no}'`;
+         const query = `SELECT ${select} FROM tbl_characterInfo WHERE account_no ='${account_no}'`;
          await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
             .then((result) => {
@@ -85,7 +85,7 @@ class gameCharClass extends baseClass {
 
       try {
          let select = `nickname`;
-         const query = `SELECT ${select} FROM tbl_character WHERE nickname ='${gamechar_name}'`;
+         const query = `SELECT ${select} FROM tbl_characterInfo WHERE nickname ='${gamechar_name}'`;
          await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
             .then((result) => {
@@ -136,7 +136,7 @@ class gameCharClass extends baseClass {
          let values = `'${account_no}', '${gamechar_name}'`;
          let bCreate = false;
 
-         let query = `INSERT INTO tbl_character (${columns}) VALUES (${values})`;
+         let query = `INSERT INTO tbl_characterInfo (${columns}) VALUES (${values})`;
          await this.mysqlHandlerClass
          .query(CONSTANT.DB.GAME, query)
          .then(async (result) => {

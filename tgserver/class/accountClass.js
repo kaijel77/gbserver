@@ -27,7 +27,7 @@ class AccountClass extends baseClass {
 
             let user = null;
             let select = `ta.account_no, ta.id, ta.password, ta.withdraw, ta.withdraw_date, ta.block, ta.block_date, COALESCE(tc.nickname, '') AS nickname`;
-            const query = `SELECT ${select} FROM tbl_account ta LEFT JOIN tbl_character tc ON ta.account_no = tc.account_no WHERE id='${gameUser_id}'`;
+            const query = `SELECT ${select} FROM tbl_accountInfo ta LEFT JOIN tbl_characterInfo tc ON ta.account_no = tc.account_no WHERE id='${gameUser_id}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -80,7 +80,7 @@ class AccountClass extends baseClass {
             let columns = 'id, password';
             let values = `'${gameuser_id}', '${gameuser_id}'`;
 
-            let query = `INSERT INTO tbl_account (${columns}) VALUES (${values})`;
+            let query = `INSERT INTO tbl_accountInfo (${columns}) VALUES (${values})`;
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
             .then(async (result) => {
@@ -169,7 +169,7 @@ class AccountClass extends baseClass {
             this.includeHandler(['mysqlHandler']);
             const nowTime = useful.getDateTimeFormat(new Date());
             let set = `last_access_date = "${nowTime}"`;
-            const query = `UPDATE tbl_account SET ${set} WHERE account_no='${account_no}'`;
+            const query = `UPDATE tbl_accountInfo SET ${set} WHERE account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -215,7 +215,7 @@ class AccountClass extends baseClass {
 
             let bUpdate = false;
             let set = `withdraw = "${withdraw}", withdraw_date = "${nowTime}"`;
-            const query = `UPDATE tbl_account SET ${set} WHERE account_no='${account_no}'`;
+            const query = `UPDATE tbl_accountInfo SET ${set} WHERE account_no='${account_no}'`;
 
             await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)

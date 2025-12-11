@@ -13,7 +13,6 @@ module.exports = function (app) {
         { loc: '../routes/missionManager', api: 'mission' },
         { loc: '../routes/guildManager', api: 'guild' },
         { loc: '../routes/friendManager', api: 'friend' },
-
         { loc: '../routes/buildingManager', api: 'building' },
 
         { loc: '../routes/mailManager', api: 'mail' },
