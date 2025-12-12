@@ -14,7 +14,6 @@ module.exports = function (app) {
         { loc: '../routes/guildManager', api: 'guild' },
         { loc: '../routes/friendManager', api: 'friend' },
         { loc: '../routes/buildingManager', api: 'building' },
-
         { loc: '../routes/continentStageManager', api: 'continentStage' },
 
         { loc: '../routes/mailManager', api: 'mail' },

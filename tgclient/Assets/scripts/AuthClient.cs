@@ -678,6 +678,63 @@ public class AuthClient : MonoBehaviour
 
 
 
+    public IEnumerator send_stageList()
+    {
+        yield return SendRequest("/continentStage/continentStageList", "", "POST", jwtToken, null);
+    }
+
+
+    public IEnumerator send_stageStart()
+    {
+        var data = JsonUtility.ToJson(new continentStageStart(2, 2));
+        Debug.Log($"🔑 continentStageStart  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 continentStageStart encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/continentStage/continentStageStart", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_stageEnd()
+    {
+        var data = JsonUtility.ToJson(new continentStageEnd(2, 2));
+        Debug.Log($"🔑 continentStageEnd  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 continentStageEnd encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/continentStage/continentStageEnd", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_stageReward()
+    {
+        var data = JsonUtility.ToJson(new continentStageReward(2, 2));
+        Debug.Log($"🔑 continentStageReward  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 continentStageReward encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/continentStage/continentStageReward", "", "POST", jwtToken, form);
+    }
+
+
+    public IEnumerator send_continentReward()
+    {
+        var data = JsonUtility.ToJson(new continentReward(2, 2));
+        Debug.Log($"🔑 continentReward  base: {data}");
+        string encyData = AESUtil.Encrypt(data);
+        WWWForm form = new WWWForm();
+        Debug.Log($"🔑 continentReward encr: {encyData}");
+
+        form.AddField("crypt", encyData);
+        yield return SendRequest("/continentStage/continentReward", "", "POST", jwtToken, form);
+    }
+
 
     IEnumerator SendRequest(string endpoint, string json, string method, string header, WWWForm form)
     {

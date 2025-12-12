@@ -14,7 +14,7 @@ const deckClass = require('../class/deckClass');
 //
 //  스테이지 리스트
 //
-router.post('/stageList', pscHandler.asyncWrap(async function (req, res) {
+router.post('/continentStageList', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
@@ -32,7 +32,7 @@ router.post('/stageList', pscHandler.asyncWrap(async function (req, res) {
 //
 // 스테이지 정보보기
 //
-router.post('/stageInfo', pscHandler.asyncWrap(async function (req, res) {
+router.post('/continentStageInfo', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
@@ -61,7 +61,7 @@ router.post('/stageInfo', pscHandler.asyncWrap(async function (req, res) {
 //
 // 스테이지 시작
 //
-router.post('/stageStart', pscHandler.asyncWrap(async function (req, res) {
+router.post('/continentStageStart', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
@@ -85,6 +85,8 @@ router.post('/stageStart', pscHandler.asyncWrap(async function (req, res) {
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
+    // 이곳에서 
+
     let result = pscHandler.successJson({
       stage_info: stage_info,
     });
@@ -97,12 +99,13 @@ router.post('/stageStart', pscHandler.asyncWrap(async function (req, res) {
 //
 // 스테이지 종료
 //
-router.post('/stageEnd', pscHandler.asyncWrap(async function (req, res) {
+router.post('/continentStageEnd', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
-    let params = pscHandler.verifyParams(req, ['stage_id']);
+    let params = pscHandler.verifyParams(req, ['stage_id', 'deck_type']);
     let stage_id = params['stage_id'];
+    let deck_type = params['deck_type'];
     if(stage_id === null || stage_id === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
@@ -138,12 +141,13 @@ router.post('/stageEnd', pscHandler.asyncWrap(async function (req, res) {
 //
 // 스테이지 종료
 //
-router.post('/stageReward', pscHandler.asyncWrap(async function (req, res) {
+router.post('/continentStageReward', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
-    let params = pscHandler.verifyParams(req, ['stage_id']);
+    let params = pscHandler.verifyParams(req, ['stage_id', 'deck_type']);
     let stage_id = params['stage_id'];
+    let deck_type = params['deck_type'];
     if(stage_id === null || stage_id === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
@@ -179,18 +183,19 @@ router.post('/stageReward', pscHandler.asyncWrap(async function (req, res) {
 //
 // 스테이지 종료
 //
-router.post('/stageStoryReward', pscHandler.asyncWrap(async function (req, res) {
+router.post('/continentReward', pscHandler.asyncWrap(async function (req, res) {
 
     let account_info = req.account_info;
 
-    let params = pscHandler.verifyParams(req, ['stage_id']);
+    let params = pscHandler.verifyParams(req, ['stage_id', 'deck_type']);
     let stage_id = params['stage_id'];
+    let deck_type = params['deck_type'];
     if(stage_id === null || stage_id === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.
     }
 
-    let stage_info = await continentStageClass.getStageInfo(account_info.account_no, stage_id);
+    let stage_info =await continentStageClass.getStageInfo(account_info.account_no, stage_id);
     if(stage_info === null || stage_info === undefined){
         // 닉네임이 있어서 실패 
         errorHandler.throwError(1099, 9000006); // 계정생성이 실패하였습니다.

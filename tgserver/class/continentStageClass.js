@@ -20,8 +20,8 @@ class continentStageClass  extends baseClass {
          this.includeHandler(['mysqlHandler']);
 
          let stageList = [];
-         let select = `stage_no, stage_id, continent_id, stage_type, stage_currentid, create_date`;
-         const query = `SELECT ${select} FROM tbl_stageInfo WHERE account_no='${account_no}'`;
+         let select = `continent_id, stage_id, stage_type, current_stage_id, create_date`;
+         const query = `SELECT ${select} FROM tbl_continentStageInfo WHERE account_no='${account_no}'`;
 
          await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -29,11 +29,10 @@ class continentStageClass  extends baseClass {
                if (result.length > 0) {
                   for (let stage_info of result) {
                      stageList.push({
-                        stage_no: stage_info.stage_no,
-                        stage_id: stage_info.stage_id,
                         continent_id: stage_info.continent_id,
+                        stage_id: stage_info.stage_id,
                         stage_type: stage_info.stage_type,
-                        stage_currentid: stage_info.stage_currentid,
+                        current_stage_id: stage_info.current_stage_id,
                         create_date: stage_info.create_date,
                      });
                   }
@@ -57,13 +56,13 @@ class continentStageClass  extends baseClass {
    // @param stage_no 스테이지 아이디
    // @returns {Promise<*[]|*>} 스테이지 정보
    // 
-   async getStageInfo(account_no, stage_no) {
+   async getStageInfo(account_no, stage_id) {
       try {
          this.includeHandler(['mysqlHandler']);
 
          let stageInfo = null;
-         let select = `stage_no, stage_id, continent_id, stage_type, stage_currentid, create_date`;
-         const query = `SELECT ${select} FROM tbl_stage WHERE account_no='${account_no}' and stage_no='${stage_no}'`;
+         let select = `stage_id, continent_id, stage_type, current_stage_id, create_date`;
+         const query = `SELECT ${select} FROM tbl_continentStageInfo WHERE account_no='${account_no}' and stage_id='${stage_id}'`;
 
          await this.mysqlHandlerClass
             .query(CONSTANT.DB.GAME, query)
@@ -71,11 +70,10 @@ class continentStageClass  extends baseClass {
                if (result.length > 0) {
                   result = result[0];
                   stageInfo = {
-                     stage_no: result.stage_no,
                      stage_id: result.stage_id,
                      continent_id: result.continent_id,
                      stage_type: result.stage_type,
-                     stage_currentid: result.stage_currentid,
+                     current_stage_id: result.current_stage_id,
                      create_date: result.create_date,
                   };
                }
@@ -103,7 +101,7 @@ class continentStageClass  extends baseClass {
 
           let bUpdate = false;
           let set = `stage_id = "${stage_id}", continent_id = "${continent_id}", stage_currentid = "${stage_currentid}"`;
-          const query = `UPDATE tbl_stage SET ${set} WHERE account_no='${account_no}' and stage_no='${stage_no}'`;
+          const query = `UPDATE tbl_continentStageInfo SET ${set} WHERE account_no='${account_no}' and stage_no='${stage_no}'`;
 
           await this.mysqlHandlerClass
           .query(CONSTANT.DB.GAME, query)
