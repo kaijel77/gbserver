@@ -88,6 +88,47 @@ class continentStageClass  extends baseClass {
    }
 
 
+
+   ///////////////////////////////////////////////////////////////
+   //
+   // 대륙정보 정보 가져오기
+   // @param account_no 계정 기본 아이디
+   // @param continent_id 대륙 아이디
+   // @returns {Promise<*[]|*>} 대륙 정보
+   // 
+   async getContimentInfo(account_no, continent_id) {
+      try {
+         this.includeHandler(['mysqlHandler']);
+
+         let stageInfo = null;
+         let select = `stage_id, continent_id, stage_type, current_stage_id, create_date`;
+         const query = `SELECT ${select} FROM tbl_continentStageInfo WHERE account_no='${account_no}' and continent_id='${continent_id}'`;
+
+         await this.mysqlHandlerClass
+            .query(CONSTANT.DB.GAME, query)
+            .then((result) => {
+               if (result.length > 0) {
+                  result = result[0];
+                  stageInfo = {
+                     stage_id: result.stage_id,
+                     continent_id: result.continent_id,
+                     stage_type: result.stage_type,
+                     current_stage_id: result.current_stage_id,
+                     create_date: result.create_date,
+                  };
+               }
+            })
+            .catch((err) => {
+               throw err;
+            });
+         return stageInfo;
+      } catch (err) {
+         throw err;
+      }
+   }
+
+
+
    ///////////////////////////////////////////////////////////////
    //
    // 스테이지 정보 갱신

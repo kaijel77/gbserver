@@ -686,7 +686,7 @@ public class AuthClient : MonoBehaviour
 
     public IEnumerator send_stageStart()
     {
-        var data = JsonUtility.ToJson(new continentStageStart(2, 2));
+        var data = JsonUtility.ToJson(new continentStageStart(1, 1));
         Debug.Log($"🔑 continentStageStart  base: {data}");
         string encyData = AESUtil.Encrypt(data);
         WWWForm form = new WWWForm();
@@ -699,7 +699,7 @@ public class AuthClient : MonoBehaviour
 
     public IEnumerator send_stageEnd()
     {
-        var data = JsonUtility.ToJson(new continentStageEnd(2, 2));
+        var data = JsonUtility.ToJson(new continentStageEnd(1, 1));
         Debug.Log($"🔑 continentStageEnd  base: {data}");
         string encyData = AESUtil.Encrypt(data);
         WWWForm form = new WWWForm();
@@ -712,7 +712,7 @@ public class AuthClient : MonoBehaviour
 
     public IEnumerator send_stageReward()
     {
-        var data = JsonUtility.ToJson(new continentStageReward(2, 2));
+        var data = JsonUtility.ToJson(new continentStageReward(1, 1));
         Debug.Log($"🔑 continentStageReward  base: {data}");
         string encyData = AESUtil.Encrypt(data);
         WWWForm form = new WWWForm();
@@ -725,7 +725,7 @@ public class AuthClient : MonoBehaviour
 
     public IEnumerator send_continentReward()
     {
-        var data = JsonUtility.ToJson(new continentReward(2, 2));
+        var data = JsonUtility.ToJson(new continentReward(1, 1));
         Debug.Log($"🔑 continentReward  base: {data}");
         string encyData = AESUtil.Encrypt(data);
         WWWForm form = new WWWForm();
